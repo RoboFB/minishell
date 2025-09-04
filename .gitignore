@@ -1,0 +1,20 @@
+
+# temporary for working
+#*.gitignore
+#docs
+
+
+.vscode
+*.json
+*.DS*
+
+# Robin
+*_R_*
+
+# Executables
+*.out
+*.a
+*.o
+
+# minishell
+minishell
