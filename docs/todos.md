@@ -1,0 +1,84 @@
+
+
+- [] Makefile
+
+- [] Garbed collector
+- [] expend symbols
+- [] Parsing
+- [] ...
+- [] 
+- [] 
+
+
+
+- [] execution
+- [] < redirect input.
+- [] > redirect output.
+- [] << should be given a delimiter, then read the input until a line containing the
+delimiter is seen. However, it doesn’t have to update the history!
+- [] >> should redirect output in append mode
+- [] pipes
+- [] echo with option -n
+- [] cd with only a relative or absolute path
+- [] pwd with no options
+- [] export with no options
+- [] unset with no options
+- [] env with no options or arguments
+- [] exit with no options
+
+
+
+
+
+
+
+
+
+
+
+- [] check out: readline
+
+
+### milestones
+- [] prompt
+- [] history
+- [] exe binaries
+- [] 
+- [] 
+- [] 
+
+
+- [] one global variable for signal number
+
+
+
+
+
+
+
+
+
+readline, rl_clear_history, rl_on_new_line,
+rl_replace_line, rl_redisplay, add_history,
+
+
+printf,
+malloc, free, 
+write, access, open, read,
+close, 
+fork, 
+wait, waitpid, wait3, wait4,
+
+signal,
+sigaction, sigemptyset, sigaddset, 
+kill, exit,
+getcwd,
+chdir, stat, lstat, fstat, unlink,
+execve,
+dup, dup2, pipe,
+opendir, readdir, closedir,
+
+strerror, perror,
+isatty, ttyname, ttyslot, ioctl,
+getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+tgetnum, tgetstr, tgoto, tputs
