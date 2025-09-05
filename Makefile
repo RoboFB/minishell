@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
+#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/04 20:10:10 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/09/05 14:58:13 by modiepge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
 # ----------------------------- NORMAL -----------------------------------------
 
 all: lazy_robin $(NAME)# temporary
-
 $(DIR_OBJ):
 	mkdir $(DIR_OBJ)
 
