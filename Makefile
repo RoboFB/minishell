@@ -3,22 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
+#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/05 14:58:13 by modiepge         ###   ########.fr        #
+#    Updated: 2025/09/05 20:18:07 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ----------------------------- GENERAL ----------------------------------------
 
 NAME :=			minishell
+
 CC :=			cc
 DEBUG_FLAGS := -g -fsanitize=address,undefined# -g3 -O0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft
 
-HEADERS :=		-I ./include
+LIBFT_DIR    = libft
+LIBFT_CORE   = $(LIBFT_DIR)/libft.a
+LIBFT_PRINTF = $(LIBFT_DIR)/libft_printf.a
+LIBFT_GNL    = $(LIBFT_DIR)/libft_gnl.a
+LIBFT        = $(LIBFT_PRINTF) $(LIBFT_GNL) $(LIBFT_CORE)
+
+LIBS :=			$(LIBFT) -lreadline
+
+HEADERS :=		-I ./include -I ./libft/include
+
 
 # ----------------------------- NORMAL -----------------------------------------
 
@@ -30,9 +40,13 @@ OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
 
 # ----------------------------- NORMAL -----------------------------------------
 
-all: lazy_robin $(NAME)# temporary
+all: lazy_robin $(LIBFT) $(NAME)# temporary lazy
+
+$(LIBFT):
+	@make core printf gnl -C $(LIBFT_DIR) --no-print-directory > /dev/null
+
 $(DIR_OBJ):
-	mkdir $(DIR_OBJ)
+	@mkdir $(DIR_OBJ)
 
 $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c | $(DIR_OBJ)
 	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
@@ -40,8 +54,8 @@ $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c | $(DIR_OBJ)
 
 # executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $^
-	@echo "\ 🐚🐚🐚 $@   ($(CFLAGS))\n"
+	@$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	@echo "\n   🐚🐚🐚 $@   ($(CFLAGS))\n"
 
 # ----------------------------- lazy ------------------------------------------
 
@@ -68,12 +82,16 @@ lazy_robin:
 
 clean:
 	@rm -f $(OBJ)
+	@make -C $(LIBFT_DIR) clean --no-print-directory > /dev/null
 	@echo 🧹 cleaned all objects
 
 fclean: clean
 	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean --no-print-directory > /dev/null
 	@echo 🧹🧹🧹 cleaned $(NAME)
 
-re: fclean all
+re:
+	@make fclean --no-print-directory
+	@make all --no-print-directory
 
 .PHONY: all clean fclean re reb
