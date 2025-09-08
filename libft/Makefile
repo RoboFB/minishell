@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
+#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/24 12:10:52 by modiepge          #+#    #+#              #
-#    Updated: 2025/08/26 16:29:14 by modiepge         ###   ########.fr        #
+#    Updated: 2025/09/05 20:11:48 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,8 @@ GNL = libft_gnl.a
 
 # --- Flags --------------------------------------------------------------------
 
-FLAGS = -Werror -Wextra -Wall
+# FLAGS = -Werror -Wextra -Wall
+FLAGS = $(CFLAGS)
 
 INCLUDE = -Iinclude
 
