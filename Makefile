@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
+#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/05 20:18:07 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/09/10 18:46:38 by modiepge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ LIBFT_DIR    = libft
 LIBFT_CORE   = $(LIBFT_DIR)/libft.a
 LIBFT_PRINTF = $(LIBFT_DIR)/libft_printf.a
 LIBFT_GNL    = $(LIBFT_DIR)/libft_gnl.a
-LIBFT        = $(LIBFT_PRINTF) $(LIBFT_GNL) $(LIBFT_CORE)
+LIBFT_LISTS  = $(LIBFT_DIR)/libft_lists.a
+LIBFT        = $(LIBFT_PRINTF) $(LIBFT_GNL) $(LIBFT_LISTS) $(LIBFT_CORE)
 
 LIBS :=			$(LIBFT) -lreadline
 
@@ -43,7 +44,7 @@ OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
 all: lazy_robin $(LIBFT) $(NAME)# temporary lazy
 
 $(LIBFT):
-	@make core printf gnl -C $(LIBFT_DIR) --no-print-directory > /dev/null
+	@make core printf gnl lists -C $(LIBFT_DIR) --no-print-directory > /dev/null
 
 $(DIR_OBJ):
 	@mkdir $(DIR_OBJ)

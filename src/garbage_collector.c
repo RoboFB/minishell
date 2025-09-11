@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/10 15:28:29 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:21:21 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	gc_error(void * memory, char *message)
 {
 	if (memory)
 		free(memory);
+	rl_clear_history();
+	free(data()->line);
 	gc_clear_all();
 	ft_fprintf(2, message);
 	exit(EXIT_FAILURE);
@@ -24,6 +26,15 @@ static void	gc_error(void * memory, char *message)
 static t_list	**gc_list(t_gc_index index)
 {
 	return (&data()->gc_book.lists[index]);
+}
+
+void	gc_init(void)
+{
+	t_gc_index	index;
+
+	index = 0;
+	while (index <= GC_PERSISTENT)
+		data()->gc_book.lists[index++] = NULL;
 }
 
 t_list	*gc_add(void *memory)
@@ -48,8 +59,7 @@ void	gc_mode(t_gc_index mode)
 {
 	t_gc_index	*index;
 
-	index = 0;
-	*index = data()->gc_mode;
+	index = &data()->gc_mode;
 	*index = mode;
 }
 
@@ -81,6 +91,7 @@ void	gc_clear_all(void)
 	index = 0;
 	while (index <= GC_PERSISTENT)
 		gc_clear(index++);
+	ft_printf("minishell: debug -- garbage collector cleared\n");
 }
 
 char	*gc_substr(char const *string, unsigned int start, size_t length)
