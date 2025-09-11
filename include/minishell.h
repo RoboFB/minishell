@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/10 15:28:23 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:39:52 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@
 
 # include "libft.h"
 # include "libft_printf.h"
+# include "libft_styles.h"
 
 typedef enum	e_token_type
 {
-	TOK_COMMAND,
+	TOK_WORD,
 	TOK_WHITESPACE,
-	TOK_ARGUMENT,
+	TOK_PIPE,
 	TOK_LEFT_PARENTHESIS,
 	TOK_RIGHT_PARENTHESIS,
 	TOK_LESS,
@@ -56,8 +57,17 @@ typedef enum	e_token_type
 	TOK_AND,
 	TOK_OR,
 	TOK_VARIABLE,
-	TOK_WILDCARD
+	TOK_WILDCARD,
+	TOK_AMPERSAND,
+	TOK_SEMICOLON,
+	TOK_BACKSLASH
 }	t_token_type;
+
+typedef struct s_token_key
+{
+	char			*key;
+	t_token_type	type;
+}	t_token_key;
 
 typedef	enum	e_gc_index
 {
@@ -89,30 +99,42 @@ typedef struct	s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef	struct	s_tokens
+{
+	t_token	*head;
+	t_token	*tail;
+	size_t	size;
+}	t_tokens;
+
 typedef struct	s_data
 {
 	char**		envp;
 	char*		line;
-	t_token		*tokens;
+	t_tokens	tokens;
+	t_tokens	expansion;
 	t_gc_index	gc_mode;
 	t_gc_book	gc_book;
 }	t_data;
 
 // auto
+void		gc_init(void);
 t_list		*gc_add(void *memory);
-void		gc_clear_all(void);
 void		gc_mode(t_gc_index mode);
 void		gc_clear(t_gc_index index);
+void		gc_clear_all(void);
 char		*gc_substr(char const *string, unsigned int start, size_t length);
 char		*gc_strdup(char const *string);
 void		*gc_calloc(size_t count, size_t size);
 t_data		*data(void);
 int			main(int argc, char **argv, char **envp);
-int			is_reserved(char *position);
-void		token_whitespace(char *string);
-t_token		*token_new(t_token_type type, char *content);
-t_token		*token_last(t_token	*list);
-t_token		*token_add(t_token *token);
-void		token_delete(t_token *token);
+t_token		*tok_new(char *content, t_token_type type);
+void		tok_add(char *content, t_token_type type);
+void		tok_debug_display(t_tokens *tokens);
+void		tok_reset(t_tokens *tokens);
+int			tok_is_meta_chararacter(char c);
+int			tok_make_meta_token(char *position);
+int			tok_make_word_token(char *position);
+int			tok_make_space_token(char *position);
+void		tokenize(char *line);
 
 #endif
