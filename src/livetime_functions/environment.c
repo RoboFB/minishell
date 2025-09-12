@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 16:00:39 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/12 20:40:23 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 /* 
 
+env 
+
+string/key is a string of: alpha _ try out    =    str can be almost anything
+= and value are optional
+
 AA=ls -la
 DD=bla bla bla
 BBB=
@@ -22,7 +27,7 @@ CCC
 
 */
 
-static int h_get_len_key(char *line)
+int env_get_len_key(char *line)
 {
 	int	len_key;
 
@@ -33,7 +38,7 @@ static int h_get_len_key(char *line)
 }
 
 // R: AA'\0'   BBB=  CCC=bla bla  NULL
-static char **env_get_line_ptr(char *line)
+char **env_get_line_ptr(char *line)
 {
 	char **environment;
 	int len_key;
@@ -42,7 +47,7 @@ static char **env_get_line_ptr(char *line)
 	if(line == NULL || *line == '\0')
 		return (NULL);
 	idx = 0;
-	len_key = h_get_len_key(line);
+	len_key = env_get_len_key(line);
 	environment = *env_get_ptr();
 	while (environment != NULL && environment[idx] != NULL)
 	{
@@ -67,7 +72,7 @@ char *env_get_line_data(char *line)
 		return (NULL);
 	else
 	{
-		value_str = *line_ptr + h_get_len_key(line);
+		value_str = *line_ptr + env_get_len_key(line);
 		if (*value_str == '=')
 			value_str++;
 	}
@@ -81,7 +86,7 @@ char ***env_get_ptr(void)
 	return (&environment);
 }
 
-static int	env_get_size(char **environment)
+int	env_get_size(char **environment)
 {
 	int idx;
 
@@ -104,14 +109,43 @@ void	env_add_line(char *line)
 	if (line_ptr == NULL || *line_ptr == NULL)
 	{
 		lines_count = env_get_size(*environment_ptr);
-		*environment_ptr = gc_realloc(lines_count + 2, sizeof(char *)); // gets bigger with zeroed new memory
+		*environment_ptr = gc_realloc(lines_count + 2, sizeof(char *));
 		(*environment_ptr)[lines_count + 1] = ft_strdup(line);
 		(*environment_ptr)[lines_count + 2] = NULL;
 	}
 	else
 	{
-		gc_free(*line_ptr);
+		gc_remove_one(*line_ptr);
 		*line_ptr = ft_strdup(line);
+	}
+	return ;
+}
+
+// uses gc_permanent before
+void	env_remove_line(char *line)
+{
+	char		***environment;
+	char		**line_ptr;
+	int 		lines_count;
+
+	environment = *env_get_ptr();
+	line_ptr = env_get_line_ptr(line);
+	
+	if (line_ptr && *line_ptr)
+	{
+		lines_count = 0;
+		while (environment[lines_count] != NULL && environment[lines_count] != *line_ptr)
+			lines_count++;
+		if (environment[lines_count] == *line_ptr)
+		{
+			gc_remove_one(*line_ptr);
+			lines_count++;
+		}
+		while (environment[lines_count] != NULL)
+		{
+			environment[lines_count - 1] = environment[lines_count];
+			lines_count++;
+		}
 	}
 	return ;
 }
