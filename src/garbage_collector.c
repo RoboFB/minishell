@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/12 15:02:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/12 21:50:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,35 @@ void	*gc_calloc(size_t count, size_t size)
 	add = ft_calloc(count, size);
 	gc_add(add);
 	return (add);
+}
+
+
+// R: *new_ptr
+// sets to zero and copy ptr to new-ptr cuts if new is smaller
+void	*gc_realloc(void *ptr, size_t old, size_t new)
+{
+	void	*new_ptr;
+
+	new_ptr = gc_calloc(new, 1);
+	if (ptr)
+	{
+		if (new > old)
+			ft_memcpy(new_ptr, ptr, old);
+		else
+			ft_memmove(new_ptr, ptr, new);
+		
+		// gc_remove_one(ptr); //TODO:
+		// or just let gc_clear_all handle it 
+		// can be get full if called many times
+	}
+	return (new_ptr);
+}
+
+// removes one entry from gc use gc_mode
+void *gc_remove_one(void *remove_ptr)
+{
+	// TODO: Implement
+	(void)remove_ptr;
+
+	return (NULL);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/11 19:10:37 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/12 22:01:48 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	char *line;
 	
 	(void)argc;
 	(void)argv;
 	(void)envp;
+
+
 	gc_init();
 	while (1)
 	{
@@ -36,6 +38,36 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		gc_clear_all();
 	}
-	
+
 	return (0);
+} */
+
+// tests robin
+int main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	gc_init();
+	gc_mode(GC_PERSISTENT);
+	env_init(envp);
+	char **env_new = *env_get_ptr();
+	int i = 0;
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(env_new[i], envp[i], ft_strlen(envp[i])) != 0)
+			printf("test: env not correct copied:\nnew:%s\nold:%s\n", env_new[i], envp[i]);
+		i++;
+	}
+
+	// env_add_line("gggg=eeee");
+	// i = 0;
+	// while (envp[i] != NULL)
+	// {
+	// 	if (ft_strncmp(env_new[i], envp[i], ft_strlen(envp[i])) != 0)
+	// 		printf("test: env not correct copied:\nnew:%s\nold:%s\n", env_new[i], envp[i]);
+	// 	i++;
+	// }
+
+	return 0;
 }
