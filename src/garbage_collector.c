@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/11 18:21:21 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:02:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,11 @@ char	*gc_substr(char const *string, unsigned int start, size_t length)
 char	*gc_strdup(char const *string)
 {
 	return (gc_add(ft_strdup(string))->content);
+}
+
+char	*gc_strjoin(char const *s1, char const *s2)
+{
+	return (gc_add(ft_strjoin(s1, s2))->content);
 }
 
 void	*gc_calloc(size_t count, size_t size)

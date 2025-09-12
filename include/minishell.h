@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/11 18:39:52 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:07:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_token_key
 typedef	enum	e_gc_index
 {
 	GC_LEXING,
-	GC_EXPANSION,
 	GC_PARSING,
 	GC_EXECUTION,
 	GC_PERSISTENT
@@ -83,7 +82,6 @@ typedef union	u_gc_book
 	struct
 	{
 		t_list	*lexing;
-		t_list	*expansion;
 		t_list	*parsing;
 		t_list	*execution;
 		t_list	*persistent;
@@ -124,17 +122,22 @@ void		gc_clear(t_gc_index index);
 void		gc_clear_all(void);
 char		*gc_substr(char const *string, unsigned int start, size_t length);
 char		*gc_strdup(char const *string);
+char		*gc_strjoin(char const *s1, char const *s2);
 void		*gc_calloc(size_t count, size_t size);
 t_data		*data(void);
 int			main(int argc, char **argv, char **envp);
 t_token		*tok_new(char *content, t_token_type type);
 void		tok_add(char *content, t_token_type type);
+void		tok_delete(t_token *token);
+void		tok_join(t_token *first, t_token *second);
 void		tok_debug_display(t_tokens *tokens);
 void		tok_reset(t_tokens *tokens);
 int			tok_is_meta_chararacter(char c);
 int			tok_make_meta_token(char *position);
 int			tok_make_word_token(char *position);
 int			tok_make_space_token(char *position);
+void		expand(t_tokens *tokens);
+void		quote(t_tokens *tokens);
 void		tokenize(char *line);
 
 #endif

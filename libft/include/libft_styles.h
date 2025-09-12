@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:09:00 by modiepge          #+#    #+#             */
-/*   Updated: 2025/07/11 16:17:53 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:08:32 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@
 # define END "\033[0m"
 # define ERROR "1;31"
 # define SUCCESS "1;92"
+# define CLEAR "\033[2J"
 
 #endif
