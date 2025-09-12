@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 15:57:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/12 21:16:49 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void run_command(t_command *cmd)
 	return ;
 }
 
-/* 
+
 void	child_pipe(t_command *command)
 {
+	(void)command;
 
 	int		pipe_fds[2];
 
@@ -48,7 +49,7 @@ void	child_pipe(t_command *command)
 	fork();
 
 	return ;
-} */
+}
 
 
 void	redirect_input(t_command *command)
@@ -57,7 +58,7 @@ void	redirect_input(t_command *command)
 
 	file_fd = open(command->file, O_RDONLY);
 	if (file_fd < 0)
-		error_exit_errno("open: input");
+		perror_exit("open: input", EXIT_FAILURE);
 
 	save_dup2(file_fd, STDIN_FILENO);
 	save_close(file_fd);
@@ -71,7 +72,7 @@ void	redirect_output(t_command *command)
 
 	file_fd = open(command->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_fd < 0)
-		error_exit_errno("open: output");
+		perror_exit("open: output", EXIT_FAILURE);
 
 	save_dup2(file_fd, STDOUT_FILENO);
 	save_close(file_fd);
@@ -84,7 +85,7 @@ void	redirect_error(t_command *command)
 
 	file_fd = open(command->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_fd < 0)
-		error_exit_errno("open: error");
+		perror_exit("open: error", EXIT_FAILURE);
 
 	save_dup2(file_fd, STDERR_FILENO);
 	save_close(file_fd);
@@ -97,7 +98,7 @@ void	redirect_append(t_command *command)
 
 	file_fd = open(command->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file_fd < 0)
-		error_exit_errno("open: append");
+		perror_exit("open: append", EXIT_FAILURE);
 
 	save_dup2(file_fd, STDOUT_FILENO);
 	save_close(file_fd);
@@ -110,7 +111,7 @@ void	redirect_here_doc(t_command *command)
 
 	file_fd = open(command->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file_fd < 0)
-		error_exit_errno("open: append");
+		perror_exit("open: append", EXIT_FAILURE);
 
 	save_dup2(file_fd, STDOUT_FILENO);
 	save_close(file_fd);

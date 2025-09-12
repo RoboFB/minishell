@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/12 19:27:08 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/09/12 22:07:11 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME :=			minishell
 
-CC :=			cc
+CC :=			clang #cc #clang can be used for sanitizers
 DEBUG_FLAGS := -g -fsanitize=address,undefined# -g3 -O0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 20:40:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/12 21:41:18 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,24 +99,24 @@ int	env_get_size(char **environment)
 // uses gc_permanent before
 void	env_add_line(char *line)
 {
-	char		***environment_ptr;
+	char		**environment;
 	char		**line_ptr;
 	int 		lines_count;
 
-	environment_ptr = env_get_ptr();
+	environment = *env_get_ptr();
 	line_ptr = env_get_line_ptr(line);
 	
 	if (line_ptr == NULL || *line_ptr == NULL)
 	{
-		lines_count = env_get_size(*environment_ptr);
-		*environment_ptr = gc_realloc(lines_count + 2, sizeof(char *));
-		(*environment_ptr)[lines_count + 1] = ft_strdup(line);
-		(*environment_ptr)[lines_count + 2] = NULL;
+		lines_count = env_get_size(environment);
+		*env_get_ptr() = gc_realloc(environment, lines_count + 1, lines_count + 3);
+		environment[lines_count + 0] = gc_strdup(line);
+		environment[lines_count + 1] = NULL;
 	}
 	else
 	{
-		gc_remove_one(*line_ptr);
-		*line_ptr = ft_strdup(line);
+		*line_ptr = gc_remove_one(*line_ptr);
+		*line_ptr = gc_strdup(line);
 	}
 	return ;
 }
@@ -124,7 +124,7 @@ void	env_add_line(char *line)
 // uses gc_permanent before
 void	env_remove_line(char *line)
 {
-	char		***environment;
+	char		**environment;
 	char		**line_ptr;
 	int 		lines_count;
 
@@ -164,7 +164,7 @@ void	env_init(char **input_envp)
 	idx = 0;
 	while (idx < lines_count)
 	{
-		environment_ptr[0][idx] = ft_strdup(input_envp[idx]);
+		environment_ptr[0][idx] = gc_strdup(input_envp[idx]);
 		idx++;
 	}
 	environment_ptr[0][idx] = NULL;

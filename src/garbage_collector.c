@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/12 19:50:06 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/12 21:50:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,4 +138,13 @@ void	*gc_realloc(void *ptr, size_t old, size_t new)
 		// can be get full if called many times
 	}
 	return (new_ptr);
+}
+
+// removes one entry from gc use gc_mode
+void *gc_remove_one(void *remove_ptr)
+{
+	// TODO: Implement
+	(void)remove_ptr;
+
+	return (NULL);
 }
