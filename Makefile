@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
+#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/10 18:46:38 by modiepge         ###   ########.fr        #
+#    Updated: 2025/09/12 22:07:11 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME :=			minishell
 
-CC :=			cc
+CC :=			clang #cc #clang can be used for sanitizers
 DEBUG_FLAGS := -g -fsanitize=address,undefined# -g3 -O0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft
@@ -34,10 +34,10 @@ HEADERS :=		-I ./include -I ./libft/include
 # ----------------------------- NORMAL -----------------------------------------
 
 DIR_SRC :=		src
-SRC :=			$(notdir $(wildcard src/*.c))
+SRC :=			$(shell find $(DIR_SRC) -type f -name '*.c')
 
 DIR_OBJ :=		obj
-OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
+OBJ :=			$(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 
 # ----------------------------- NORMAL -----------------------------------------
 
@@ -47,9 +47,10 @@ $(LIBFT):
 	@make core printf gnl lists -C $(LIBFT_DIR) --no-print-directory > /dev/null
 
 $(DIR_OBJ):
-	@mkdir $(DIR_OBJ)
+	@mkdir -p $(DIR_OBJ)
 
 $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c | $(DIR_OBJ)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
 	@echo 🐚 $@
 
@@ -73,7 +74,7 @@ lazy_robin:
 			else sub(/[ \t]+/, "\t\t", last); \
 			print last ";"; \
 		} \
-	}' src/*.c | grep -v static >> tmp-auto-header.h
+	}' $(shell find $(DIR_SRC) -type f -name '*.c') | grep -v static >> tmp-auto-header.h
 	@echo "\n#endif" >> tmp-auto-header.h
 	@cmp -s tmp-auto-header.h include/$(NAME).h || mv tmp-auto-header.h include/$(NAME).h
 	@rm -f tmp-auto-header.h
