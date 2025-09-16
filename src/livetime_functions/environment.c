@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 21:41:18 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/16 18:03:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ char **env_get_line_ptr(char *line)
 	while (environment != NULL && environment[idx] != NULL)
 	{
 		if (ft_strncmp(environment[idx], line, len_key) == 0
-			&& (environment[idx][len_key+1] == '='
-				|| environment[idx][len_key+1] == '\0'))
+			&& (environment[idx][len_key] == '='
+				|| environment[idx][len_key] == '\0'))
 			return (environment + idx);
 		idx++;
 	}
 	return (NULL);
 }
 
-// R: pointer to value or NULL or '\0' if empty
+// R: pointer to start of value   '\0': empty has =   NULL: not found or no =
 char *env_get_line_data(char *line)
 {
 	char	**line_ptr;
@@ -75,6 +75,8 @@ char *env_get_line_data(char *line)
 		value_str = *line_ptr + env_get_len_key(line);
 		if (*value_str == '=')
 			value_str++;
+		else
+			return (NULL);
 	}
 	return (value_str);
 }
@@ -99,19 +101,19 @@ int	env_get_size(char **environment)
 // uses gc_permanent before
 void	env_add_line(char *line)
 {
-	char		**environment;
+	char		***environment_ptr;
 	char		**line_ptr;
 	int 		lines_count;
 
-	environment = *env_get_ptr();
 	line_ptr = env_get_line_ptr(line);
 	
 	if (line_ptr == NULL || *line_ptr == NULL)
 	{
-		lines_count = env_get_size(environment);
-		*env_get_ptr() = gc_realloc(environment, lines_count + 1, lines_count + 3);
-		environment[lines_count + 0] = gc_strdup(line);
-		environment[lines_count + 1] = NULL;
+		environment_ptr = env_get_ptr();
+		lines_count = env_get_size(*environment_ptr);
+		gc_realloc((void **)environment_ptr, lines_count + 1, lines_count + 2, sizeof(char *));
+		(*environment_ptr)[lines_count + 1 - 1] = gc_strdup(line);
+		(*environment_ptr)[lines_count + 2 - 1] = NULL;
 	}
 	else
 	{
@@ -139,6 +141,7 @@ void	env_remove_line(char *line)
 		if (environment[lines_count] == *line_ptr)
 		{
 			gc_remove_one(*line_ptr);
+			environment[lines_count] = NULL;
 			lines_count++;
 		}
 		while (environment[lines_count] != NULL)
