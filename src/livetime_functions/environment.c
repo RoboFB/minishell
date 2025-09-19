@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 21:41:18 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:55:39 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char **env_get_line_ptr(char *line)
 	while (environment != NULL && environment[idx] != NULL)
 	{
 		if (ft_strncmp(environment[idx], line, len_key) == 0
-			&& (environment[idx][len_key+1] == '='
-				|| environment[idx][len_key+1] == '\0'))
+			&& (environment[idx][len_key] == '='
+				|| environment[idx][len_key] == '\0'))
 			return (environment + idx);
 		idx++;
 	}
@@ -67,7 +67,6 @@ char *env_get_line_data(char *line)
 	char	*value_str;
 
 	line_ptr = env_get_line_ptr(line);
-
 	if (line_ptr == NULL)
 		return (NULL);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/12 21:50:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:27:28 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,16 @@ void	gc_clear(t_gc_index index)
 	*list = NULL;
 }
 
+void	gc_clear_temporary(void)
+{
+	t_gc_index	index;
+
+	index = 0;
+	while (index < GC_PERSISTENT)
+		gc_clear(index++);
+	ft_printf("minishell: debug -- temporary data cleared\n");
+}
+
 void	gc_clear_all(void)
 {
 	t_gc_index	index;
@@ -101,11 +111,15 @@ char	*gc_substr(char const *string, unsigned int start, size_t length)
 
 char	*gc_strdup(char const *string)
 {
+	if (!string)
+		return (NULL);
 	return (gc_add(ft_strdup(string))->content);
 }
 
 char	*gc_strjoin(char const *s1, char const *s2)
 {
+	if (!s1 || !s2)
+		return (NULL);
 	return (gc_add(ft_strjoin(s1, s2))->content);
 }
 
