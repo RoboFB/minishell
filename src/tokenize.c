@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:53:19 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 19:41:08 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/19 20:15:15 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,14 @@ void	tok_debug_display(t_tokens *tokens)
 		else
 		{
 			atom = (t_atom *)token;
-			ft_printf("[%s::CMD]\n", atom->command);
+			ft_printf("[%s::CMD]", atom->command);
 			arg = 0;
 			while (atom->args[arg + 1])
 			{
-				ft_printf("[%s::ARG]\n", atom->args[arg + 1]);
+				ft_printf("-[%s::ARG]", atom->args[arg + 1]);
 				arg++;
 			}
+			ft_printf("\n");
 		}
 		token = token->next;
 	}

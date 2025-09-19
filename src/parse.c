@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 19:27:35 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/19 20:14:49 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ void	atom_add_arg(t_atom *atom, t_token *token)
 	atom->argc++;
 	return ;
 }
+
+// void	atom_add_file(t_atom *, t_token *token)
+// {
+	
+// }
 
 void	atomize(t_tokens *tokens)
 {

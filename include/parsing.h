@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 17:52:04 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/19 20:39:35 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,22 @@ typedef struct	s_token
 
 typedef enum e_filetype
 {
-	FILE_PATH,
-	FILE_HEREDOC,
-	FILE_PIPE
+	PATH_STDIN_READ,
+	PATH_STDOUT_WRITE,
+	PATH_STDERR_WRITE,
+	PATH_STDOUT_WRITE_APPEND,
+	PATH_STDERR_WRITE_APPEND,
+	FD_HEREDOC_READ,
+	FD_PIPE_READ,
+	FD_PIPE_WRITE
 }	t_filetype;
 
 typedef struct s_file
 {
 	t_filetype	type;		// type of redirect, pipe, here_doc, actual file
 	char		*path;		// path for files to be opened (since cd may be invoked by previous commands)
-	int			pipe[2];	// pipes and here_doc
-	char		*delimiter;	// for here_doc
+	int			fd;			// pipes and here_doc
+	t_file		*next;
 }	t_file;
 
 typedef struct s_atom
@@ -76,8 +81,7 @@ typedef struct s_atom
 	char			*command;
 	int				argc;
 	char			**args;
-	// t_file			*in_files;
-	// t_file			*out_files;
+	t_file			*files;	// last has priority (per io-channel)
 }	t_atom;
 
 
@@ -106,8 +110,7 @@ typedef struct s_expression
 	t_expression			*second;	// NULL if no second child
 	char					*command;	// command string (first position in args)
 	char					**args;		// including command at first position
-	t_file					*in_files;	// redirect stdin
-	t_file					*out_files;	// redirect out
+	t_file					*files;		// last has priority (per io-channel)
 }	t_expression;
 
 #endif
