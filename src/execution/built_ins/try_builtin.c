@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:43:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 19:03:53 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	try_builtin(t_command *command)
+void	try_builtin(t_expression *command)
 {
 	if (ft_strncmp(command->name, "cd", 3) == 0)
 		blt_cd(command);

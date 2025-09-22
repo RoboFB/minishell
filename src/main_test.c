@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 15:19:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ int	main(int argc, char **argv, char **envp)
 
 
 	// env builtin
-	// exe_command(&(t_command){0, NULL, NULL, NULL, "env", NULL, NULL, NULL});
-	// exe_command(&(t_command){0, NULL, NULL, NULL, "ls", (char *[]){"ls", "-l", NULL}, NULL, NULL});
-	// exe_command(&(t_command){0, NULL, NULL, NULL, "ls", (char *[]){"", "-l", NULL}, NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "env", NULL, NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"ls", "-l", NULL}, NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"", "-l", NULL}, NULL, NULL});
 	
-	exe_command(&(t_command){0, NULL, NULL, NULL, "export", (char *[]){"AAABOB=1234567890 123_!@#$%^&*()_+';",NULL}, NULL, NULL});
-	// exe_command(&(t_command){0, NULL, NULL, NULL, "export", NULL, NULL, NULL});
+	exe_command(&(t_expression){0, NULL, NULL, NULL, "export", (char *[]){"AAABOB=1234567890 123_!@#$%^&*()_+';",NULL}, NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "export", NULL, NULL, NULL});
 	
 
 	return 0;

@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 19:03:24 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	blt_echo(t_command *cmd)
+void	blt_echo(t_expression *cmd)
 {
 	int		idx;
 	bool	newline;

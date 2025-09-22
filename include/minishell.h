@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 15:29:06 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:51:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,60 +42,32 @@
 # include "libft_styles.h"
 # include "execution.h"
 # include "parsing.h"
+# include "public_struct.h"
 
-typedef	enum	e_gc_index
-{
-	GC_LEXING,
-	GC_PARSING,
-	GC_EXECUTION,
-	GC_PERSISTENT
-}	t_gc_index;
-
-typedef union	u_gc_book
-{
-	struct
-	{
-		t_list	*lexing;
-		t_list	*parsing;
-		t_list	*execution;
-		t_list	*persistent;
-	};
-	t_list	*lists[5];
-}	t_gc_book;
-
-typedef struct	s_data
-{
-	char**		envp;
-	char*		line;
-	t_tokens	tokens;
-	t_tokens	expansion;
-	t_gc_index	gc_mode;
-	t_gc_book	gc_book;
-}	t_data;
 
 // auto
-void		blt_cd(t_command *cmd);
-void		blt_echo(t_command *cmd);
+void		blt_cd(t_expression *cmd);
+void		blt_echo(t_expression *cmd);
 bool		h_is_n_flag(char *str);
-void		blt_env(t_command *cmd);
-void		blt_exit(t_command *cmd);
-void		blt_export(t_command *cmd);
-void		blt_pwd(t_command *cmd);
-void		blt_unset(t_command *cmd);
-void		try_builtin(t_command *command);
+void		blt_env(t_expression *cmd);
+void		blt_exit(t_expression *cmd);
+void		blt_export(t_expression *cmd);
+void		blt_pwd(t_expression *cmd);
+void		blt_unset(t_expression *cmd);
+void		try_builtin(t_expression *command);
 void		perror_exit(char *msg, int exit_code);
 void		msg_exit(char *function, char *error, int exit_code);
-void		exe_command(t_command *cmd);
+void		exe_command(t_expression *cmd);
 char		*get_full_path_cmd(const char *cmd_name, char *search_path);
-void		start_command(t_command *cmd);
-void		child_pipe(t_command *command);
-void		redirect_input(t_command *command);
-void		redirect_output(t_command *command);
-void		redirect_error(t_command *command);
-void		redirect_append(t_command *command);
-void		redirect_here_doc(t_command *command);
-void		child_and(t_command *command);
-void		child_or(t_command *command);
+void		start_command(t_expression *cmd);
+void		child_pipe(t_expression *command);
+void		redirect_input(t_expression *command);
+void		redirect_output(t_expression *command);
+void		redirect_error(t_expression *command);
+void		redirect_append(t_expression *command);
+void		redirect_here_doc(t_expression *command);
+void		child_and(t_expression *command);
+void		child_or(t_expression *command);
 int			env_get_len_key(char *line);
 char		**env_get_line_ptr(char *line);
 char		*env_get_line_data(char *line);

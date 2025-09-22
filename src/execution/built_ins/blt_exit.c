@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/17 15:15:35 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void blt_exit(t_command *cmd)
+void blt_exit(t_expression *cmd)
 {
 	(void)cmd;
 }

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:28:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:35:13 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	set_fd(t_file *file, int change_fd)
 	save_close(&file->fd);
 	return ;
 }
-
 
 void	read_file(t_file *file, int change_fd)
 {

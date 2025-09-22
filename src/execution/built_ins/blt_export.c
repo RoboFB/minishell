@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 19:04:22 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	**h_get_sorted(char **env);
 static void	h_print_save(char **save);
 
-void	blt_export(t_command *cmd)
+void	blt_export(t_expression *cmd)
 {
 	int	idx;
 
