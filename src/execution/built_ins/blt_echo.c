@@ -1,28 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_command.c                                      :+:      :+:    :+:   */
+/*   blt_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
+/*   Created: 2025/09/16 19:13:15 by rgohrig           #+#    #+#             */
 /*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// at the end to execute a command based on t_command struct
-
-void	exe_command(t_expression *cmd)
+void	blt_echo(t_expression *cmd)
 {
-	char	*path_command;
+	int		idx;
+	bool	newline;
 
-	try_builtin(cmd);
-	path_command = get_full_path_cmd(cmd->name, env_get_line_data("PATH"));
-	if (path_command == NULL)
-		msg_exit(cmd->name, "command not found", EXIT_FAILURE);
-	if (execve(path_command, cmd->args, (char *const *)*env_get_ptr()) < 0)
-		msg_exit("execve", "failed", EXIT_FAILURE);
-	return ;
+	newline = true;
+	idx = 0;
+	while (h_is_n_flag(cmd->args[idx]))
+	{
+		idx++;
+		newline = false;
+	}
+	while (cmd->args && cmd->args[idx])
+	{
+		ft_printf("%s", cmd->args[idx]);
+		if (cmd->args[idx + 1] != NULL)
+			ft_printf(" ");
+		idx++;
+	}
+	if (newline)
+		ft_printf("\n");
+	gc_clear_all();
+	exit(EXIT_SUCCESS);
+}
+
+bool	h_is_n_flag(char *str)
+{
+	int	idx;
+
+	idx = 0;
+	if (str[0] != '-')
+		return (false);
+	while (str[idx] == 'n')
+		idx++;
+	if (str[idx] == '\0')
+		return (true);
+	return (false);
 }

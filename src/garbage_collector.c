@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/16 16:27:28 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:27:46 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,23 +135,22 @@ void	*gc_calloc(size_t count, size_t size)
 
 // R: *new_ptr
 // sets to zero and copy ptr to new-ptr cuts if new is smaller
-void	*gc_realloc(void *ptr, size_t old, size_t new)
+void	gc_realloc(void **change_ptr, size_t old, size_t new, size_t size)
 {
 	void	*new_ptr;
 
-	new_ptr = gc_calloc(new, 1);
-	if (ptr)
-	{
-		if (new > old)
-			ft_memcpy(new_ptr, ptr, old);
-		else
-			ft_memmove(new_ptr, ptr, new);
-		
-		// gc_remove_one(ptr); //TODO:
-		// or just let gc_clear_all handle it 
-		// can be get full if called many times
-	}
-	return (new_ptr);
+	if (change_ptr == NULL || old == 0 || new == 0 || size == 0 || old == new)
+		return ;
+	new_ptr = gc_calloc(new, size);
+	if (new > old)
+		ft_memcpy(new_ptr, *change_ptr, old * size);
+	else
+		ft_memcpy(new_ptr, *change_ptr, new * size);
+	*change_ptr = new_ptr;
+	// gc_remove_one(ptr); //TODO:
+	// or just let gc_clear_all handle it 
+	// can be get full if called many times
+	return ;
 }
 
 // removes one entry from gc use gc_mode

@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_exit.c                                       :+:      :+:    :+:   */
+/*   blt_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 19:04:32 by rgohrig          ###   ########.fr       */
+/*   Created: 2025/09/16 19:13:09 by rgohrig           #+#    #+#             */
+/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// prints errno
-void	perror_exit(char *msg, int exit_code)
+void	blt_unset(t_expression *cmd)
 {
-	perror(msg);
-	gc_clear_all();
-	exit(exit_code);
-}
+	int	idx;
 
-// prints custom message  function: message\n
-void	msg_exit(char *function, char *error, int exit_code)
-{
-	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);
+	// Handel - as error
+	if (cmd->args && cmd->args[0] && cmd->args[1] && cmd->args[1][0] == '-')
+	{
+		msg_exit("unset", "no options allowed", EXIT_FAILURE);
+	}
+	idx = 0;
+	while (cmd->args && cmd->args[idx])
+	{
+		if (ft_strchr(cmd->args[idx], '=') == NULL)
+			env_remove_line(cmd->args[idx]);
+	}
 	gc_clear_all();
-	exit(exit_code);
+	exit(EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 14:01:24 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:51:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,38 +42,68 @@
 # include "libft_styles.h"
 # include "execution.h"
 # include "parsing.h"
+# include "public_struct.h"
 
-typedef	enum	e_gc_index
-{
-	GC_LEXING,
-	GC_PARSING,
-	GC_EXECUTION,
-	GC_PERSISTENT
-}	t_gc_index;
-
-typedef union	u_gc_book
-{
-	struct
-	{
-		t_list	*lexing;
-		t_list	*parsing;
-		t_list	*execution;
-		t_list	*persistent;
-	};
-	t_list	*lists[5];
-}	t_gc_book;
-
-typedef struct	s_data
-{
-	char**		envp;
-	char*		line;
-	t_tokens	tokens;
-	t_tokens	expansion;
-	t_gc_index	gc_mode;
-	t_gc_book	gc_book;
-}	t_data;
 
 // auto
+void		blt_cd(t_expression *cmd);
+void		blt_echo(t_expression *cmd);
+bool		h_is_n_flag(char *str);
+void		blt_env(t_expression *cmd);
+void		blt_exit(t_expression *cmd);
+void		blt_export(t_expression *cmd);
+void		blt_pwd(t_expression *cmd);
+void		blt_unset(t_expression *cmd);
+void		try_builtin(t_expression *command);
+void		perror_exit(char *msg, int exit_code);
+void		msg_exit(char *function, char *error, int exit_code);
+void		exe_command(t_expression *cmd);
+char		*get_full_path_cmd(const char *cmd_name, char *search_path);
+void		start_command(t_expression *cmd);
+void		child_pipe(t_expression *command);
+void		redirect_input(t_expression *command);
+void		redirect_output(t_expression *command);
+void		redirect_error(t_expression *command);
+void		redirect_append(t_expression *command);
+void		redirect_here_doc(t_expression *command);
+void		child_and(t_expression *command);
+void		child_or(t_expression *command);
+int			env_get_len_key(char *line);
+char		**env_get_line_ptr(char *line);
+char		*env_get_line_data(char *line);
+char		***env_get_ptr(void);
+int			env_get_size(char **environment);
+void		env_add_line(char *line);
+void		env_remove_line(char *line);
+void		env_init(char **input_envp);
+void		swap_ptrs(int **a, int **b);
+void		save_close(int fd);
+void		save_dup2(int old_fd, int new_fd);
+void		save_pipe(int *one_pipe);
+void		close_one_pip(int *pipe);
+void		free_split(char **split);
+void		gc_init(void);
+t_list		*gc_add(void *memory);
+void		gc_mode(t_gc_index mode);
+void		gc_clear(t_gc_index index);
+void		gc_clear_temporary(void);
+void		gc_clear_all(void);
+char		*gc_substr(char const *string, unsigned int start, size_t length);
+char		*gc_strdup(char const *string);
+char		*gc_strjoin(char const *s1, char const *s2);
+void		*gc_calloc(size_t count, size_t size);
+void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
+void		*gc_remove_one(void *remove_ptr);
+t_data		*data(void);
+int			main(int argc, char **argv, char **envp);
+int			is_redirect(t_token *token);
+int			is_operator(t_token *token);
+int			is_parenthesis(t_token *token);
+t_atom		*atom_new();
+void		atom_replace_token(t_atom *atom, t_token *token);
+int			atom_count_args(t_atom *atom);
+void		atom_add_arg(t_atom *atom, t_token *token);
+void		atomize(t_tokens *tokens);
 t_token		*tok_new(char *content, t_token_type type);
 void		tok_add(char *content, t_token_type type, t_tokens *list);
 void		tok_delete(t_token *token);
@@ -92,50 +122,5 @@ void		join_quotes(t_tokens *tokens);
 void		quote(t_tokens *tokens);
 void		split_line(char *line, t_tokens *list);
 void		tokenize(char *line);
-void		perror_exit(char *msg, int exit_code);
-char		*get_path_command(const char *cmd_name, char *search_path);
-void		run_command(t_command *cmd);
-void		child_pipe(t_command *command);
-void		redirect_input(t_command *command);
-void		redirect_output(t_command *command);
-void		redirect_error(t_command *command);
-void		redirect_append(t_command *command);
-void		redirect_here_doc(t_command *command);
-void		gc_init(void);
-t_list		*gc_add(void *memory);
-void		gc_mode(t_gc_index mode);
-void		gc_clear(t_gc_index index);
-void		gc_clear_temporary(void);
-void		gc_clear_all(void);
-char		*gc_substr(char const *string, unsigned int start, size_t length);
-char		*gc_strdup(char const *string);
-char		*gc_strjoin(char const *s1, char const *s2);
-void		*gc_calloc(size_t count, size_t size);
-void		*gc_realloc(void *ptr, size_t old, size_t new);
-void		*gc_remove_one(void *remove_ptr);
-int			env_get_len_key(char *line);
-char		**env_get_line_ptr(char *line);
-char		*env_get_line_data(char *line);
-char		***env_get_ptr(void);
-int			env_get_size(char **environment);
-void		env_add_line(char *line);
-void		env_remove_line(char *line);
-void		env_init(char **input_envp);
-t_data		*data(void);
-int			main(int argc, char **argv, char **envp);
-void		swap_ptrs(int **a, int **b);
-void		save_close(int fd);
-void		save_dup2(int old_fd, int new_fd);
-void		save_pipe(int *one_pipe);
-void		close_one_pip(int *pipe);
-void		free_split(char **split);
-int			is_redirect(t_token *token);
-int			is_operator(t_token *token);
-int			is_parenthesis(t_token *token);
-t_atom		*atom_new();
-void		atom_replace_token(t_atom *atom, t_token *token);
-int			atom_count_args(t_atom *atom);
-void		atom_add_arg(t_atom *atom, t_token *token);
-void		atomize(t_tokens *tokens);
 
 #endif
