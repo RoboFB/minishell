@@ -58,7 +58,8 @@ delimiter is seen. However, it doesn’t have to update the history!
 - [ ] check out: readline
 - [ ] main loop, test stuff out
 
-
+- [ ] env _=/usr/bin/env  /minshell apsolut
+- [ ] fix EXIT_FAILURE to correct exit number
 
 
 
