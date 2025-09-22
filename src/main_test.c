@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/16 18:17:24 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/18 17:04:54 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_data	*data(void)
 } */
 
 // tests robin
-int main(int argc, char **argv, char **envp)
+/* int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
@@ -99,11 +99,34 @@ int main(int argc, char **argv, char **envp)
 	env_remove_line("test_rm_1=tes");
 	env_get_line_ptr("test_rm_1") == NULL ? printf("OK ") : printf("\nERROR\n");
 
-	env_remove_line("PATH=wefew rgf");
-	env_get_line_ptr("PATH") == NULL ? printf("OK ") : printf("\nERROR\n");
+	// env_remove_line("PATH=wefew rgf");
+	// env_get_line_ptr("PATH") == NULL ? printf("OK ") : printf("\nERROR\n");
+
+	printf("\n");
+
+	return 0;
+} */
 
 
+// tests robin
+int main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	gc_init();
+	gc_mode(GC_PERSISTENT);
+	env_init(envp);
 
+
+	// env builtin
+	// exe_command(&(t_command){0, NULL, NULL, NULL, "env", NULL, NULL, NULL});
+	// exe_command(&(t_command){0, NULL, NULL, NULL, "ls", (char *[]){"ls", "-l", NULL}, NULL, NULL});
+	// exe_command(&(t_command){0, NULL, NULL, NULL, "ls", (char *[]){"", "-l", NULL}, NULL, NULL});
+	
+	exe_command(&(t_command){0, NULL, NULL, NULL, "export", (char *[]){"AAABOB=1234567890 123_!@#$%^&*()_+';",NULL}, NULL, NULL});
+	// exe_command(&(t_command){0, NULL, NULL, NULL, "export", NULL, NULL, NULL});
+	
 
 	return 0;
 }
