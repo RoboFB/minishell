@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 20:39:35 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:11:15 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_file
 {
 	t_filetype	type;		// type of redirect, pipe, here_doc, actual file
 	char		*path;		// path for files to be opened (since cd may be invoked by previous commands)
-	int			fd;			// pipes and here_doc
+	int			fd;			// pipes and here_doc // init -1/ not used
 	t_file		*next;
 }	t_file;
 

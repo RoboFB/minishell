@@ -6,16 +6,19 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:47:03 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 21:15:14 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:05:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	save_close(int fd)
+void	save_close(int *fd)
 {
-	if (close(fd) < 0)
+	if (fd == NULL || *fd == -1)
+		return ;
+	if (close(*fd) < 0)
 		perror_exit("close failed", EXIT_FAILURE);
+	*fd = -1;
 	return ;
 }
 

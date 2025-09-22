@@ -6,118 +6,69 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/17 20:51:57 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 16:28:45 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
 
+// can be changed to run with a smaller if else block when fist setting path and then fd if path exists
 
-void start_command(t_command *cmd)
+void set_all_redirect(t_file *head)
 {
-	if(cmd->child_type == CHILD_PIPE)
-		child_pipe(cmd);
-	else if (cmd->child_type == CHILD_AND)
-		child_and(cmd);
-	else if (cmd->child_type == CHILD_OR)
-		child_or(cmd);
+	while (head != NULL)
+	{
+		if(head->type == FD_PIPE_READ || head->type == FD_HEREDOC_READ)
+			set_fd(head, STDIN_FILENO);
+		else if (head->type == FD_PIPE_WRITE)
+			set_fd(head, STDOUT_FILENO);
+		else if (head->type == PATH_STDIN_READ)
+			read_file(head, STDIN_FILENO);
+		else if (head->type == PATH_STDOUT_WRITE)
+			write_file(head, STDOUT_FILENO);
+		else if (head->type == PATH_STDOUT_WRITE_APPEND)
+			write_append_file(head, STDOUT_FILENO);
+		else if (head->type == PATH_STDERR_WRITE)
+			write_file(head, STDERR_FILENO);
+		else if (head->type == PATH_STDERR_WRITE_APPEND)
+			write_append_file(head, STDERR_FILENO);
+		head = head->next;
+	}
+	return ;
+}
 
-	else if (cmd->child_type == REDIRECTION_INPUT)
-		redirect_input(cmd);
-	else if (cmd->child_type == REDIRECTION_OUTPUT)
-		redirect_output(cmd);
-	else if (cmd->child_type == REDIRECTION_ERROR)
-		redirect_error(cmd);
-	else if (cmd->child_type == REDIRECTION_APPEND)
-		redirect_append(cmd);
-	else if (cmd->child_type == REDIRECTION_HERE_DOC)
-		redirect_here_doc(cmd);
-	
+void	set_fd(t_file *file, int change_fd)
+{
+	save_dup2(file->fd, change_fd);
+	save_close(&file->fd);
 	return ;
 }
 
 
-void	child_pipe(t_command *command)
+void	read_file(t_file *file, int change_fd)
 {
-	(void)command;
-
-	int		pipe_fds[2];
-
-	save_pipe(pipe_fds);
-	fork();
-
-	return ;
-}
-
-
-void	redirect_input(t_command *command)
-{
-	int		file_fd;
-
-	file_fd = open(command->file, O_RDONLY);
-	if (file_fd < 0)
+	file->fd = open(file->path, O_RDONLY);
+	if (file->fd < 0)
 		perror_exit("open: input", EXIT_FAILURE);
-
-	save_dup2(file_fd, STDIN_FILENO);
-	save_close(file_fd);
+	set_fd(file, change_fd);
 	return ;
 }
 
-
-void	redirect_output(t_command *command)
+void	write_file(t_file *file, int change_fd)
 {
-	int		file_fd;
-
-	file_fd = open(command->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (file_fd < 0)
+	file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (file->fd < 0)
 		perror_exit("open: output", EXIT_FAILURE);
-
-	save_dup2(file_fd, STDOUT_FILENO);
-	save_close(file_fd);
+	set_fd(file, change_fd);
 	return ;
 }
 
-void	redirect_error(t_command *command)
+void	write_append_file(t_file *file, int change_fd)
 {
-	int		file_fd;
-
-	file_fd = open(command->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (file_fd < 0)
-		perror_exit("open: error", EXIT_FAILURE);
-
-	save_dup2(file_fd, STDERR_FILENO);
-	save_close(file_fd);
-	return ;
-}
-
-void	redirect_append(t_command *command)
-{
-	int		file_fd;
-
-	file_fd = open(command->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (file_fd < 0)
+	file->fd = open(file->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (file->fd < 0)
 		perror_exit("open: append", EXIT_FAILURE);
-
-	save_dup2(file_fd, STDOUT_FILENO);
-	save_close(file_fd);
-	return ;
-}
-
-void	redirect_here_doc(t_command *command)
-{
-	(void)command;
-	return ;
-}
-
-void	child_and(t_command *command)
-{
-	(void)command;
-	return ;
-}
-
-void	child_or(t_command *command)
-{
-	(void)command;
+	set_fd(file, change_fd);
 	return ;
 }
