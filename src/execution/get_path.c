@@ -6,35 +6,33 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:32:37 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 15:55:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/19 19:04:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// in child process
 // F: Mallocs R: combined_path or NULL
 static char	*h_test_path(const char *cmd_name, const char *path)
 {
 	int		len_path;
 	int		len_cmd;
-	char	*combined_path;
+	char	*full_path;
 
 	len_cmd = ft_strlen(cmd_name);
+	full_path = gc_calloc(ft_strlen(path) + len_cmd + 2, sizeof(char));
 	while (*path)
 	{
 		len_path = 0;
 		while (path[len_path] != ':' && path[len_path] != '\0')
 			len_path++;
-
-		combined_path = ft_calloc(len_path + len_cmd + 2, sizeof(char));
-		if (combined_path == NULL)
-			return (NULL);
-		ft_strlcat(combined_path, path, len_path + len_cmd + 1);
-		ft_strlcat(combined_path, "/", len_path + len_cmd + 1);
-		ft_strlcat(combined_path, cmd_name, len_path + len_cmd + 1);
-
-		if (access(combined_path, F_OK) == 0)
-			return (combined_path);
+		ft_strlcpy(full_path, path, len_path + 1);
+		ft_strlcat(full_path, "/", len_path + 2);
+		ft_strlcat(full_path, cmd_name, len_path + 2 + len_cmd);
+		if (access(full_path, F_OK) == 0)
+			return (full_path);
+		ft_bzero(full_path, len_path + len_cmd + 2);
 		path += len_path;
 		if (*path == ':')
 			path++;
@@ -42,19 +40,19 @@ static char	*h_test_path(const char *cmd_name, const char *path)
 	return (NULL);
 }
 
-
-// F: Mallocs R: combined_path or NULL
-char	*get_path_command(const char *cmd_name, char *search_path)
+// in child process
+// uses gc R: combined_path or NULL
+char	*get_full_path_cmd(const char *cmd_name, char *search_path)
 {
-	// static const char	*fallback_path
-	// 	= "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-
-
-	if (access(cmd_name, F_OK) == 0)
-		return (ft_strdup(cmd_name));
-	if (search_path == NULL || *search_path == '\0' || cmd_name == NULL)
+	if (cmd_name == NULL || *cmd_name == '\0')
 		return (NULL);
-	// 	return (h_test_path(cmd_name, fallback_path));
-
-	return (h_test_path(cmd_name, search_path));
+	else if (access(cmd_name, F_OK) == 0)
+		return (gc_strdup(cmd_name));
+	else if (search_path == NULL || *search_path == '\0')
+		return (NULL);
+	else
+		return (h_test_path(cmd_name, search_path));
 }
+
+// static const char	*fallback_path
+// 	= "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";

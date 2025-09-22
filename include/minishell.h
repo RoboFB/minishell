@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 19:56:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/17 20:26:26 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,42 +116,6 @@ typedef struct	s_data
 }	t_data;
 
 // auto
-char		*get_path_command(const char *cmd_name, char *search_path);
-void		run_command(t_command *cmd);
-void		child_pipe(t_command *command);
-void		redirect_input(t_command *command);
-void		redirect_output(t_command *command);
-void		redirect_error(t_command *command);
-void		redirect_append(t_command *command);
-void		redirect_here_doc(t_command *command);
-void		perror_exit(char *msg, int exit_code);
-int			env_get_len_key(char *line);
-char		**env_get_line_ptr(char *line);
-char		*env_get_line_data(char *line);
-char		***env_get_ptr(void);
-int			env_get_size(char **environment);
-void		env_add_line(char *line);
-void		env_remove_line(char *line);
-void		env_init(char **input_envp);
-void		swap_ptrs(int **a, int **b);
-void		save_close(int fd);
-void		save_dup2(int old_fd, int new_fd);
-void		save_pipe(int *one_pipe);
-void		close_one_pip(int *pipe);
-void		free_split(char **split);
-void		gc_init(void);
-t_list		*gc_add(void *memory);
-void		gc_mode(t_gc_index mode);
-void		gc_clear(t_gc_index index);
-void		gc_clear_all(void);
-char		*gc_substr(char const *string, unsigned int start, size_t length);
-char		*gc_strdup(char const *string);
-char		*gc_strjoin(char const *s1, char const *s2);
-void		*gc_calloc(size_t count, size_t size);
-void		*gc_realloc(void *ptr, size_t old, size_t new);
-void		*gc_remove_one(void *remove_ptr);
-t_data		*data(void);
-int			main(int argc, char **argv, char **envp);
 t_token		*tok_new(char *content, t_token_type type);
 void		tok_add(char *content, t_token_type type);
 void		tok_delete(t_token *token);
@@ -165,5 +129,53 @@ int			tok_make_space_token(char *position);
 void		expand(t_tokens *tokens);
 void		quote(t_tokens *tokens);
 void		tokenize(char *line);
+void		perror_exit(char *msg, int exit_code);
+void		msg_exit(char *function, char* error, int exit_code);
+void		exe_command(t_command *cmd);
+char		*get_full_path_cmd(const char *cmd_name, char *search_path);
+void		start_command(t_command *cmd);
+void		child_pipe(t_command *command);
+void		redirect_input(t_command *command);
+void		redirect_output(t_command *command);
+void		redirect_error(t_command *command);
+void		redirect_append(t_command *command);
+void		redirect_here_doc(t_command *command);
+void		child_and(t_command *command);
+void		child_or(t_command *command);
+void		blt_cd(t_command *cmd);
+void		blt_pwd(t_command *cmd);
+void		blt_echo(t_command *cmd);
+void		blt_unset(t_command *cmd);
+void		blt_env(t_command *cmd);
+void		blt_exit(t_command *cmd);
+void		blt_export(t_command *cmd);
+void		try_builtin(t_command *command);
+void		gc_init(void);
+t_list		*gc_add(void *memory);
+void		gc_mode(t_gc_index mode);
+void		gc_clear(t_gc_index index);
+void		gc_clear_all(void);
+char		*gc_substr(char const *string, unsigned int start, size_t length);
+char		*gc_strdup(char const *string);
+char		*gc_strjoin(char const *s1, char const *s2);
+void		*gc_calloc(size_t count, size_t size);
+void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
+void		*gc_remove_one(void *remove_ptr);
+int			env_get_len_key(char *line);
+char		**env_get_line_ptr(char *line);
+char		*env_get_line_data(char *line);
+char		***env_get_ptr(void);
+int			env_get_size(char **environment);
+void		env_add_line(char *line);
+void		env_remove_line(char *line);
+void		env_init(char **input_envp);
+t_data		*data(void);
+int			main(int argc, char **argv, char **envp);
+void		swap_ptrs(int **a, int **b);
+void		save_close(int fd);
+void		save_dup2(int old_fd, int new_fd);
+void		save_pipe(int *one_pipe);
+void		close_one_pip(int *pipe);
+void		free_split(char **split);
 
 #endif

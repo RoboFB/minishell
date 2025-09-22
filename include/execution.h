@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:47:34 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 17:53:36 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/17 15:22:07 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,26 @@
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-/* 
-Pipes:
+/*
 
-pip machen
-forken
+minishell not bash action chain
+
+1. init
+- redirects
+- pipes and && and ||
+- here_docs
+
+2. forken
+
+3. open/set the files/fds
+
+4. execute
+
+- buildin?
+- find in path
+- any / -> direct execution
+
+
 
 child 1 use one end of pipe and close the other end
 child 2 use the other end of pipe and close the other end
@@ -57,7 +72,7 @@ typedef struct s_command
 	t_command		*child_left; // NULL if no child
 	t_command		*child_right; // NULL if no child
 
-	char			*command;
+	char			*name;
 	char			**args;
 	char			*file; // only for Redirection
 	char			*limiter; // only for Here_doc
@@ -67,6 +82,7 @@ typedef struct s_command
 	// int				error_fd; //std:2
 
 }	t_command;
+
 
 
 
