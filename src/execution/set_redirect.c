@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/12 21:16:49 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/17 20:51:57 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 
 
-
-void run_command(t_command *cmd)
+void start_command(t_command *cmd)
 {
 	if(cmd->child_type == CHILD_PIPE)
 		child_pipe(cmd);
-	// else if (cmd->child_type == CHILD_AND)
-		// child_and(cmd);
-	// else if (cmd->child_type == CHILD_OR)
-		// child_or(cmd);
-	
+	else if (cmd->child_type == CHILD_AND)
+		child_and(cmd);
+	else if (cmd->child_type == CHILD_OR)
+		child_or(cmd);
+
 	else if (cmd->child_type == REDIRECTION_INPUT)
 		redirect_input(cmd);
 	else if (cmd->child_type == REDIRECTION_OUTPUT)
@@ -107,13 +106,18 @@ void	redirect_append(t_command *command)
 
 void	redirect_here_doc(t_command *command)
 {
-	int		file_fd;
+	(void)command;
+	return ;
+}
 
-	file_fd = open(command->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (file_fd < 0)
-		perror_exit("open: append", EXIT_FAILURE);
+void	child_and(t_command *command)
+{
+	(void)command;
+	return ;
+}
 
-	save_dup2(file_fd, STDOUT_FILENO);
-	save_close(file_fd);
+void	child_or(t_command *command)
+{
+	(void)command;
 	return ;
 }
