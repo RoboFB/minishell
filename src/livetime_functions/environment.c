@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/16 18:03:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 15:14:54 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char *env_get_line_data(char *line)
 	char	*value_str;
 
 	line_ptr = env_get_line_ptr(line);
-
 	if (line_ptr == NULL)
 		return (NULL);
 	else

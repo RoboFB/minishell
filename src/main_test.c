@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/18 17:04:54 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 15:19:34 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_data	*data(void)
 	return (&data);
 }
 
-/* int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char *line;
 	
@@ -29,18 +29,20 @@ t_data	*data(void)
 
 
 	gc_init();
+	gc_mode(GC_PERSISTENT);
+	env_init(envp);
 	while (1)
 	{
 		line = readline(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
 		tokenize(line);
 		if (line && line[0] != '\0')
 			add_history(line);
+		gc_clear_temporary();
 		free(line);
-		gc_clear_all();
 	}
-
+	gc_clear_all();
 	return (0);
-} */
+}
 
 // tests robin
 /* int main(int argc, char **argv, char **envp)
@@ -109,7 +111,7 @@ t_data	*data(void)
 
 
 // tests robin
-int main(int argc, char **argv, char **envp)
+/* int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
@@ -129,4 +131,4 @@ int main(int argc, char **argv, char **envp)
 	
 
 	return 0;
-}
+} */
