@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:51:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 19:40:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,25 @@ void		blt_pwd(t_expression *cmd);
 void		blt_unset(t_expression *cmd);
 void		try_builtin(t_expression *command);
 void		perror_exit(char *msg, int exit_code);
+void		perror_msg_exit(char *msg_start, char *msg_end, int exit_code);
 void		msg_exit(char *function, char *error, int exit_code);
-void		exe_command(t_expression *cmd);
+int			soft_perror(char *msg, int exit_code);
+int			soft_msg(char *function, char *error, int exit_code);
+pid_t		exe_command(t_expression *cmd);
 char		*get_full_path_cmd(const char *cmd_name, char *search_path);
-void		start_command(t_expression *cmd);
-void		child_pipe(t_expression *command);
-void		redirect_input(t_expression *command);
-void		redirect_output(t_expression *command);
-void		redirect_error(t_expression *command);
-void		redirect_append(t_expression *command);
-void		redirect_here_doc(t_expression *command);
-void		child_and(t_expression *command);
-void		child_or(t_expression *command);
+void		set_all_redirect(t_file *head);
+void		set_fd(t_file *file, int change_fd);
+void		read_file(t_file *file, int change_fd);
+void		write_file(t_file *file, int change_fd);
+void		write_append_file(t_file *file, int change_fd);
+void		run_all(t_expression *root);
+pid_t		run_tree(t_expression *cmd);
+pid_t		exe_pipe(t_expression *cmd);
+pid_t		exe_and(t_expression *cmd);
+pid_t		exe_or(t_expression *cmd);
+void		save_close(int *fd);
+void		close_files(t_file *head);
+void		close_all_files();
 int			env_get_len_key(char *line);
 char		**env_get_line_ptr(char *line);
 char		*env_get_line_data(char *line);
@@ -77,10 +84,8 @@ void		env_add_line(char *line);
 void		env_remove_line(char *line);
 void		env_init(char **input_envp);
 void		swap_ptrs(int **a, int **b);
-void		save_close(int fd);
 void		save_dup2(int old_fd, int new_fd);
-void		save_pipe(int *one_pipe);
-void		close_one_pip(int *pipe);
+void		save_pipe( int *write_in_pipe, int *read_out_pipe);
 void		free_split(char **split);
 void		gc_init(void);
 t_list		*gc_add(void *memory);

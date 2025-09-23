@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 20:14:49 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/22 19:51:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,8 @@ void	atom_add_arg(t_atom *atom, t_token *token)
 	}
 	else
 	{
-		atom->args = (char **)gc_realloc(atom->args, 
-			(atom->argc + 1) * sizeof(char **),
-			(atom->argc + 2) * sizeof(char **));
+		gc_realloc((void **)&atom->args,
+			atom->argc + 1, atom->argc + 2, sizeof(char **));
 		atom->args[atom->argc] = token->content;
 		atom->args[atom->argc + 1] = NULL;
 	}

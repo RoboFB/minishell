@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:32:37 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/19 19:04:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/23 17:07:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_full_path_cmd(const char *cmd_name, char *search_path)
 {
 	if (cmd_name == NULL || *cmd_name == '\0')
 		return (NULL);
-	else if (access(cmd_name, F_OK) == 0)
+	else if (ft_strchr(cmd_name, '/') != NULL && access(cmd_name, F_OK) == 0)
 		return (gc_strdup(cmd_name));
 	else if (search_path == NULL || *search_path == '\0')
 		return (NULL);

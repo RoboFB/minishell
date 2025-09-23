@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:47:34 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:46:41 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 17:26:12 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 minishell not bash action chain
 
-1. init
+1. init (setup):
 - redirects
 - pipes and && and ||
 - here_docs
