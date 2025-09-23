@@ -6,12 +6,15 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:51:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/23 18:48:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUBLIC_STRUCT_H
 # define PUBLIC_STRUCT_H
+
+typedef struct	s_token t_token;
+typedef struct	s_tokens t_tokens;
 
 typedef	enum	e_gc_index
 {
@@ -35,12 +38,15 @@ typedef union	u_gc_book
 
 typedef struct	s_data
 {
-	char**		envp;
-	char*		line;
-	t_tokens	tokens;
-	t_tokens	expansion;
-	t_gc_index	gc_mode;
-	t_gc_book	gc_book;
+	char**			envp;
+	char*			line;
+	t_tokens		tokens;
+	t_tokens		expansion;
+	t_gc_index		gc_mode;
+	t_gc_book		gc_book;
+	t_expression	*tree_root;
+	int				last_exit_code;
+	pid_t			last_pid;
 }	t_data;
 
 typedef enum e_filetype
@@ -54,6 +60,8 @@ typedef enum e_filetype
 	FD_PIPE_READ,
 	FD_PIPE_WRITE
 }	t_filetype;
+
+typedef struct s_file t_file;
 
 typedef struct s_file
 {
