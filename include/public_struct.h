@@ -6,15 +6,20 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 18:48:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/23 20:08:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUBLIC_STRUCT_H
 # define PUBLIC_STRUCT_H
 
+// outside this file
 typedef struct	s_token t_token;
 typedef struct	s_tokens t_tokens;
+
+// inside
+typedef struct s_file t_file;
+typedef struct	s_expression t_expression;
 
 typedef	enum	e_gc_index
 {
@@ -60,8 +65,6 @@ typedef enum e_filetype
 	FD_PIPE_READ,
 	FD_PIPE_WRITE
 }	t_filetype;
-
-typedef struct s_file t_file;
 
 typedef struct s_file
 {
