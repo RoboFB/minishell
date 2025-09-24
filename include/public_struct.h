@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:51:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/23 19:56:56 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,29 @@ typedef union	u_gc_book
 		t_list	*execution;
 		t_list	*persistent;
 	};
-	t_list	*lists[5];
+	t_list	*lists[4];
 }	t_gc_book;
+
+typedef struct	s_token t_token;
+
+typedef	struct	s_tokens
+{
+	t_token	*head;
+	t_token	*tail;
+	size_t	size;
+}	t_tokens;
+
+typedef struct s_expression t_expression;
 
 typedef struct	s_data
 {
-	char**		envp;
-	char*		line;
-	t_tokens	tokens;
-	t_tokens	expansion;
-	t_gc_index	gc_mode;
-	t_gc_book	gc_book;
+	char**			envp;
+	char*			line;
+	t_tokens		tokens;
+	t_tokens		expansion;
+	t_expression	*ast;
+	t_gc_index		gc_mode;
+	t_gc_book		gc_book;
 }	t_data;
 
 typedef enum e_filetype
@@ -54,6 +66,8 @@ typedef enum e_filetype
 	FD_PIPE_READ,
 	FD_PIPE_WRITE
 }	t_filetype;
+
+typedef struct s_file t_file;
 
 typedef struct s_file
 {

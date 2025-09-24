@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
+#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/12 22:07:11 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/09/24 15:49:03 by modiepge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME :=			minishell
 
 CC :=			clang #cc #clang can be used for sanitizers
-DEBUG_FLAGS := -g -fsanitize=address,undefined# -g3 -O0 # debug flags
+DEBUG_FLAGS := -g -fsanitize=address,undefined -DDEBUG_MODE=-1# -g3 -O0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft
 

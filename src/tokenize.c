@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:53:19 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/19 20:15:15 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:03:30 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,22 @@ void	tok_add(char *content, t_token_type type, t_tokens *list)
 	}
 }
 
-void	tok_delete(t_token *token)
+void	tok_delete(t_token **token)
 {
 	t_tokens	*tokens;
 
 	if (!token)
 		return ;
 	tokens = &data()->tokens;
-	if (token == tokens->head)
+	if (*token == tokens->head)
 		tokens->head = tokens->head->next;
-	if (token == tokens->tail)
+	if (*token == tokens->tail)
 		tokens->tail = tokens->tail->prev;
-	if (token->next)
-		token->next->prev = token->prev;
-	if (token->prev)
-		token->prev->next = token->next;
+	if ((*token)->next)
+		(*token)->next->prev = (*token)->prev;
+	if ((*token)->prev)
+		(*token)->prev->next = (*token)->next;
+	*token = (*token)->next;
 }
 
 void	tok_join(t_token *first, t_token *second)
@@ -77,7 +78,7 @@ void	tok_join(t_token *first, t_token *second)
 		return ;
 	first->content = gc_strjoin(first->content, second->content);
 	first->type = TOK_WORD;
-	tok_delete(second);
+	tok_delete(&second);
 }
 
 void	tok_debug_display(t_tokens *tokens)
@@ -90,27 +91,37 @@ void	tok_debug_display(t_tokens *tokens)
 		"TOK_WILDCARD", "TOK_AMPERSAND", "TOK_SEMICOLON", "TOK_BACKSLASH"};
 	int	arg;
 	t_atom *atom;
+	t_file *file;
 
 	token = tokens->head;
-	ft_printf("minishell: debug -- display tokens\n");
+	ft_debugf(2, "minishell: debug -- display tokens\n\n");
 	while (token)
 	{
 		if (token->type != TOK_ATOM)
-			ft_printf("[%s::%s:%s]\n", token->content, debug_type[token->type], debug_type[token->is_quoted]);
+			ft_debugf(2, "token: \t%s is %s\n", token->content, debug_type[token->type]);
 		else
 		{
 			atom = (t_atom *)token;
-			ft_printf("[%s::CMD]", atom->command);
+			ft_debugf(2, "atom:\targs[%d]: %s ", atom->argc, atom->args[0]);
 			arg = 0;
 			while (atom->args[arg + 1])
 			{
-				ft_printf("-[%s::ARG]", atom->args[arg + 1]);
+				ft_debugf(2, "%s ", atom->args[arg + 1]);
 				arg++;
 			}
-			ft_printf("\n");
+			file = atom->files;
+			if (file)
+				ft_debugf(2, "\n     \tfiles: ");
+			while (file)
+			{
+				ft_debugf(2, "%s ", file->path, file->type);
+				file = file->next;
+			}
+			ft_debugf(2, "\n");
 		}
 		token = token->next;
 	}
+	ft_debugf(2, "\n");
 }
 
 void	tok_reset(t_tokens *tokens)
@@ -232,14 +243,14 @@ void	expand(t_tokens *tokens)
 			{
 				tok_expansion(token->next,
 						env_get_line_data(token->next->content));
-				tok_delete(token);
+				tok_delete(&token);
 			}
 			else if (token->next && token->next->type == TOK_WORD)
 				tok_join(token, token->next);
 		}
 		token = token->next;
 	}
-	ft_printf("lexing: variables expanded\n");
+	ft_debugf(1, "lexing: variables expanded\n");
 }
 
 void	strip_whitespace(t_tokens *tokens)
@@ -250,10 +261,11 @@ void	strip_whitespace(t_tokens *tokens)
 	while (token)
 	{
 		if (!token->is_quoted && token->type == TOK_WHITESPACE)
-			tok_delete(token);
-		token = token->next;
+			tok_delete(&token);
+		if (token)
+			token = token->next;
 	}
-	ft_printf("lexing: whitespace stripped\n");
+	ft_debugf(1, "lexing: whitespace stripped\n");
 }
 
 void	strip_quotes(t_tokens *tokens)
@@ -265,10 +277,11 @@ void	strip_quotes(t_tokens *tokens)
 	{
 		if (!token->is_quoted && (token->type == TOK_DOUBLE_QUOTE 
 				|| token->type == TOK_QUOTE))
-			tok_delete(token);
-		token = token->next;
+			tok_delete(&token);
+		if (token)
+			token = token->next;
 	}
-	ft_printf("lexing: quotes stripped\n");
+	ft_debugf(1, "lexing: quotes stripped\n");
 }
 
 void	join_quotes(t_tokens *tokens)
@@ -292,9 +305,10 @@ void	join_quotes(t_tokens *tokens)
 			token->is_quoted = quote;
 			continue ;
 		}
-		token = token->next;
+		if (token)
+			token = token->next;
 	}
-	ft_printf("lexing: quote contents joined\n");
+	ft_debugf(1, "lexing: quote contents joined\n");
 }
 
 void	quote(t_tokens *tokens)
@@ -318,11 +332,12 @@ void	quote(t_tokens *tokens)
 		}
 		else if (quoted)
 			token->is_quoted = quoted;
-		token = token->next;
+		if (token)
+			token = token->next;
 	}
 	if (quoted)
-		ft_printf("minishell: syntax error (unclosed quote)\n");
-	ft_printf("lexing: quotes marked\n");
+		ft_fprintf(1, "minishell: syntax error (unclosed quote)\n");
+	ft_debugf(1, "lexing: quotes marked\n");
 }
 
 void	split_line(char *line, t_tokens *list)
@@ -354,6 +369,7 @@ void	tokenize(char *line)
 	strip_whitespace(&data()->tokens);
 	atomize(&data()->tokens);
 	tok_debug_display(&data()->tokens);
+	list_to_tree();
 	tok_reset(&data()->tokens);
 }
 
