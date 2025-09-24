@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 18:01:46 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:58:33 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	gc_clear_temporary(void)
 	index = 0;
 	while (index < GC_PERSISTENT)
 		gc_clear(index++);
-	ft_printf("minishell: debug -- temporary data cleared\n");
+	ft_debugf(1, "minishell: debug -- temporary data cleared\n");
 }
 
 void	gc_clear_all(void)
@@ -101,7 +101,7 @@ void	gc_clear_all(void)
 	index = 0;
 	while (index <= GC_PERSISTENT)
 		gc_clear(index++);
-	ft_printf("minishell: debug -- garbage collector cleared\n");
+	ft_debugf(1, "minishell: debug -- garbage collector cleared\n");
 }
 
 char	*gc_substr(char const *string, unsigned int start, size_t length)

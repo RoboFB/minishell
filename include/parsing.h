@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/22 19:41:18 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:59:41 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+# include "public_struct.h"
 
 typedef struct s_file t_file;
 
@@ -55,25 +56,22 @@ typedef struct	s_token
 	t_token_type	is_quoted;
 }	t_token;
 
+typedef struct s_file t_file;
+
 typedef struct s_atom
 {
 	t_token_type	type;
 	t_token			*next;
 	t_token			*prev;
-	char			*command;
 	int				argc;
 	char			**args;
 	t_file			*files;	// last has priority (per io-channel)
 }	t_atom;
 
-
-typedef	struct	s_tokens
+typedef struct s_bind
 {
-	t_token	*head;
-	t_token	*tail;
-	size_t	size;
-}	t_tokens;
-
-
+	int	left;
+	int	right;
+}	t_bind;
 
 #endif

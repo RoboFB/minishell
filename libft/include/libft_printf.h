@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:41:46 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/05 00:20:22 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:32:46 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 	Binary is the worst case conversion, 64 is double that.
 */
 # define PTF_NUM_BUFFER 64
+# ifndef DEBUG_MODE
+#  define DEBUG_MODE 0
+# endif
 
 typedef struct s_spec
 {
@@ -86,6 +89,7 @@ int			ptf_flag_plus(t_spec *spec);
 
 int			ft_vfprintf(int fd, const char *format, va_list arguments);
 int			ft_fprintf(int fd, const char *format, ...);
+int			ft_debugf(const int level, const char *format, ...);
 int			ft_printf(const char *format, ...);
 
 #endif
