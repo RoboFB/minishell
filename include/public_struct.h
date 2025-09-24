@@ -6,12 +6,20 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 19:56:56 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 19:00:24 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUBLIC_STRUCT_H
 # define PUBLIC_STRUCT_H
+
+// outside this file
+typedef struct	s_token t_token;
+typedef struct	s_tokens t_tokens;
+
+// inside
+typedef struct s_file t_file;
+typedef struct	s_expression t_expression;
 
 typedef	enum	e_gc_index
 {
@@ -50,9 +58,11 @@ typedef struct	s_data
 	char*			line;
 	t_tokens		tokens;
 	t_tokens		expansion;
-	t_expression	*ast;
 	t_gc_index		gc_mode;
 	t_gc_book		gc_book;
+	t_expression	*tree_root;
+	int				last_exit_code;
+	pid_t			last_pid;
 }	t_data;
 
 typedef enum e_filetype

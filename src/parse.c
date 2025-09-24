@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 18:49:08 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 19:01:00 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,7 @@ void	list_to_tree(void)
 	t_expression	**ast;
 
 	tokens = &data()->tokens;
-	ast = &data()->ast;
+	ast = &data()->tree_root;
 	token = tokens->head;
 	gc_mode(GC_PARSING);
 	*ast = parse_expression(token, 0);

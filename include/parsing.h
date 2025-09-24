@@ -6,13 +6,15 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 13:34:46 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:59:41 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 # include "public_struct.h"
+
+typedef struct s_file t_file;
 
 typedef enum	e_token_type
 {

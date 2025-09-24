@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 15:14:54 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:05:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,32 @@ void	env_add_line(char *line)
 	{
 		*line_ptr = gc_remove_one(*line_ptr);
 		*line_ptr = gc_strdup(line);
+	}
+	return ;
+}
+
+// uses gc_permanent before
+void	env_add_line_data(char *key, char *value)
+{
+	char		***environment_ptr;
+	char		**line_ptr;
+	int 		lines_count;
+	
+	line_ptr = env_get_line_ptr(key);
+	
+	if (line_ptr == NULL || *line_ptr == NULL)
+	{
+		environment_ptr = env_get_ptr();
+		lines_count = env_get_size(*environment_ptr);
+		(*environment_ptr)[lines_count + 1 - 1] = gc_strjoin(key, "=");
+		(*environment_ptr)[lines_count + 1 - 1] = gc_strjoin((*environment_ptr)[lines_count + 1 - 1], value);
+		(*environment_ptr)[lines_count + 2 - 1] = NULL;
+	}
+	else
+	{
+		*line_ptr = gc_remove_one(*line_ptr);
+		*line_ptr = gc_strjoin(key, "="); // part gets lost
+		*line_ptr = gc_strjoin(*line_ptr, value);
 	}
 	return ;
 }

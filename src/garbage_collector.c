@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/23 18:32:50 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:58:33 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,16 @@ void	*gc_calloc(size_t count, size_t size)
 	return (add);
 }
 
+char *gc_getcwd(void)
+{
+	char *path;
+
+	path = getcwd(NULL, 0);
+	if (path == NULL)
+		perror("getcwd failed");
+	gc_add(path);
+	return (path);
+}
 
 // R: *new_ptr
 // sets to zero and copy ptr to new-ptr cuts if new is smaller
