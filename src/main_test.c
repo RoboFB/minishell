@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:06:17 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	char *line;
 	
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	gc_clear_all();
 	return (0);
-}
+} */
 
 // tests robin
 /* int main(int argc, char **argv, char **envp)
@@ -111,7 +111,7 @@ int	main(int argc, char **argv, char **envp)
 
 
 // tests robin
-/* int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
@@ -122,13 +122,26 @@ int	main(int argc, char **argv, char **envp)
 
 
 	// env builtin
-	// exe_command(&(t_expression){0, NULL, NULL, NULL, "env", NULL, NULL, NULL});
-	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"ls", "-l", NULL}, NULL, NULL});
-	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"", "-l", NULL}, NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "env", NULL, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"ls", "-l", NULL}, NULL});
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "ls", (char *[]){"", "-l", NULL}, NULL});
 	
-	exe_command(&(t_expression){0, NULL, NULL, NULL, "export", (char *[]){"AAABOB=1234567890 123_!@#$%^&*()_+';",NULL}, NULL, NULL});
-	// exe_command(&(t_expression){0, NULL, NULL, NULL, "export", NULL, NULL, NULL});
-	
+	// exe_command(&(t_expression){0, NULL, NULL, NULL, "export", (char *[]){"AAABOB=1234567890 123_!@#$%^&*()_+';",NULL}, NULL});
+	// run_all(&(t_expression){0, NULL, NULL, NULL, "export", NULL, NULL});
+	t_file file1 = {FD_PIPE_WRITE, NULL, -1, NULL};
+	t_file file2 = {FD_PIPE_READ, NULL, -1, NULL};
 
+	t_expression t1 = {OPERATOR_CMD, NULL, NULL, NULL, "ls", (char *[]){"ls", NULL}, NULL};
+	t_expression t2 = {OPERATOR_CMD, NULL, NULL, NULL, "cat", (char *[]){"cat", NULL}, NULL};
+	t_expression start = {OPERATOR_PIPE, NULL, &t1, &t2, NULL, NULL, NULL};
+	t1.parent = &start;
+	t2.parent = &start;
+
+	t1.files = &file1;
+	t2.files = &file2;
+
+	run_all(&start);
+	
+	gc_clear_all();
 	return 0;
-} */
+}

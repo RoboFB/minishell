@@ -6,12 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/22 16:48:42 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/22 19:41:18 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+typedef struct s_file t_file;
 
 typedef enum	e_token_type
 {

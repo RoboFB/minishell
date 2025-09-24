@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_unset.c                                        :+:      :+:    :+:   */
+/*   blt_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 19:13:09 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 14:37:18 by rgohrig          ###   ########.fr       */
+/*   Created: 2025/09/24 14:27:14 by rgohrig           #+#    #+#             */
+/*   Updated: 2025/09/24 14:36:43 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	blt_unset(t_expression *cmd)
+int blt_count_args(t_expression *cmd)
 {
-	int	idx;
+	int count;
 
-	// Handel - as error
-	if (blt_has_flag(cmd))
-	{
-		msg_exit("unset", "no options allowed", EXIT_FAILURE);
-	}
-	idx = 0;
-	while (cmd->args && cmd->args[idx])
-	{
-		if (ft_strchr(cmd->args[idx], '=') == NULL)
-			env_remove_line(cmd->args[idx]);
-	}
-	gc_clear_all();
-	exit(EXIT_SUCCESS);
+	if (cmd->args == NULL || cmd->args[0] == NULL)
+		return (0);
+	count = 0;
+	while (cmd->args[1 + count] != NULL)
+		count++;
+	return (count);
+}
+
+bool blt_has_flag(t_expression *cmd)
+{
+
+	if (blt_count_args(cmd) >= 1 && cmd->args[1][0] == '-')
+		return (true);
+	else
+		return (false);
 }
