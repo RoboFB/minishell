@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 19:43:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:06:17 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	char *line;
 	
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	gc_clear_all();
 	return (0);
-}
+} */
 
 // tests robin
 /* int main(int argc, char **argv, char **envp)

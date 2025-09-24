@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 18:52:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:05:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,12 @@ void	close_files(t_file *head)
 	return ;
 }
 
-void	close_all_files()
+void	close_all_files(t_expression *root)
 {
-	t_expression *head;
-
-	head = data()->tree_root;
-	if (head == NULL)
+	if (root == NULL)
 		return ;
-	close_files(head->files);
-	close_all(head->first);
-	close_all(head->second);
+	close_files(root->files);
+	close_all_files(root->first);
+	close_all_files(root->second);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:09 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 14:37:18 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	blt_unset(t_expression *cmd)
 	int	idx;
 
 	// Handel - as error
-	if (cmd->args && cmd->args[0] && cmd->args[1] && cmd->args[1][0] == '-')
+	if (blt_has_flag(cmd))
 	{
 		msg_exit("unset", "no options allowed", EXIT_FAILURE);
 	}

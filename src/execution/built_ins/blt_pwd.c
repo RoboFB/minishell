@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 14:17:17 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/24 14:37:01 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void blt_pwd(t_expression *cmd)
 	char *working_dir;
 	char *pwd_dir;
 
-	if (cmd->args && cmd->args[0] && cmd->args[1] && cmd->args[1][0] == '-')
+	if (blt_has_flag(cmd))
 	{
 		msg_exit("unset", "no options allowed", EXIT_FAILURE);
 	}
