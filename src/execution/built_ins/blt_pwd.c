@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 14:37:01 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 17:15:54 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void blt_pwd(t_expression *cmd)
 	if (blt_has_flag(cmd))
 	{
 		msg_exit("unset", "no options allowed", EXIT_FAILURE);
+		switch_exit(cmd, EXIT_FAILURE);
+		return ;
 	}
 	pwd_dir = env_get_line_data("PWD");
 	working_dir = save_getcwd(NULL, 0);
@@ -28,6 +30,5 @@ void blt_pwd(t_expression *cmd)
 	else
 		ft_printf("%s\n", working_dir);
 	free(working_dir);
-	gc_clear_all();
-	exit (EXIT_SUCCESS);
+	switch_exit(cmd, EXIT_SUCCESS);
 }
