@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 19:00:24 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:47:44 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct	s_data
 	t_gc_book		gc_book;
 	t_expression	*tree_root;
 	int				last_exit_code;
-	pid_t			last_pid;
+	// pid_t			last_pid;
 }	t_data;
 
 typedef enum e_filetype

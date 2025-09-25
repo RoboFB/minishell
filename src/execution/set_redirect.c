@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 18:04:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 14:42:15 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ void set_all_redirect(t_file *head)
 			write_append_file(head, STDERR_FILENO);
 		head = head->next;
 	}
-	close_all_files(data()->tree_root);
 	return ;
 }
 
 void	set_fd(t_file *file, int change_fd)
 {
-	// ft_debugf(10, "new fd %d for %d\n", file->fd, change_fd);
+	ft_debugf(20, "new fd %d for %d\n", file->fd, change_fd);
 	save_dup2(file->fd, change_fd);
 	save_close(&file->fd);
 	return ;

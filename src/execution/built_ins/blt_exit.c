@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 18:02:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 17:15:43 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ void blt_exit(t_expression *cmd)
 			msg_exit("exit", "numeric argument required", EXIT_FAILURE);
 		exit_code = exit_code % 256;
 	}
-	exit(exit_code);
+	exit_shell(exit_code);
 }
 

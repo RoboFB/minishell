@@ -65,25 +65,25 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 ## Functions
 
-Readline, Rl_clear_history, Rl_on_new_line,
-Rl_replace_line, Rl_redisplay, Add_history,
+readline, rl_clear_history, rl_on_new_line,
+rl_replace_line, rl_redisplay, Add_history,
 
-Malloc, Free,
-Write, Access, Open, Read,
-Close, 
-Fork, 
-Wait, Waitpid, Wait3, Wait4,
+malloc, free,
+write, access, open, read,
+close, 
+fork, 
+wait, waitpid, wait3, wait4,
 
-Signal, Sigaction, Sigemptyset, Sigaddset, Kill, 
-Exit,
-Getcwd,
-Chdir, Stat, Lstat, Fstat, Unlink,
-Execve,
-Dup, Dup2, Pipe,
-Opendir, Readdir, Closedir,
+signal, sigaction, sigemptyset, sigaddset, kill, 
+exit,
+getcwd,
+chdir, stat, lstat, fstat, unlink,
+execve,
+dup, dup2, Pipe,
+opendir, readdir, closedir,
 
-Strerror, Perror, Printf, 
-Isatty, Ttyname, Ttyslot, Ioctl,
-Getenv, 
-Tcsetattr, Tcgetattr,
-Tgetent, Tgetflag, Tgetnum, Ttgetstr, Tgoto, Tputs
+strerror, perror, printf, 
+isatty, ttyname, ttyslot, ioctl,
+getenv, 
+tcsetattr, tcgetattr,
+tgetent, tgetflag, tgetnum, ttgetstr, tgoto, tputs
