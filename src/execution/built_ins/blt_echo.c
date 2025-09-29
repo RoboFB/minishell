@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/22 16:41:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 17:15:37 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	blt_echo(t_expression *cmd)
 	}
 	if (newline)
 		ft_printf("\n");
-	gc_clear_all();
-	exit(EXIT_SUCCESS);
+	switch_exit(cmd, EXIT_SUCCESS);
 }
 
 bool	h_is_n_flag(char *str)

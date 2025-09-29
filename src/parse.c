@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 19:01:00 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/24 20:27:09 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,7 @@ void	debug_tree(t_expression *expression, char *side, bool op)
 		else
 			ft_debugf(77,  "\t\t%s: ", side);
 		ft_debugf(77,  "args: ");
-		while (expression && expression->args[index])
+		while (expression && expression->args && expression->args[index])
 			ft_debugf(77,  "%s ", expression->args[index++]);
 		if (expression && expression->files)
 		{

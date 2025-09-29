@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:47:03 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 17:53:11 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 14:42:41 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,27 @@ void	save_dup2(int old_fd, int new_fd)
 {
 	if (old_fd != new_fd)
 	{
-		if (dup2(old_fd, new_fd) < 0)
+		if (dup2(old_fd, new_fd) == -1)
 			perror_exit("dup2 failed", EXIT_FAILURE);
 	}
 	return ;
 }
 
+int	save_dup(int copy_fd)
+{
+	int new_fd;
+	new_fd = dup(copy_fd);
+	if (new_fd == -1)
+		perror_exit("dup failed", EXIT_FAILURE);
+	return (new_fd);
+}
+
+
 void	save_pipe(int *write_in_pipe, int *read_out_pipe)
 {
 	int 	pipe_fds[2];
 
-	if (pipe(pipe_fds) < 0)
+	if (pipe(pipe_fds) == -1)
 		perror_exit("create_pipe failed", EXIT_FAILURE);
 	*read_out_pipe = pipe_fds[0];
 	*write_in_pipe = pipe_fds[1];
@@ -47,7 +57,17 @@ char *save_getcwd(char *buf, size_t size)
 
 void save_chdir(const char *new_dir)
 {
-	if (chdir(new_dir) < 0)
+	if (chdir(new_dir) == -1)
 		perror_exit("chdir failed", EXIT_FAILURE);
 	return ;
+}
+
+pid_t save_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		perror_exit("fork failed", EXIT_FAILURE);
+	return (pid);
 }

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:46:31 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 17:49:09 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 17:32:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,25 @@ int	blt_one_arg(char const *input, int min, int max, int *out)
 	if (*out < min || *out > max)
 		return (-1);
 	return (0);
+}
+
+int blt_count_args(t_expression *cmd)
+{
+	int count;
+
+	if (cmd->args == NULL || cmd->args[0] == NULL)
+		return (0);
+	count = 0;
+	while (cmd->args[1 + count] != NULL)
+		count++;
+	return (count);
+}
+
+bool blt_has_flag(t_expression *cmd)
+{
+
+	if (blt_count_args(cmd) >= 1 && cmd->args[1][0] == '-')
+		return (true);
+	else
+		return (false);
 }
