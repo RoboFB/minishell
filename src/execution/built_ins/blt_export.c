@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 19:02:59 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 17:15:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,24 @@ void	blt_export(t_expression *cmd)
 {
 	int	idx;
 
-	if ((cmd->args == NULL || *cmd->args == NULL || **cmd->args == '\0'))
+	if (blt_count_args(cmd) == 0)
 	{
+		gc_mode(GC_EXECUTION);
 		h_print_save(h_get_sorted(*env_get_ptr()));
 	}
 	else
 	{
 		// todo check cmd to be valid and test more
 		idx = 0;
+		gc_mode(GC_PERSISTENT);
 		while (cmd->args[idx])
 		{
 			env_add_line(cmd->args[idx]);
 			idx++;
 		}
+		gc_mode(GC_EXECUTION);
 	}
-	gc_clear_all();
-	exit(EXIT_SUCCESS);
+	switch_exit(cmd, EXIT_SUCCESS);
 }
 
 static int	h_env_cmp(char *s1, char *s2)

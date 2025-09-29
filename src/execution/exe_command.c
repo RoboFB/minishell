@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 19:00:58 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/25 16:46:46 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,60 @@
 
 // at the end to execute a command based on t_command struct
 
-// start of one command execution
+// start of one command execution  -1 no pid set becous not forked
 pid_t	exe_command(t_expression *cmd)
 {
-	char	*path_command;
+	int		stdin_fd;
+	int		stdout_fd;
 	pid_t	pid;
 	
-	pid = fork();
-	if (pid > 0)
+	gc_mode(GC_EXECUTION);
+	debung_print_tree(21, cmd, 0);
+	if ((is_builtin(cmd) && is_single_command(cmd)))
 	{
-		data()->last_pid = pid;
-		return (pid);
+		stdin_fd = save_dup(STDIN_FILENO);
+		stdout_fd = save_dup(STDOUT_FILENO);
+		set_all_redirect(cmd->files);
+		run_builtin(cmd);
+		save_dup2(stdin_fd, STDIN_FILENO);
+		save_dup2(stdout_fd, STDOUT_FILENO);
+		save_close(&stdin_fd);
+		save_close(&stdout_fd);
+		return (-1);
 	}
-	else if (pid == -1)
-		return (soft_perror(NULL, -1));
-
+	pid = save_fork();
+	if (pid > 0)
+		return (pid);
 	set_all_redirect(cmd->files);
+	close_all_files(data()->tree_root);
+	run_builtin(cmd);
+	run_comand(cmd);
+	return (-1);
+}
 
-	try_builtin(cmd);
+bool is_single_command(t_expression *cmd)
+{
+	if (cmd->parent == NULL)
+		return (true);
+	if (cmd->parent->type == OPERATOR_PIPE)
+		return (false);
+	else
+		return (true);
+}
+
+void run_comand(t_expression *cmd)
+{
+	char	*path_command;
+
 	path_command = get_full_path_cmd(cmd->name, env_get_line_data("PATH"));
 	if (path_command == NULL)
 		msg_exit(cmd->name, "command not found", EXIT_FAILURE);
-	
-		// debug
-	printf("full path: %s\n", path_command);
+
+	ft_debugf(20,"execve: path: %s", path_command);
 	for (int i = 0; cmd->args[i] != NULL; i++)
-		printf("args: %s\n", cmd->args[i]);
+		ft_debugf(20, "args: %s\n", cmd->args[i]);
 	
-	if (execve(path_command, cmd->args, (char *const *)*env_get_ptr()) < 0)
-		perror_msg_exit(path_command, "execve failed", EXIT_FAILURE);
-	return (-1);
+	execve(path_command, cmd->args, (char *const *)*env_get_ptr());
+	perror_msg_exit(path_command, "execve failed", EXIT_FAILURE);
 }
+
