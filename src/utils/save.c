@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:47:03 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 14:42:41 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:24:14 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	save_pipe(int *write_in_pipe, int *read_out_pipe)
 }
 
 
-// mallocates buffer if buf is NULL internally without gc
+// mallocates buffer if buf is NULL internally needs null check (no gc)
 char *save_getcwd(char *buf, size_t size)
 {
 	char *path;
 
 	path = getcwd(buf, size);
 	if (path == NULL)
-		perror_exit("getcwd failed", EXIT_FAILURE);
+		perror_exit("getcwd failed", EXIT_FAILURE); // maby not exit here if i dont have permission
 	return (path);
 }
 
