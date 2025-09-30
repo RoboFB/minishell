@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
+#    By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/09/24 15:49:03 by modiepge         ###   ########.fr        #
+#    Updated: 2025/09/29 12:19:30 by modiepge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME :=			minishell
 
 CC :=			clang #cc #clang can be used for sanitizers
-DEBUG_FLAGS := -g -fsanitize=address,undefined -DDEBUG_MODE=-1# -g3 -O0 # debug flags
+DEBUG_FLAGS := -g -fsanitize=address,undefined -DDEBUG_MODE=77# -g3 -O0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft
 
@@ -26,10 +26,9 @@ LIBFT_GNL    = $(LIBFT_DIR)/libft_gnl.a
 LIBFT_LISTS  = $(LIBFT_DIR)/libft_lists.a
 LIBFT        = $(LIBFT_PRINTF) $(LIBFT_GNL) $(LIBFT_LISTS) $(LIBFT_CORE)
 
-LIBS :=			$(LIBFT) -lreadline
+LIBS := $(LIBFT) -L /opt/homebrew/opt/readline/lib -lreadline
 
-HEADERS :=		-I ./include -I ./libft/include
-
+HEADERS := -I ./include -I ./libft/include -I /opt/homebrew/opt/readline/include
 
 # ----------------------------- NORMAL -----------------------------------------
 

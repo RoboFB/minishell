@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 18:33:39 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:18:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

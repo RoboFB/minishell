@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/24 18:58:33 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:42:23 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	gc_clear(t_gc_index index)
 	{
 		delete = current;
 		current = current->next;
-		free(delete->content);
+		if (delete->content)
+			free(delete->content);
 		free(delete);
 	}
 	*list = NULL;
@@ -91,6 +92,8 @@ void	gc_clear_temporary(void)
 	index = 0;
 	while (index < GC_PERSISTENT)
 		gc_clear(index++);
+	tok_reset(&data()->tokens);
+	data()->tree_root = NULL;
 	ft_debugf(1, "minishell: debug -- temporary data cleared\n");
 }
 
@@ -158,7 +161,7 @@ void	gc_realloc(void **change_ptr, size_t old, size_t new, size_t size)
 		ft_memcpy(new_ptr, *change_ptr, new * size);
 	*change_ptr = new_ptr;
 	// gc_remove_one(ptr); //TODO:
-	// or just let gc_clear_all handle it 
+	// or just let gc_clear_all handle it
 	// can be get full if called many times
 	return ;
 }
