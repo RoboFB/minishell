@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 18:05:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:57:26 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	env_add_line_data(char *key, char *value)
 	{
 		environment_ptr = env_get_ptr();
 		lines_count = env_get_size(*environment_ptr);
+		gc_realloc((void **)environment_ptr, lines_count + 1, lines_count + 2, sizeof(char *));
 		(*environment_ptr)[lines_count + 1 - 1] = gc_strjoin(key, "=");
 		(*environment_ptr)[lines_count + 1 - 1] = gc_strjoin((*environment_ptr)[lines_count + 1 - 1], value);
 		(*environment_ptr)[lines_count + 2 - 1] = NULL;
@@ -158,7 +159,7 @@ void	env_remove_line(char *line)
 	environment = *env_get_ptr();
 	line_ptr = env_get_line_ptr(line);
 	
-	if (line_ptr && *line_ptr)
+	if (line_ptr)// && *line_ptr)
 	{
 		lines_count = 0;
 		while (environment[lines_count] != NULL && environment[lines_count] != *line_ptr)
