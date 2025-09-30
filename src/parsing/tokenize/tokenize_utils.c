@@ -1,0 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/28 21:13:11 by modiepge          #+#    #+#             */
+/*   Updated: 2025/09/28 21:17:06 by modiepge         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+t_token	*tok_new(char *content, t_token_type type)
+{
+	t_token	*new;
+
+	if (!content)
+		return (NULL);
+	new = (t_token *)gc_calloc(1, sizeof(t_token));
+	new->is_quoted = 0;
+	new->next = NULL;
+	new->prev = NULL;
+	new->type = type;
+	new->content = content;
+	return (new);
+}
+
+void	tok_add(char *content, t_token_type type, t_tokens *list)
+{
+	t_token		*new;
+	t_tokens	*tokens;
+
+	new = tok_new(content, type);
+	if (!new)
+		return ;
+	tokens = list;
+	if (tokens->head)
+	{
+		tokens->tail->next = new;
+		new->prev = tokens->tail;
+		tokens->tail = new;
+	}
+	else
+	{
+		tokens->head = new;
+		tokens->tail = new;
+	}
+}
+
+void	tok_delete(t_token **token)
+{
+	t_tokens	*tokens;
+
+	if (!token)
+		return ;
+	tokens = &data()->tokens;
+	if (*token == tokens->head)
+		tokens->head = tokens->head->next;
+	if (*token == tokens->tail)
+		tokens->tail = tokens->tail->prev;
+	if ((*token)->next)
+		(*token)->next->prev = (*token)->prev;
+	if ((*token)->prev)
+		(*token)->prev->next = (*token)->next;
+	*token = (*token)->next;
+}
+
+void	tok_join(t_token *first, t_token *second)
+{
+	if (first && !second)
+	{
+		first->type = TOK_WORD;
+		return ;
+	}
+	if (first->next != second && second->prev != first)
+		return ;
+	first->content = gc_strjoin(first->content, second->content);
+	first->type = TOK_WORD;
+	tok_delete(&second);
+}
+
+void	tok_reset(t_tokens *tokens)
+{
+	tokens->head = NULL;
+	tokens->tail = NULL;
+	tokens->size = 0;
+}
