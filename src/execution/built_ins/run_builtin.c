@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:43:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 17:32:49 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/01 14:17:07 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	run_builtin(t_expression *command)
 	else if (ft_strncmp(command->name, "env", 4) == 0)
 		return (blt_env(command));
 	else if (ft_strncmp(command->name, "exit", 5) == 0)
+		return (blt_exit(command));
+	else if (ft_strncmp(command->name, "q", 2) == 0)
 		return (blt_exit(command));
 	else if (ft_strncmp(command->name, "export", 7) == 0)
 		return (blt_export(command));
@@ -41,6 +43,8 @@ bool	is_builtin(t_expression *command)
 	else if (ft_strncmp(command->name, "env", 4) == 0)
 		return (true);
 	else if (ft_strncmp(command->name, "exit", 5) == 0)
+		return (true);
+	else if (ft_strncmp(command->name, "q", 2) == 0)
 		return (true);
 	else if (ft_strncmp(command->name, "export", 7) == 0)
 		return (true);
