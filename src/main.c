@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 14:48:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/01 16:15:12 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,21 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	gc_init();
-	gc_mode(GC_PERSISTENT);
 	env_init(envp);
-	while (1)
+	while (true)
 	{
-		line = readline(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
+		gc_mode(GC_EXECUTION);
+		line = gc_readline(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
+		if (line == NULL || *line == '\0')
+		{
+			gc_clear_temporary();
+			continue;
+		}
+		add_history(line);
 		tokenize(line);
-		if (line && line[0] != '\0')
-			add_history(line);
 		run_all();
 		gc_clear_temporary();
-		free(line);
 	}
-	gc_clear_all();
-	return (0);
+	exit_shell(EXIT_OK);
+	return (EXIT_FAILURE);
 }
