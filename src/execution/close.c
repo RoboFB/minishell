@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/24 18:05:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/01 14:14:12 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	save_close(int *fd)
 	if (fd == NULL || *fd == -1)
 		return ;
 	if (close(*fd) < 0)
-		perror_exit("close failed", EXIT_FAILURE);
+		perror_exit("close failed", EXIT_GENERAL_ERROR);
 	*fd = -1;
 	return ;
 }

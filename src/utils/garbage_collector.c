@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/29 12:42:23 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:16:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,17 @@ char *gc_getcwd(void)
 		perror("getcwd failed");
 	gc_add(path);
 	return (path);
+}
+
+char	*gc_readline(char const *prompt)
+{
+	char	*line;
+
+	line = readline(prompt);
+	if (!line)
+		return (NULL);
+	else
+		return (gc_add(line)->content);
 }
 
 // R: *new_ptr

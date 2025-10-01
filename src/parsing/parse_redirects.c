@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/28 21:18:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/09/30 20:23:33 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_file	*file_add_front(t_file **files)
 	new->next = NULL;
 	new->type = -1;
 	new->fd = -1;
-	if (!*files)
+	if (!new)
 		return (NULL);
 	if (!*files)
 	{
