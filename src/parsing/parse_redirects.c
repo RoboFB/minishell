@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/30 20:23:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/02 16:19:34 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,59 +83,6 @@ t_file	*redirect_in(t_atom *atom, t_token **token)
 		*token = (*token)->next;
 	}
 	return (file);
-}
-
-t_file	*file_last(t_file *files)
-{
-	while (files)
-	{
-		if (!files->next)
-			break ;
-		files = files->next;
-	}
-	return (files);
-}
-
-t_file	*file_add_front(t_file **files)
-{
-	t_file	*new;
-
-	gc_mode(GC_PARSING);
-	new = (t_file *)gc_calloc(1, sizeof(t_file));
-	new->next = NULL;
-	new->type = -1;
-	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		new->next = *files;
-		*files = new;
-		return (new);
-	}
-	return (new);
-}
-
-t_file	*file_add(t_file **files)
-{
-	t_file	*new;
-	t_file	*last;
-
-	gc_mode(GC_PARSING);
-	new = (t_file *)gc_calloc(1, sizeof(t_file));
-	new->next = NULL;
-	new->type = -1;
-	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		*files = new;
-		return (new);
-	}
-	last = file_last(*files);
-	last->next = new;
-	return (new);
 }
 
 t_filetype	get_redirect(t_atom *atom, t_token **token)
