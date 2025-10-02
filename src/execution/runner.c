@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 21:24:08 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/02 16:36:06 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	run_all(void)
 
 	gc_mode(GC_EXECUTION);
 	pid = run_tree(data()->tree_root);
-	wait_and_set_exit_code(pid);
+	// wait_and_set_exit_code(pid);
 	return ;
 }
 
@@ -39,6 +39,7 @@ pid_t	run_tree(t_expression *cmd)
 		pid = exe_and(cmd);
 	else if (cmd->type == OPERATOR_OR)
 		pid = exe_or(cmd);
+	wait_and_set_exit_code(pid);
 	return (pid);
 }
 
@@ -62,6 +63,7 @@ pid_t exe_and(t_expression *cmd)
 	pid_t pid;
 
 	pid = run_tree(cmd->first);
+	wait_and_set_exit_code(pid);
 	if (data()->last_exit_code == 0)
 		run_tree(cmd->second);
 	return (pid);
@@ -72,8 +74,9 @@ pid_t exe_or(t_expression *cmd)
 	pid_t pid;
 
 	pid = run_tree(cmd->first);
+	wait_and_set_exit_code(pid);
 	if (data()->last_exit_code != 0)
-		run_tree(cmd->second);
+		pid = run_tree(cmd->second);
 	return (pid);
 }
 
