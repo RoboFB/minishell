@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 15:12:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/02 15:46:51 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void blt_exit(t_expression *cmd)
 	int exit_code;
 
 	exit_code = data()->last_exit_code;
+	ft_fprintf(2, "exit\n");
 	if (blt_has_flag(cmd))
 	{
 		msg_error("exit", "no options allowed");

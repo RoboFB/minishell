@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 15:42:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/01 16:49:11 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // main way to exit the shell with exit code
 void	exit_shell(t_exit_code exit_code)
 {
-	// clear readline history
 	close_all_files(data()->tree_root);
 	rl_clear_history();
 	gc_clear_all();
