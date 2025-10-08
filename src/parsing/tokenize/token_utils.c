@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_utils.c                                   :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 21:13:11 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/28 21:17:06 by modiepge         ###   ########.fr       */
+/*   Created: 2025/10/06 15:13:57 by modiepge          #+#    #+#             */
+/*   Updated: 2025/10/07 17:32:11 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,38 +24,36 @@ t_token	*tok_new(char *content, t_token_type type)
 	new->prev = NULL;
 	new->type = type;
 	new->content = content;
+	new->collection.head = NULL;
+	new->collection.tail = NULL;
+	new->collection.size = 0;
 	return (new);
 }
 
-void	tok_add(char *content, t_token_type type, t_tokens *list)
+void	tok_add(t_token *new, t_tokens *list)
 {
-	t_token		*new;
-	t_tokens	*tokens;
-
-	new = tok_new(content, type);
-	if (!new)
+	if (!new || !list)
 		return ;
-	tokens = list;
-	if (tokens->head)
+	if (list->head)
 	{
-		tokens->tail->next = new;
-		new->prev = tokens->tail;
-		tokens->tail = new;
+		list->tail->next = new;
+		new->prev = list->tail;
+		list->tail = new;
 	}
 	else
 	{
-		tokens->head = new;
-		tokens->tail = new;
+		list->head = new;
+		list->tail = new;
 	}
 }
 
-void	tok_delete(t_token **token)
+void	tok_delete(t_token **token, t_tokens *list)
 {
 	t_tokens	*tokens;
 
 	if (!token)
 		return ;
-	tokens = &data()->tokens;
+	tokens = list;
 	if (*token == tokens->head)
 		tokens->head = tokens->head->next;
 	if (*token == tokens->tail)
@@ -67,7 +65,7 @@ void	tok_delete(t_token **token)
 	*token = (*token)->next;
 }
 
-void	tok_join(t_token *first, t_token *second)
+void	tok_join(t_token *first, t_token *second, t_tokens *list)
 {
 	if (first && !second)
 	{
@@ -78,10 +76,10 @@ void	tok_join(t_token *first, t_token *second)
 		return ;
 	first->content = gc_strjoin(first->content, second->content);
 	first->type = TOK_WORD;
-	tok_delete(&second);
+	tok_delete(&second, list);
 }
 
-void	tok_reset(t_tokens *tokens)
+void	list_reset(t_tokens *tokens)
 {
 	tokens->head = NULL;
 	tokens->tail = NULL;

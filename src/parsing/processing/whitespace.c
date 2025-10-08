@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   whitespace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 22:30:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/28 22:31:21 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:38:51 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	strip_whitespace(t_tokens *tokens)
 	while (token)
 	{
 		if (!token->is_quoted && token->type == TOK_WHITESPACE)
-			tok_delete(&token);
+			tok_delete(&token, tokens);
 		if (token)
 			token = token->next;
 	}

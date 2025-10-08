@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 16:46:46 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/07 17:37:01 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ pid_t	exe_command(t_expression *cmd)
 	pid_t	pid;
 	
 	gc_mode(GC_EXECUTION);
+	resolve(cmd);
+	debug_tree(cmd);
 	debung_print_tree(21, cmd, 0);
 	if ((is_builtin(cmd) && is_single_command(cmd)))
 	{

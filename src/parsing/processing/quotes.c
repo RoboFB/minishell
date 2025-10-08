@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/28 21:16:09 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:00:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,31 @@ void	strip_quotes(t_tokens *tokens)
 	{
 		if (!token->is_quoted && (token->type == TOK_DOUBLE_QUOTE
 				|| token->type == TOK_QUOTE))
-			tok_delete(&token);
-		if (token)
+			tok_delete(&token, tokens);
+		else if (token)
 			token = token->next;
 	}
 	ft_debugf(1, "lexing: quotes stripped\n");
 }
 
-void	join_quotes(t_tokens *tokens)
+void	join_quotes(t_tokens *list)
 {
 	t_token			*token;
 	t_token_type	quote;
 
-	token = tokens->head;
+	token = list->head;
 	while (token)
 	{
 		if (token->is_quoted && token->next
 				&& (token->next->is_quoted || token->next->type == TOK_WORD))
 		{
-			tok_join(token, token->next);
+			tok_join(token, token->next, list);
 			continue ;
 		}
 		else if (token->type == TOK_WORD && token->next && token->next->is_quoted)
 		{
 			quote = token->next->is_quoted;
-			tok_join(token, token->next);
+			tok_join(token, token->next, list);
 			token->is_quoted = quote;
 			continue ;
 		}
@@ -55,13 +55,13 @@ void	join_quotes(t_tokens *tokens)
 	ft_debugf(1, "lexing: quote contents joined\n");
 }
 
-void	quote(t_tokens *tokens)
+void	quote(t_tokens *list)
 {
 	t_token_type	quoted;
 	t_token			*token;
 
 	quoted = 0;
-	token = tokens->head;
+	token = list->head;
 	while (token)
 	{
 		if ((token->type == TOK_DOUBLE_QUOTE || token->type == TOK_QUOTE)
