@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/29 16:55:21 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:11:18 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		blt_cd(t_expression *cmd);
 int			blt_cd_error_check(t_expression *cmd);
 char		*blt_cd_get_new_dir(t_expression *cmd);
 void		blt_echo(t_expression *cmd);
-bool		h_is_n_flag(char *str);
 void		blt_env(t_expression *cmd);
 void		blt_exit(t_expression *cmd);
 void		blt_export(t_expression *cmd);
@@ -65,16 +64,18 @@ void		save_close(int *fd);
 void		close_files(t_file *head);
 void		close_all_files(t_expression *root);
 char		*get_full_path_cmd(const char *cmd_name, char *search_path);
-pid_t		exe_command(t_expression *cmd);
-bool		is_single_command(t_expression *cmd);
+void		exe_command_no_return(t_expression *cmd);
+pid_t		exe_command_return(t_expression *cmd);
+bool		is_piped_direct(t_expression *cmd);
+bool		is_piped_somewhere(t_expression *cmd);
 void		run_builtin_in_main(t_expression *cmd);
 void		run_comand(t_expression *cmd);
-void		run_all(void);
 pid_t		run_tree(t_expression *cmd);
-pid_t		exe_pipe(t_expression *cmd);
-pid_t		exe_and(t_expression *cmd);
-pid_t		exe_or(t_expression *cmd);
+pid_t		run_cmd_switch(t_expression *cmd);
+pid_t		run_pipe(t_expression *cmd);
+pid_t		run_and_or(t_expression *cmd);
 void		wait_and_set_exit_code(pid_t pid);
+void		inherit_files(t_expression *cmd);
 void		set_all_redirect(t_file *head);
 void		set_fd(t_file *file, int change_fd);
 void		read_file(t_file *file, int change_fd);
@@ -86,6 +87,8 @@ void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
 void		msg_exit(char *function, char *error, t_exit_code exit_code);
 void		msg_error(char *function, char *error);
 void		switch_exit(t_expression *cmd, t_exit_code exit_code);
+void		handler(int sig);
+void		signal_init(void);
 int			env_get_len_key(char *line);
 char		**env_get_line_ptr(char *line);
 char		*env_get_line_data(char *line);
@@ -124,6 +127,7 @@ void		atom_add_file(t_atom *atom, t_token **token);
 void		atomize(t_tokens *tokens);
 t_expression		*atom_to_expression(t_atom *atom);
 void		tok_debug_display(t_tokens *tokens);
+void		debug_files(t_file *file);
 void		debug_tree(t_expression *root);
 t_expression		*make_expression(t_expression_operator operator, t_expression *first, t_expression *second);
 t_expression_operator		expression_type(t_token_type type);
@@ -136,9 +140,6 @@ t_expression		*parse_expression(t_token **token, const int minimum_binding);
 void		list_to_tree(void);
 t_file		*redirect_out(t_atom *atom, t_token **token);
 t_file		*redirect_in(t_atom *atom, t_token **token);
-t_file		*file_last(t_file *files);
-t_file		*file_add_front(t_file **files);
-t_file		*file_add(t_file **files);
 t_filetype		get_redirect(t_atom *atom, t_token **token);
 void		tok_expansion(t_token *token, char *line);
 void		expand(t_tokens *tokens);
@@ -162,5 +163,13 @@ void		tok_reset(t_tokens *tokens);
 void		strip_whitespace(t_tokens *tokens);
 t_data		*data(void);
 int			main(int argc, char **argv, char **envp);
+t_file		*file_make(void);
+t_file		*file_dup_values(t_file *input);
+t_file		*file_get_last(t_file *start);
+void		file_append_front(t_file **start_ptr, t_file *add_file);
+void		file_append_back(t_file **start_ptr, t_file *add_file);
+t_file		*file_add_front(t_file **start_ptr);
+t_file		*file_add_back(t_file **start_ptr);
+t_file		*file_pop_front(t_file **start_ptr);
 
 #endif

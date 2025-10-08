@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 13:47:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/02 16:53:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 // outside this file
 typedef struct	s_token t_token;
-typedef struct	s_tokens t_tokens;
 
 // inside
 typedef struct s_file t_file;
 typedef struct	s_expression t_expression;
+typedef struct	s_tokens t_tokens;
 
 typedef	enum	e_gc_index
 {
@@ -41,7 +41,6 @@ typedef union	u_gc_book
 	t_list	*lists[4];
 }	t_gc_book;
 
-typedef struct	s_token t_token;
 
 typedef	struct	s_tokens
 {
@@ -67,6 +66,7 @@ typedef struct	s_data
 
 typedef enum e_filetype
 {
+	NOT_SET = -1,
 	PATH_STDIN_READ,
 	PATH_STDOUT_WRITE,
 	PATH_STDERR_WRITE,
@@ -76,8 +76,6 @@ typedef enum e_filetype
 	FD_PIPE_READ,
 	FD_PIPE_WRITE
 }	t_filetype;
-
-typedef struct s_file t_file;
 
 typedef struct s_file
 {
