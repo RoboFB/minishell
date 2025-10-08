@@ -92,7 +92,7 @@ void	gc_clear_temporary(void)
 	index = 0;
 	while (index < GC_PERSISTENT)
 		gc_clear(index++);
-	tok_reset(&data()->tokens);
+	list_reset(&data()->tokens);
 	data()->tree_root = NULL;
 	ft_debugf(1, "minishell: debug -- temporary data cleared\n");
 }

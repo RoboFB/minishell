@@ -11,9 +11,9 @@
 ## Parts / main loop
 
 - [ ] init
-- [ ] Prompt
-- [ ] Lexing
-- [ ] Parsing
+- [x] Prompt
+- [x] Lexing
+- [x] Parsing
 - [ ] expend symbols
 - [ ] execution
 - [ ] free
@@ -22,13 +22,19 @@
 ## parsing symbols
 - [x] ''
 - [x] "" with $
-- [ ] <
-- [ ] >
+- [x] <
+- [x] >
 - [ ] <<
-- [ ] >>
-- [ ] |
-- [ ] $
+- [x] >>
+- [x] |
+- [x] $
 - [ ] $?
+
+## parsing
+- [ ] collect heredocs before execution
+- [ ] expand when hitting each command
+- [ ] set shell level
+- [ ] accept redirect ahead of command
 
 
 
