@@ -3,21 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 14:47:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/03 16:48:32 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_data	*data(void)
-// {
-// 	static t_data	data;
+t_data	*data(void)
+{
+	static t_data	data;
 
-// 	return (&data);
-// }
+	return (&data);
+}
+
+void	animation(void)
+{
+	const char	*frames[20] = {
+		STYLE BG_CUSTOM "196" AND BOLD START " minishel🚂" END, 
+		STYLE BG_CUSTOM "197" AND BOLD START " minishe🚂 " END, 
+		STYLE BG_CUSTOM "198" AND BOLD START " minish🚂l " END, 
+		STYLE BG_CUSTOM "199" AND BOLD START " minis🚂ll " END, 
+		STYLE BG_CUSTOM "200" AND BOLD START " mini🚂ell " END, 
+		STYLE BG_CUSTOM "201" AND BOLD START " min🚂hell " END, 
+		STYLE BG_CUSTOM "207" AND BOLD START " mi🚂shell " END, 
+		STYLE BG_CUSTOM "213" AND BOLD START " m🚂ishell " END, 
+		STYLE BG_CUSTOM "219" AND BOLD START " 🚂nishell " END, 
+		STYLE BG_CUSTOM "225" AND BOLD START "🚂inishell " END,
+		STYLE BG_CUSTOM "231" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "230" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "229" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "228" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "227" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "226" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "220" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "214" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "208" AND BOLD START " minishell " END, 
+		STYLE BG_CUSTOM "202" AND BOLD START " minishell " END
+	};
+	const t_expression sleep = {OPERATOR_CMD, NULL, NULL, NULL, "sleep", (char *[]){"sleep", ".09", NULL}, NULL, (t_tokens){NULL, NULL, 0}};
+	static int	t;
+	int			pid;
+
+	if (t >= 20)
+		t = 0;
+	ft_printf("\033[s\r%s %% \033[u", frames[t]);
+	pid = exe_command((t_expression *)&sleep);
+	wait_and_set_exit_code(pid);
+	t++;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	int		pid;
+	
+	(void)argc;
+	(void)argv;
+	(void)envp;
+
+
+	gc_init();
+	gc_mode(GC_PERSISTENT);
+	env_init(envp);
+	pid = save_fork();
+	while (1)
+	{
+		if (!pid)
+		{
+			animation();
+		}
+		else
+		{
+			line = readline("\r minishell  % ");
+			tokenize(line);
+			if (line && line[0] != '\0')
+			add_history(line);
+			run_all();
+			gc_clear_temporary();
+			free(line);
+		}
+	}
+	gc_clear_all();
+	return (0);
+}
 
 // tests robin
 /* int main(int argc, char **argv, char **envp)
