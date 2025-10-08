@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 14:47:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/03 13:10:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@
 // 	t_file file1 = {FD_PIPE_WRITE, NULL, -1, NULL};
 // 	t_file file2 = {FD_PIPE_READ, NULL, -1, NULL};
 
-// 	t_expression t1 = {OPERATOR_CMD, NULL, NULL, NULL, "ls", (char *[]){"ls", NULL}, NULL};
+	// t_expression t1 = {OPERATOR_CMD, NULL, NULL, NULL, "ls", (char *[]){"ls", NULL}, NULL};
 // 	t_expression t2 = {OPERATOR_CMD, NULL, NULL, NULL, "cat", (char *[]){"cat", NULL}, NULL};
 // 	t_expression start = {OPERATOR_PIPE, NULL, &t1, &t2, NULL, NULL, NULL};
 // 	t1.parent = &start;
@@ -118,5 +118,39 @@
 // 	run_all(&start);
 	
 // 	gc_clear_all();
+// 	return 0;
+// }
+
+
+
+
+
+// testing files functions
+// int main(int argc, char **argv, char **envp)
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	(void)envp;
+// 	gc_init();
+// 	gc_mode(GC_PERSISTENT);
+// 	env_init(envp);
+
+// 	t_file *f1 = file_make();
+// 	debug_files(f1);
+
+// 	// file_add_front(&f1);
+// 	// debug_files(f1);
+	
+// 	// file_add_back(&f1);
+// 	// debug_files(f1);
+	
+// 	file_append_front(&f1, file_copy_values(f1));
+// 	debug_files(f1);
+
+// 	// t_expression t1 = {0, NULL, NULL, NULL, NULL, (char *[]){NULL, NULL}, f1};
+// 	// debug_tree(&t1);
+	
+
+// 	exit_shell(EXIT_OK);
 // 	return 0;
 // }
