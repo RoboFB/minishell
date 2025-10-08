@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 11:49:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 12:14:02 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ pid_t	run_tree(t_expression *cmd)
 
 	gc_mode(GC_EXECUTION);
 	inherit_files(cmd);
-	debug_tree(cmd); //for debuging
+	debug_tree_robin(cmd); //for debuging
 	if (cmd->type == OPERATOR_CMD)
 		pid = run_cmd_switch(cmd);
 	else if (cmd->type == OPERATOR_PIPE)
