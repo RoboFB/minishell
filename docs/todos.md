@@ -69,6 +69,24 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 
 
+#### readline
+read on line gets mallocte new line
+
+#### rl_redisplay
+Change what's displayed on the screen to reflect the current contents of rl_line_buffer.
+
+#### rl_on_new_line
+Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
+
+#### rl_replace_line,
+what it says
+#### add_history, 
+what it says
+#### rl_clear_history, 
+what it says
+
+
+
 ## Functions
 
 readline, rl_clear_history, rl_on_new_line,

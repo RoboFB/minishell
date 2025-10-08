@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 18:51:19 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:37:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_file	*file_add_front(t_file **files)
 	new->next = NULL;
 	new->type = -1;
 	new->fd = -1;
-	if (!*files)
+	if (!new)
 		return (NULL);
 	if (!*files)
 	{

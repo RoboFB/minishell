@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 15:02:09 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/30 21:24:08 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ pid_t exe_pipe(t_expression *cmd)
 {
 	pid_t pid;
 
-	// save_pipe(&cmd->first->files->fd, &cmd->second->files->fd);//todo need to be created
+	file_add_front(&cmd->first->files);
+	cmd->first->files->type = FD_PIPE_WRITE;
+	file_add_front(&cmd->second->files);
+	cmd->second->files->type = FD_PIPE_READ;
+	save_pipe(&cmd->first->files->fd, &cmd->second->files->fd);
 	pid = run_tree(cmd->first);
 	pid = run_tree(cmd->second);
-	// save_close(&cmd->first->files->fd);
-	// save_close(&cmd->second->files->fd);
+	save_close(&cmd->first->files->fd);
+	save_close(&cmd->second->files->fd);
 	return (pid);
 }
 pid_t exe_and(t_expression *cmd)
@@ -85,3 +89,5 @@ void wait_and_set_exit_code(pid_t pid)
 			data()->last_exit_code = WEXITSTATUS(status);
 	}
 }
+
+// TODO: add inherittaino of files from parent to child: in file to first   out file to all childs
