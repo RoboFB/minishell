@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 13:47:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/06 14:57:00 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ typedef struct	s_tokens t_tokens;
 typedef struct s_file t_file;
 typedef struct	s_expression t_expression;
 
+# define META_CHARS {'|', '&', ';', '(', ')',\
+		'<', '>', '\"', '\'', '\\', '*', '$', '\0'};
+
 typedef	enum	e_gc_index
 {
-	GC_LEXING,
-	GC_PARSING,
+	GC_WORKING,
+	GC_TEMPORARY,
 	GC_EXECUTION,
 	GC_PERSISTENT
 }	t_gc_index;
@@ -105,7 +108,9 @@ typedef struct s_expression
 	t_expression			*second;	// NULL if no second child
 	char					*name;		// command string (first position in args)
 	char					**args;		// including command at first position
+	int						argc;
 	t_file					*files;		// last has priority (per io-channel)
+	t_tokens				collection;
 }	t_expression;
 
 # endif
