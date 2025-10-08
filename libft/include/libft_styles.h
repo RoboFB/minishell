@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 16:09:00 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/11 19:08:32 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:42:06 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@
 /* --- modular -------------------------------------------------------------- */
 
 # define STYLE "\033["
+# define BG_CUSTOM "48;5;"
 # define AND ";"
 # define START "m"
 # define END "\033[0m"
