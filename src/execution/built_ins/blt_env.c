@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 15:12:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:28:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void blt_env(t_expression *cmd)
 	if (blt_count_args(cmd) >= 1)
 	{
 		msg_error("env", "no arguments allowed");
-		switch_exit(cmd, EXIT_SYNTAX_ERROR);
+		set_exit_code(EXIT_SYNTAX_ERROR);
 		return ;
 	}
 	idx = 0;
 	environment = *env_get_ptr();
 	while (environment[idx] != NULL)
 		ft_printf("%s\n", environment[idx++]);
-	switch_exit(cmd, EXIT_OK);
+	set_exit_code(EXIT_OK);
 	return ;
 }

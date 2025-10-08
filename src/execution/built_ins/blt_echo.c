@@ -6,11 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 15:13:36 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:28:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	h_is_n_flag(char *str);
 
 void	blt_echo(t_expression *cmd)
 {
@@ -33,15 +35,15 @@ void	blt_echo(t_expression *cmd)
 	}
 	if (newline)
 		ft_printf("\n");
-	switch_exit(cmd, EXIT_OK);
+	set_exit_code(EXIT_OK);
 	return ;
 }
 
-bool	h_is_n_flag(char *str)
+static bool	h_is_n_flag(char *str)
 {
 	int	idx;
 
-	if (str[0] != '-')
+	if (str == NULL || str[0] != '-')
 		return (false);
 	idx = 1;
 	while (str[idx] == 'n')
