@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 18:49:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:28:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	blt_export(t_expression *cmd)
 		}
 		gc_mode(GC_EXECUTION);
 	}
-	switch_exit(cmd, exit_code);
+	set_exit_code(exit_code);
 	return ;
 }
 

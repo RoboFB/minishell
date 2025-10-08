@@ -3,50 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 16:44:04 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:06:45 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// at the end to execute a command based on t_command struct
+// run in sub for pipes
+void	exe_command_no_return(t_expression *cmd)
+{
+	set_all_redirect(cmd->files);
+	close_all_files(data()->tree_root);
+	if (is_builtin(cmd))
+	{
+		run_builtin(cmd);
+		exit_shell(data()->last_exit_code);
+	}
+	else
+		run_comand(cmd);
+}
 
-// start of one command execution  -1 no pid set becous not forked
-pid_t	exe_command(t_expression *cmd)
+// run in main single command no pipe
+pid_t	exe_command_return(t_expression *cmd)
 {
 	pid_t	pid;
 	
-	gc_mode(GC_EXECUTION);
-	// debung_print_tree(21, cmd, 0);
-	resolve(cmd);
-	debug_tree(cmd);
-	//debung_print_tree(21, cmd, 0);
-	if ((is_builtin(cmd) && is_single_command(cmd)))
-	{
+	if ((is_builtin(cmd)))
 		run_builtin_in_main(cmd);
-		return (-1);
+	else
+	{
+		pid = save_fork();
+		if (pid > 0)
+			return (pid);
+		exe_command_no_return(cmd);
 	}
-	pid = save_fork();
-	if (pid > 0)
-		return (pid);
-	set_all_redirect(cmd->files);
-	close_all_files(data()->tree_root);
-	run_builtin(cmd);
-	run_comand(cmd);
 	return (-1);
 }
 
-bool is_single_command(t_expression *cmd)
+
+bool is_piped_direct(t_expression *cmd)
 {
 	if (cmd->parent == NULL)
-		return (true);
-	if (cmd->parent->type == OPERATOR_PIPE)
 		return (false);
-	else
+	if (cmd->parent->type == OPERATOR_PIPE)
 		return (true);
+	else
+		return (false);
+}
+
+// no pipe in tree above
+bool is_piped_somewhere(t_expression *cmd)
+{
+	if (cmd->parent == NULL)
+		return (false);
+	while (cmd)
+	{
+		if (cmd->parent->type == OPERATOR_PIPE)
+			return (true);
+		cmd = cmd->parent;
+	}
+	return (false);
 }
 
 void run_builtin_in_main(t_expression *cmd)
@@ -72,12 +91,7 @@ void run_comand(t_expression *cmd)
 	path_command = get_full_path_cmd(cmd->name, env_get_line_data("PATH"));
 	if (path_command == NULL)
 		msg_exit(cmd->name, "command not found", EXIT_BLT_CMD_NOT_FOUND);
-
-	// debug printing
-	// ft_debugf(20,"execve: path: %s", path_command);
-	// for (int i = 0; cmd->args[i] != NULL; i++)
-		// ft_debugf(20, "args: %s\n", cmd->args[i]);
-		
+	
 	// if (access(path_command, X_OK) != 0) // check if executable normaly execve does this also maype for better error codes needed?
 	// 	perror_msg_exit(path_command, "command not executable", EXIT_BLT_CMD_NOT_EXECUTABLE);
 	execve(path_command, cmd->args, (char *const *)*env_get_ptr());

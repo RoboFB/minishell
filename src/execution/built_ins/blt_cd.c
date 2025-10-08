@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:16 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 15:15:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:28:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void blt_cd(t_expression *cmd)
 
 	if (blt_cd_error_check(cmd) == -1)
 	{
-		switch_exit(cmd, EXIT_SYNTAX_ERROR);
+		set_exit_code(EXIT_SYNTAX_ERROR);
 		return ;
 	}
 	gc_mode(GC_EXECUTION);
@@ -27,13 +27,13 @@ void blt_cd(t_expression *cmd)
 	new_dir = blt_cd_get_new_dir(cmd);
 	if (new_dir == NULL)
 	{
-		switch_exit(cmd, EXIT_GENERAL_ERROR);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return ;
 	}
 	if (chdir(new_dir) == -1)
 	{
 		perror("cd: chdir failed");
-		switch_exit(cmd, EXIT_GENERAL_ERROR);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return ;
 	}
 	new_dir = gc_getcwd();
@@ -41,7 +41,7 @@ void blt_cd(t_expression *cmd)
 	env_add_line_data("PWD", new_dir);
 	env_add_line_data("OLDPWD", old_dir);
 	gc_mode(GC_EXECUTION);
-	switch_exit(cmd, EXIT_OK);
+	set_exit_code(EXIT_OK);
 	return ;
 }
 

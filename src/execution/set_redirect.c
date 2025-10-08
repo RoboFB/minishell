@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/30 21:21:06 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/06 14:58:49 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void set_all_redirect(t_file *head)
 
 void	set_fd(t_file *file, int change_fd)
 {
+	// ft_fprintf(2, "set_fd:%d to %d  typ:%d\n", file->fd, change_fd, file->type);
 	save_dup2(file->fd, change_fd);
 	save_close(&file->fd);
 	return ;

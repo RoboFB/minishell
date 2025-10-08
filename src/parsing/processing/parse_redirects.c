@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 16:37:16 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:04:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_file	*redirect_out(t_expression *atom, t_token **token)
 	file = NULL;
 	if ((*token)->next && (*token)->next->type == TOK_WORD)
 	{
-		file = file_add(&atom->files);
+		file = file_add_back(&atom->files);
 		file->path = gc_strdup((*token)->next->content);
 		if ((*token)->type == TOK_DOUBLE_GREATER)
 			file->type = PATH_STDOUT_WRITE_APPEND;
@@ -80,63 +80,12 @@ t_file	*redirect_in(t_expression *atom, t_token **token)
 	file = NULL;
 	if ((*token)->next && (*token)->next->type == TOK_WORD)
 	{
-		file = file_add(&atom->files);
+		file = file_add_back(&atom->files);
 		file->path = gc_strdup((*token)->next->content);
 		file->type = PATH_STDIN_READ;
 		*token = (*token)->next;
 	}
 	return (file);
-}
-
-t_file	*file_last(t_file *files)
-{
-	while (files)
-	{
-		if (!files->next)
-			break ;
-		files = files->next;
-	}
-	return (files);
-}
-
-t_file	*file_add_front(t_file **files)
-{
-	t_file	*new;
-
-	new = (t_file *)gc_calloc(1, sizeof(t_file));
-	new->next = NULL;
-	new->type = -1;
-	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		new->next = *files;
-		*files = new;
-		return (new);
-	}
-	return (new);
-}
-
-t_file	*file_add(t_file **files)
-{
-	t_file	*new;
-	t_file	*last;
-
-	new = (t_file *)gc_calloc(1, sizeof(t_file));
-	new->next = NULL;
-	new->type = -1;
-	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		*files = new;
-		return (new);
-	}
-	last = file_last(*files);
-	last->next = new;
-	return (new);
 }
 
 t_filetype	get_redirect(t_expression *atom, t_token **token)
