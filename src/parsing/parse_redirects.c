@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/02 16:19:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/02 16:46:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_file	*redirect_out(t_atom *atom, t_token **token)
 	file = NULL;
 	if ((*token)->next && (*token)->next->type == TOK_WORD)
 	{
-		file = file_add(&atom->files);
+		file = file_add_back(&atom->files);
 		file->path = gc_strdup((*token)->next->content);
 		if ((*token)->type == TOK_DOUBLE_GREATER)
 			file->type = PATH_STDOUT_WRITE_APPEND;
@@ -77,7 +77,7 @@ t_file	*redirect_in(t_atom *atom, t_token **token)
 	file = NULL;
 	if ((*token)->next && (*token)->next->type == TOK_WORD)
 	{
-		file = file_add(&atom->files);
+		file = file_add_back(&atom->files);
 		file->path = gc_strdup((*token)->next->content);
 		file->type = PATH_STDIN_READ;
 		*token = (*token)->next;
