@@ -33,34 +33,44 @@
 
 
 ## execution
-- [ ] single cmd.
-- [ ] < redirect input.
-- [ ] > redirect output.
+- [x] single cmd.
+- [x] < redirect input.
+- [x] > redirect output.
 - [ ] << should be given a delimiter, then read the input until a line containing the
 delimiter is seen. However, it doesn’t have to update the history!
-- [ ] >> should redirect output in append mode
-- [ ] | pipes
+- [x] >> should redirect output in append mode
+- [x] | pipes
 
 
 ## built-ins
-- [ ] echo		with option -n
-- [ ] cd		with only a relative or absolute path
-- [ ] pwd		with no options
-- [ ] export	with no options
-- [ ] unset		with no options
-- [ ] env		with no options or arguments
-- [ ] exit		with no options
+- [x] echo		with option -n
+- [x] cd		with only a relative or absolute path
+- [x] pwd		with no options
+- [x] export	with no options
+- [x] unset		with no options
+- [x] env		with no options or arguments
+- [x] exit		with no options
 
 
 
 
 ## Robin random
-- [ ] check out: readline
+- [x] check out: readline
 - [ ] main loop, test stuff out
 
 - [ ] env _=/usr/bin/env  /minshell apsolut
 - [ ] fix EXIT_FAILURE to correct exit number
 
+- [ ] add $?
+
+
+BIG F BIG BIG F
+
+(export V=v | (echo $V && export U=u && echo $U) | cat -e) && echo $V
+             (        --sub shell--           )
+
+for something like that:
+(echo im hear, meno && sleep 5 && echo hi) | (ping -c 2 1.1.1.1 && cat -e)
 
 
 #### readline
@@ -92,7 +102,8 @@ close,
 fork, 
 wait, waitpid, wait3, wait4,
 
-signal, sigaction, sigemptyset, sigaddset, kill, 
+signal, // lagace don't use it
+sigaction, sigemptyset, sigaddset, kill, 
 exit,
 getcwd,
 chdir, stat, lstat, fstat, unlink,
