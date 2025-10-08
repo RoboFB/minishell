@@ -6,11 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/07 17:37:01 by modiepge         ###   ########.fr       */
-=======
-/*   Updated: 2025/10/01 14:36:27 by rgohrig          ###   ########.fr       */
->>>>>>> 08fff9dfee403e60bb2d56682d412c69587a9a45
+/*   Updated: 2025/10/08 16:44:04 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +20,10 @@ pid_t	exe_command(t_expression *cmd)
 	pid_t	pid;
 	
 	gc_mode(GC_EXECUTION);
-<<<<<<< HEAD
+	// debung_print_tree(21, cmd, 0);
 	resolve(cmd);
 	debug_tree(cmd);
-	debung_print_tree(21, cmd, 0);
-=======
-	// debung_print_tree(21, cmd, 0);
->>>>>>> 08fff9dfee403e60bb2d56682d412c69587a9a45
+	//debung_print_tree(21, cmd, 0);
 	if ((is_builtin(cmd) && is_single_command(cmd)))
 	{
 		run_builtin_in_main(cmd);

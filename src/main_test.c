@@ -6,18 +6,11 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 13:41:24 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:45:20 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_data	*data(void)
-{
-	static t_data	data;
-
-	return (&data);
-}
 
 // void	animation(void)
 // {
@@ -56,41 +49,41 @@ t_data	*data(void)
 // 	t++;
 // }
 
-int	main(int argc, char **argv, char **envp)
-{
-	char	*line;
-	int		pid;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	*line;
+// 	int		pid;
 	
-	(void)argc;
-	(void)argv;
-	(void)envp;
+// 	(void)argc;
+// 	(void)argv;
+// 	(void)envp;
 
 
-	gc_init();
-	gc_mode(GC_PERSISTENT);
-	env_init(envp);
-	//pid = save_fork();
-	pid = 1;
-	while (1)
-	{
-		if (!pid)
-		{
-			//animation();
-		}
-		else
-		{
-			line = readline("\r" STYLE BG_WHITE AND BOLD START " minishell " END " % ");
-			parse(line, &data()->tokens);
-			if (line && line[0] != '\0')
-				add_history(line);
-			run_all();
-			gc_clear_temporary();
-			free(line);
-		}
-	}
-	gc_clear_all();
-	return (0);
-}
+// 	gc_init();
+// 	gc_mode(GC_PERSISTENT);
+// 	env_init(envp);
+// 	//pid = save_fork();
+// 	pid = 1;
+// 	while (1)
+// 	{
+// 		if (!pid)
+// 		{
+// 			//animation();
+// 		}
+// 		else
+// 		{
+// 			line = readline("\r" STYLE BG_WHITE AND BOLD START " minishell " END " % ");
+// 			parse(line, &data()->tokens);
+// 			if (line && line[0] != '\0')
+// 				add_history(line);
+// 			run_all();
+// 			gc_clear_temporary();
+// 			free(line);
+// 		}
+// 	}
+// 	gc_clear_all();
+// 	return (0);
+// }
 
 // tests robin
 /* int main(int argc, char **argv, char **envp)
