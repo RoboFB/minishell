@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 16:15:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/07 16:18:23 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	gc_init();
+	// signal_init();
 	env_init(envp);
 	while (true)
 	{
@@ -39,9 +40,9 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		tokenize(line);
-		run_all();
+		run_tree(data()->tree_root);
 		gc_clear_temporary();
 	}
-	exit_shell(EXIT_OK);
+	exit_shell(EXIT_GENERAL_ERROR);
 	return (EXIT_FAILURE);
 }
