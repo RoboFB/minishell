@@ -68,7 +68,7 @@ delimiter is seen. However, it doesn’t have to update the history!
 - [ ] fix EXIT_FAILURE to correct exit number
 
 - [ ] add $?
-
+- [ ] Fix env varable like la li lu   of export la li lu (no =)
 
 BIG F BIG BIG F
 

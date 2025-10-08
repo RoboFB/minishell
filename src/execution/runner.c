@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 12:14:02 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 17:07:15 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ pid_t	run_tree(t_expression *cmd)
 
 pid_t run_cmd_switch(t_expression *cmd)
 {
+	resolve(cmd);
 	if (is_piped_direct(cmd))
 	{
 		exe_command_no_return(cmd);

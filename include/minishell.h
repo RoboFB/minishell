@@ -116,6 +116,7 @@ char		*gc_strdup(char const *string);
 char		*gc_strjoin(char const *s1, char const *s2);
 void		*gc_calloc(size_t count, size_t size);
 char		*gc_getcwd(void);
+char		*gc_readline(char const *prompt);
 void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
 void		*gc_remove_one(void *remove_ptr);
 int			token_is_redirect(t_token *token);

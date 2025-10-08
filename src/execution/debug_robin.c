@@ -6,55 +6,11 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 12:14:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 17:17:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	tok_debug_display_robin(t_tokens *tokens)
-{
-	t_token		*token;
-	const char	*debug_type[18] = {"TOK_WORD", "TOK_WHITESPACE", "TOK_PIPE",
-		"TOK_LEFT_PARENTHESIS", "TOK_RIGHT_PARENTHESIS", "TOK_LESS",
-		"TOK_DOUBLE_LESS", "TOK_GREATER", "TOK_DOUBLE_GREATER", "TOK_QUOTE",
-		"TOK_DOUBLE_QUOTE", "TOK_AND", "TOK_OR", "TOK_VARIABLE",
-		"TOK_WILDCARD", "TOK_AMPERSAND", "TOK_SEMICOLON", "TOK_BACKSLASH"};
-	int	arg;
-	t_atom *atom;
-	t_file *file;
-
-	token = tokens->head;
-	ft_fprintf(2, "minishell: debug -- display tokens\n\n");
-	while (token)
-	{
-		if (token->type != TOK_ATOM)
-			ft_fprintf(2, "token: \t%s is %s\n", token->content, debug_type[token->type]);
-		else
-		{
-			atom = (t_atom *)token;
-			ft_fprintf(2, "atom:\targs[%d]: %s ", atom->argc, atom->args[0]);
-			arg = 0;
-			while (atom->args[arg + 1])
-			{
-				ft_fprintf(2, "%s ", atom->args[arg + 1]);
-				arg++;
-			}
-			file = atom->files;
-			if (file)
-				ft_fprintf(2, "\n     \tfiles: ");
-			while (file)
-			{
-				ft_fprintf(2, "%s ", file->path, file->type);
-				file = file->next;
-			}
-			ft_fprintf(2, "\n");
-		}
-		token = token->next;
-	}
-	ft_fprintf(2, "\n");
-}
-
 
 static void make_under_prefix(char *out, size_t out_sz, const char *prefix, bool last) {
 	const int n = snprintf(out, out_sz, "%s%s", prefix, last ? "   " : "│  "); // todo: remove or replace/refactor
@@ -171,7 +127,7 @@ static void debug_tree_inner(const t_expression *node, const char *prefix, bool 
         debug_args_aligned(next_prefix);
         debug_args(node->args);
         debug_files_aligned(next_prefix);
-        debug_files(node->files);
+        debug_files_robin(node->files);
         return;
     }
     if (node->first)  debug_tree_inner(node->first,  next_prefix, (++seen == total));
@@ -200,7 +156,7 @@ void debug_tree_robin(t_expression *root)
         debug_args(root->args);
         ft_fprintf(2, "   ");
         debug_files_aligned("");
-        debug_files(root->files);
+        debug_files_robin(root->files);
 		ft_fprintf(2, "\n");
         return;
     }

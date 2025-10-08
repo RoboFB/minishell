@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:19:56 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 11:45:43 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 17:17:45 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_file	*file_make(void)
 {
 	t_file	*new;
 
-	gc_mode(GC_PARSING);
+	gc_mode(GC_TEMPORARY);
 	new = (t_file *)gc_calloc(1, sizeof(t_file));
 	new->type = NOT_SET;
 	new->path = NULL;
@@ -30,7 +30,7 @@ t_file	*file_dup_values(t_file *input)
 {
 	t_file	*new;
 
-	gc_mode(GC_PARSING);
+	gc_mode(GC_TEMPORARY);
 	new = (t_file *)gc_calloc(1, sizeof(t_file));
 	new->type = input->type;
 	new->path = input->path;
