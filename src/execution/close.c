@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/01 14:14:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/03 13:16:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	save_close(int *fd)
 	if (fd == NULL || *fd == -1)
 		return ;
 	if (close(*fd) < 0)
-		perror_exit("close failed", EXIT_GENERAL_ERROR);
+		perror("close failed");// cannot exit here because called maby in exit
 	*fd = -1;
 	return ;
 }
@@ -29,7 +29,7 @@ void	close_files(t_file *head)
 		return ;
 	while (head != NULL)
 	{
-		printf("fd:%d file:%s\n", head->fd, head->path);
+		ft_debugf(25, "close: fd:%d file_path:%s\n", head->fd, head->path);
 		save_close(&head->fd);
 		head = head->next;
 	}
