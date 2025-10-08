@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/25 17:15:43 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:12:12 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,25 @@ void blt_exit(t_expression *cmd)
 
 	exit_code = data()->last_exit_code;
 	if (blt_has_flag(cmd))
-		msg_exit("exit", "no options allowed", EXIT_FAILURE);
+	{
+		msg_error("exit", "no options allowed");
+		switch_exit(cmd, EXIT_SYNTAX_ERROR);
+		return ;
+	}
 	else if (blt_count_args(cmd) >= 2)
-		msg_exit("exit", "too many arguments", EXIT_FAILURE);
+	{
+		msg_error("exit", "too many arguments");
+		switch_exit(cmd, EXIT_SYNTAX_ERROR);
+		return ;
+	}
 	if (blt_count_args(cmd) == 1)
 	{
 		if (blt_one_arg(cmd->args[1], INT_MIN, INT_MAX, &exit_code) == -1)
-			msg_exit("exit", "numeric argument required", EXIT_FAILURE);
+		{
+			msg_error("exit", "numeric argument required");
+			switch_exit(cmd, EXIT_GENERAL_ERROR);
+			return ;
+		}
 		exit_code = exit_code % 256;
 	}
 	exit_shell(exit_code);
