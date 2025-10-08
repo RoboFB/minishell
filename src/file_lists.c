@@ -1,66 +1,141 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   files_lst.c                                        :+:      :+:    :+:   */
+/*   file_lists.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:19:56 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/02 16:21:55 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/08 11:45:43 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_file	*file_last(t_file *files)
-{
-	while (files)
-	{
-		if (!files->next)
-			break ;
-		files = files->next;
-	}
-	return (files);
-}
-
-t_file	*file_add_front(t_file **files)
+t_file	*file_make(void)
 {
 	t_file	*new;
 
 	gc_mode(GC_PARSING);
 	new = (t_file *)gc_calloc(1, sizeof(t_file));
-	new->next = NULL;
-	new->type = -1;
+	new->type = NOT_SET;
+	new->path = NULL;
 	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		new->next = *files;
-		*files = new;
-		return (new);
-	}
+	new->next = NULL;
 	return (new);
 }
 
-t_file	*file_add(t_file **files)
+// next is set to NULL and fd to -1 of input
+t_file	*file_dup_values(t_file *input)
 {
 	t_file	*new;
-	t_file	*last;
 
 	gc_mode(GC_PARSING);
 	new = (t_file *)gc_calloc(1, sizeof(t_file));
+	new->type = input->type;
+	new->path = input->path;
+	new->fd = save_dup(input->fd);
 	new->next = NULL;
-	new->type = -1;
-	new->fd = -1;
-	if (!new)
-		return (NULL);
-	if (!*files)
-	{
-		*files = new;
-		return (new);
-	}
-	last = file_last(*files);
-	last->next = new;
+	
+	// input->fd = -1;
+
 	return (new);
+}
+
+t_file	*file_get_last(t_file *start)
+{
+	t_file	*head;
+
+	head = start;
+	while (head && head->next)
+		head = head->next;
+	return (head);
+}
+
+// use address of a pointer
+void	file_append_front(t_file **start_ptr, t_file *add_file)
+{
+	if (!start_ptr || !add_file)
+		return ;
+	if (*start_ptr == NULL)
+	{
+		*start_ptr = add_file;
+	}
+	else
+	{
+		add_file->next = *start_ptr;
+		*start_ptr = add_file;
+	}
+	return ;
+}
+
+// use address of a pointer
+void	file_append_back(t_file **start_ptr, t_file *add_file)
+{
+	if (!start_ptr || !add_file)
+		return ;
+	if (*start_ptr == NULL)
+	{
+		*start_ptr = add_file;
+	}
+	else
+	{
+		file_get_last(*start_ptr)->next = add_file;
+	}
+	return ;
+}
+
+// use address of a pointer R: the new element
+t_file	*file_add_front(t_file **start_ptr)
+{
+	t_file	*new;
+
+	new = file_make();
+	file_append_front(start_ptr, new);
+	return (new);
+}
+
+// use address of a pointer R: the new element
+t_file	*file_add_back(t_file **start_ptr)
+{
+	t_file	*new;
+
+	new = file_make();
+	file_append_back(start_ptr, new);
+	return (new);
+}
+
+t_file	*file_pop_front(t_file **start_ptr)
+{
+	t_file	*out;
+
+	if (!start_ptr || !*start_ptr)
+		return (NULL);
+	out = *start_ptr;
+	*start_ptr = out->next;
+	out->next = NULL;
+	return (out);
+}
+
+t_file	*file_pop_back(t_file **start_ptr)
+{
+	t_file	*head;
+	t_file	*out;
+
+	if (!start_ptr || !*start_ptr)
+		return (NULL);
+	head = *start_ptr;
+	if (head->next == NULL)
+	{
+		out = head;
+		*start_ptr = NULL;
+	}
+	else
+	{
+		while (head->next)
+			head = head->next;
+		out = head->next;
+		head->next = NULL;
+	}
+	return (out);
 }
