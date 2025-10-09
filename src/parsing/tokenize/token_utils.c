@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:13:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 22:12:14 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 20:28:43 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*tok_new(char *content, t_token_type type)
 	new->prev = NULL;
 	new->type = type;
 	new->content = content;
+	new->id = 0;
 	new->collection.head = NULL;
 	new->collection.tail = NULL;
 	new->collection.size = 0;

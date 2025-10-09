@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/09 16:51:58 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 20:25:37 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

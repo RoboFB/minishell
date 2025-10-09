@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 18:42:23 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 20:30:00 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	set_delimiters(t_tokens *list)
 
 void	heredoc_in(t_token **token)
 {
-	char	*line;
-	char	*delimiter;
+	char				*line;
+	char				*delimiter;
+	static unsigned int	id;
 
 	gc_mode(GC_WORKING);
 	if (!token || !*token)
@@ -77,6 +78,7 @@ void	heredoc_in(t_token **token)
 		(*token)->content = gc_strjoin((*token)->content, "\n");
 	}
 	gc_mode(GC_TEMPORARY);
+	(*token)->id = ++id;
 	(*token)->content = gc_strdup((*token)->content);
 }
 
@@ -84,18 +86,27 @@ t_token	*get_delimiter(t_token *token, t_tokens *list)
 {
 	t_token	*current;
 	t_token	*first;
+	int		quoted;
 
 	first = tok_skip_whitespace(token);
+	quoted = 0;
+	if (!first)
+		return (NULL);
 	current = first->next;
-	while(current
-		&& ((current->type != TOK_WHITESPACE && current->is_quoted == 0)
-		&& !token_is_separator(current)
-		&& !token_is_redirect(current)))
+	quoted |= first->is_quoted;
+	while (first->next)
 	{
+		if ((current->type == TOK_WHITESPACE && current->is_quoted == 0)
+		|| token_is_separator(current)
+		|| token_is_redirect(current))
+			break ;
+		quoted |= current->is_quoted;
 		tok_join(first, current, list);
 		if (current)
 			current = current->next;
 	}
+	if (quoted)
+		first->is_quoted = TOK_DOUBLE_QUOTE;
 	heredoc_in(&first);
 	return (token);
 }

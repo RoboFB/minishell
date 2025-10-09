@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 18:07:13 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 17:59:54 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 20:45:19 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_filetype	get_redirect(t_expression *atom, t_token **token)
 		|| (*token)->type == TOK_DOUBLE_GREATER)
 		file = redirect_out(atom, token);
 	else if ((*token)->type == TOK_DOUBLE_LESS)
-	 	file = heredoc_expand(atom, token);
+	 	file = heredoc_write(atom, token);
 	if (file)
 		return (file->type);
 	return (-1);
