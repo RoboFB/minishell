@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 01:08:16 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:14:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

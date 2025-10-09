@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 02:56:48 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:14:32 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	tok_expansion(t_token *token, char *line)
+void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 {
 	t_tokens	*list;
 	t_token		*index;
 
 	if (!line)
+	{
+		tok_delete(&token, tokens);
 		return ;
+	}
 	list = &data()->expansion;
 	line_split(line, list);
 	index = list->head;
@@ -56,7 +59,7 @@ void	expand(t_tokens *tokens)
 					&& token->next->is_quoted == token->is_quoted)
 			{
 				tok_expansion(token->next,
-						env_get_line_data(token->next->content));
+						env_get_line_data(token->next->content), tokens);
 				tok_delete(&token, tokens);
 			}
 			else if (token->next && token->next->type == TOK_VARIABLE
@@ -72,9 +75,12 @@ void	expand(t_tokens *tokens)
 				tok_delete(&token, tokens);
 			}
 			else if (token->next && token->next->type == TOK_WORD)
+			{
 				tok_join(token, token->next, tokens);
+			}
 		}
-		token = token->next;
+		if (token)
+			token = token->next;
 	}
 	ft_debugf(1, "lexing: variables expanded\n");
 }

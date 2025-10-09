@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:06:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:06:01 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
