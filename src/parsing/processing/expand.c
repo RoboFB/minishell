@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 17:36:48 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 02:56:48 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,50 @@ void	expand(t_tokens *tokens)
 						env_get_line_data(token->next->content));
 				tok_delete(&token, tokens);
 			}
+			else if (token->next && token->next->type == TOK_VARIABLE
+				&& token->next->is_quoted == token->is_quoted)
+			{
+				token->next->content = gc_itoa(data()->pid);
+				tok_delete(&token, tokens);
+			}
+			else if (token->next && token->next->type == TOK_QUESTION
+				&& token->next->is_quoted == token->is_quoted)
+			{
+				token->next->content = gc_itoa(data()->last_exit_code);
+				tok_delete(&token, tokens);
+			}
 			else if (token->next && token->next->type == TOK_WORD)
 				tok_join(token, token->next, tokens);
 		}
 		token = token->next;
 	}
 	ft_debugf(1, "lexing: variables expanded\n");
+}
+
+void	receive_pid(int sig, siginfo_t *info, void *context)
+{
+	(void)sig;
+	(void)context;
+	data()->pid = info->si_pid;
+	return ;
+}
+
+pid_t	get_pid(void)
+{
+	struct sigaction sa;
+
+	sa.sa_sigaction = &receive_pid;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR2, &sa, NULL) < 0)
+		return (-1);
+	kill(0, SIGUSR2);
+	while (!data()->pid);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGUSR2, &sa, NULL) < 0)
+		return (-1);
+	return (data()->pid);
 }
