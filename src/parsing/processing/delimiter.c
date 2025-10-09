@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 00:25:56 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:42:23 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,16 @@ t_token	*get_delimiter(t_token *token, t_tokens *list)
 	t_token	*first;
 
 	first = tok_skip_whitespace(token);
-	current = first;
+	current = first->next;
 	while(current
 		&& ((current->type != TOK_WHITESPACE && current->is_quoted == 0)
-		|| !token_is_separator(current)
-		|| !token_is_redirect(current)))
+		&& !token_is_separator(current)
+		&& !token_is_redirect(current)))
 	{
 		tok_join(first, current, list);
 		if (current)
 			current = current->next;
 	}
-	ft_printf("%s\n", first->content);
 	heredoc_in(&first);
 	return (token);
 }

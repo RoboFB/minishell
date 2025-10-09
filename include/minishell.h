@@ -155,6 +155,8 @@ void		strip_quotes(t_tokens *tokens);
 void		join_quotes(t_tokens *list);
 void		quote(t_tokens *list);
 void		strip_whitespace(t_tokens *tokens);
+char		*tmpfile_name(void);
+t_file		*heredoc_expand(t_expression *atom, t_token **token);
 int			token_is_redirect(t_token *token);
 int			token_is_operator(t_token *token);
 int			token_is_parenthesis(t_token *token);
