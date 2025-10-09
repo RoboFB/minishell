@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 13:52:55 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 03:01:25 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum	e_token_type
 	TOK_AMPERSAND,
 	TOK_SEMICOLON,
 	TOK_BACKSLASH,
+	TOK_QUESTION,
 	TOK_ATOM
 }	t_token_type;
 

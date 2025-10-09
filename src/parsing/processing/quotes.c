@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 18:00:16 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 03:28:15 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@ void	strip_quotes(t_tokens *tokens)
 	token = tokens->head;
 	while (token)
 	{
-		if (!token->is_quoted && (token->type == TOK_DOUBLE_QUOTE
-				|| token->type == TOK_QUOTE))
-			tok_delete(&token, tokens);
+		if (!token->is_quoted
+			&& (token->type == TOK_DOUBLE_QUOTE
+			|| token->type == TOK_QUOTE))
+		{
+			if (token->next && !token->next->is_quoted
+				&& (token->next->type == token->type))
+			{
+				token->content = gc_strdup("");
+				token->type = TOK_WORD;
+				token->is_quoted = TOK_QUOTE;
+			}
+			else
+				tok_delete(&token, tokens);
+		}
 		else if (token)
 			token = token->next;
 	}
@@ -47,6 +58,12 @@ void	join_quotes(t_tokens *list)
 			quote = token->next->is_quoted;
 			tok_join(token, token->next, list);
 			token->is_quoted = quote;
+			continue ;
+		}
+		else if ((token->type != TOK_WHITESPACE && !token_is_redirect(token)) && token->next
+			&& (token->next->type != TOK_WHITESPACE && !token_is_redirect(token->next)))
+		{
+			tok_join(token, token->next, list);
 			continue ;
 		}
 		if (token)

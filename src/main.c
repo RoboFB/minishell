@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:23:58 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 02:55:20 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ t_data	*data(void)
 int	main(int argc, char **argv, char **envp)
 {
 	char *line;
-	
+
 	(void)argc;
 	(void)argv;
 
 	gc_init();
 	// signal_init();
 	env_init(envp);
+	get_pid();
 	while (true)
 	{
 		gc_clear_temporary();

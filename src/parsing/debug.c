@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 17:51:42 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 03:01:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,25 @@ void	tok_debug_display(t_tokens *tokens)
 {
 	t_token		*token;
 	t_token		*subtoken;
-	const char	*debug_type[19] = {"TOK_WORD", "TOK_WHITESPACE", "TOK_PIPE",
+	const char	*debug_type[20] = {"TOK_WORD", "TOK_WHITESPACE", "TOK_PIPE",
 		"TOK_LEFT_PARENTHESIS", "TOK_RIGHT_PARENTHESIS", "TOK_LESS",
 		"TOK_DOUBLE_LESS", "TOK_GREATER", "TOK_DOUBLE_GREATER", "TOK_QUOTE",
 		"TOK_DOUBLE_QUOTE", "TOK_AND", "TOK_OR", "TOK_VARIABLE",
-		"TOK_WILDCARD", "TOK_AMPERSAND", "TOK_SEMICOLON", "TOK_BACKSLASH", "TOK_ATOM"};
+		"TOK_WILDCARD", "TOK_AMPERSAND", "TOK_SEMICOLON", "TOK_BACKSLASH", "TOK_QUESTION", "TOK_ATOM"};
 
 	token = tokens->head;
 	ft_debugf(2, "minishell: debug -- display tokens\n\n");
 	while (token)
 	{
 		if (token && token->type != TOK_ATOM)
-			ft_debugf(2, "token:\t %5.5s is \t%s\n", token->content, debug_type[token->type]);
+			ft_debugf(2, "token:\t %5.5s is \t%s (quote: %d)\n", token->content, debug_type[token->type], token->is_quoted);
 		else if (token)
 		{
 			ft_debugf(2, "token is\t\t%s\n", debug_type[token->type]);
 			subtoken = token->collection.head;
 			while (subtoken)
 			{
-				ft_debugf(2, "--token: %5.5s is \t%s\n", subtoken->content, debug_type[subtoken->type]);
+				ft_debugf(2, "--token: %5.5s is \t%s (quote: %d)\n", subtoken->content, debug_type[subtoken->type], subtoken->is_quoted);
 				subtoken = subtoken->next;
 			}
 		}
