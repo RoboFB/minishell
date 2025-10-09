@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:07:39 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 03:28:15 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	join_quotes(t_tokens *list)
 			token->is_quoted = quote;
 			continue ;
 		}
-		else if (token->type != TOK_WHITESPACE && token->next
-			&& token->next->type != TOK_WHITESPACE)
+		else if ((token->type != TOK_WHITESPACE && !token_is_redirect(token)) && token->next
+			&& (token->next->type != TOK_WHITESPACE && !token_is_redirect(token->next)))
 		{
 			tok_join(token, token->next, list);
 			continue ;
