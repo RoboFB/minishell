@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 17:21:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 01:08:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,44 +35,15 @@ void	expression_add_file(t_expression *atom, t_token **token)
 	return ;
 }
 
-// void	atomize(t_tokens *tokens)
-// {
-// 	t_token	*token;
-// 	t_atom	*atom;
-
-// 	token = tokens->head;
-// 	atom = atom_new();
-// 	atom->next = token;
-// 	token->prev = (t_token*)atom;
-// 	token = (t_token*)atom->next;
-// 	while (token)
-// 	{
-// 		ft_debugf(1, "atomize: iteration\n");
-// 		if (token->type == TOK_WORD && !atom->args)
-// 		{
-// 			atom_replace_token(atom, token);
-// 			atom_add_arg(atom, token);
-// 		}
-// 		else if (is_redirect(token))
-// 			atom_add_file(atom, &token);
-// 		else if (token->type == TOK_WORD && atom->args)
-// 			atom_add_arg(atom, token);
-// 		else if (is_operator(token))
-// 			atom = atom_new();
-// 		if (token)
-// 			token = token->next;
-// 	}
-// }
-
 void	resolve(t_expression *expression)
 {
 	t_token	*token;
-	
+
 	expand(&expression->collection);
-	strip_quotes(&expression->collection);
 	join_quotes(&expression->collection);
 	strip_whitespace(&expression->collection);
 	token = expression->collection.head;
+	tok_debug_display(&expression->collection);
 	while(token)
 	{
 		if (token_is_redirect(token))
@@ -82,15 +53,17 @@ void	resolve(t_expression *expression)
 		if (token)
 			token = token->next;
 	}
-	expression->name = expression->args[0];
+	if (expression->args)
+		expression->name = expression->args[0];
 }
 
 void	parse(char *line, t_tokens *list)
 {
 	tokenize(line, list);
 	quote(list);
+	strip_quotes(list);
+	set_delimiters(list);
 	contract(list);
 	tok_debug_display(list);
 	list_to_tree();
-	ft_fprintf(2, "parsed\n");
 }

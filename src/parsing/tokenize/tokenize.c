@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 17:15:28 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:01:57 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ t_token	*atomize(t_token **token)
 
 void	contract(t_tokens *list)
 {
-	t_tokens	*tokens;
 	t_token		*current;
 	t_tokens	new;
 
-	tokens = list;
 	current = list->head;
 	list_reset(&new);
 	while (current)
@@ -44,8 +42,8 @@ void	contract(t_tokens *list)
 			tok_add(current, &new);
 			current = current->next;
 		}
-		else if (token_is_separator(current->prev) 
-			&& token_is_separator(current->next) 
+		else if (token_is_separator(current->prev)
+			&& token_is_separator(current->next)
 			&& current->type == TOK_WHITESPACE)
 			current = current->next;
 		else

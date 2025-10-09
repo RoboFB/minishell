@@ -28,13 +28,15 @@
 - [x] >>
 - [x] |
 - [x] $
-- [ ] $?
+- [x] $?
+- [x] $$
 
 ## parsing
-- [ ] collect heredocs before execution
-- [ ] expand when hitting each command
+- [x] collect heredocs before execution
+- [x] expand when hitting each command
 - [ ] set shell level
 - [ ] accept redirect ahead of command
+- [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
 
 
 
@@ -90,9 +92,9 @@ Tell the update routines that we have moved onto a new (empty) line, usually aft
 
 #### rl_replace_line,
 what it says
-#### add_history, 
+#### add_history,
 what it says
-#### rl_clear_history, 
+#### rl_clear_history,
 what it says
 
 
@@ -104,12 +106,12 @@ rl_replace_line, rl_redisplay, Add_history,
 
 malloc, free,
 write, access, open, read,
-close, 
-fork, 
+close,
+fork,
 wait, waitpid, wait3, wait4,
 
 signal, // lagace don't use it
-sigaction, sigemptyset, sigaddset, kill, 
+sigaction, sigemptyset, sigaddset, kill,
 exit,
 getcwd,
 chdir, stat, lstat, fstat, unlink,
@@ -117,8 +119,8 @@ execve,
 dup, dup2, Pipe,
 opendir, readdir, closedir,
 
-strerror, perror, printf, 
+strerror, perror, printf,
 isatty, ttyname, ttyslot, ioctl,
-getenv, 
+getenv,
 tcsetattr, tcgetattr,
 tgetent, tgetflag, tgetnum, ttgetstr, tgoto, tputs

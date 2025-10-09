@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 17:15:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 02:52:03 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,4 +184,9 @@ void *gc_remove_one(void *remove_ptr)
 	(void)remove_ptr;
 
 	return (NULL);
+}
+
+char	*gc_itoa(int number)
+{
+	return (gc_add(ft_itoa(number))->content);
 }

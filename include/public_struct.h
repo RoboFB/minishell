@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:08:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 03:02:46 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ typedef struct	s_token t_token;
 typedef struct s_file t_file;
 typedef struct	s_expression t_expression;
 typedef struct	s_tokens t_tokens;
-
-# define META_CHARS {'|', '&', ';', '(', ')',\
-		'<', '>', '\"', '\'', '\\', '*', '$', '\0'};
 
 typedef	enum	e_gc_index
 {
@@ -64,6 +61,7 @@ typedef struct	s_data
 	t_gc_book		gc_book;
 	t_expression	*tree_root;
 	int				last_exit_code;
+	pid_t			pid;
 	// pid_t			last_pid;
 }	t_data;
 

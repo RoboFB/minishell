@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:05:16 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/06 16:02:15 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 03:03:22 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@
 
 int	tok_make_meta_token(char *position, t_tokens *list)
 {
-	static const t_token_key	symbols[16] = {{">>", TOK_DOUBLE_GREATER},
+	static const t_token_key	symbols[17] = {{">>", TOK_DOUBLE_GREATER},
 		{"<<", TOK_DOUBLE_LESS}, {"&&", TOK_AND}, {"||", TOK_OR},
 		{"<", TOK_LESS}, {">", TOK_GREATER}, {"&", TOK_AMPERSAND},
 		{";", TOK_SEMICOLON}, {"(", TOK_LEFT_PARENTHESIS},
 		{")", TOK_RIGHT_PARENTHESIS}, {"*", TOK_WILDCARD},
 		{"$", TOK_VARIABLE}, {"|", TOK_PIPE}, {"\"", TOK_DOUBLE_QUOTE},
-		{"\'", TOK_QUOTE}, {"\\", TOK_BACKSLASH}};
+		{"\'", TOK_QUOTE}, {"\\", TOK_BACKSLASH}, {"?", TOK_QUESTION}};
 	int							index;
 	size_t						length;
 
 	index = 0;
 	length = 0;
-	while (index < 16 && ft_strncmp(symbols[index].key, position,
+	while (index < 17 && ft_strncmp(symbols[index].key, position,
 			ft_strlen(symbols[index].key)))
 		index++;
-	if (index < 16)
+	if (index < 17)
 	{
 		length = ft_strlen(symbols[index].key);
 		tok_add(tok_new(gc_substr(position, 0, length), symbols[index].type), list);
