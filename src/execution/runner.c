@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:07:15 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:25:02 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ pid_t	run_tree(t_expression *cmd)
 pid_t run_cmd_switch(t_expression *cmd)
 {
 	resolve(cmd);
+	if (!cmd->name)
+	{
+		set_all_redirect(cmd->files);
+		set_exit_code(EXIT_OK);
+		return (-1);
+
+	}
+
 	if (is_piped_direct(cmd))
 	{
 		exe_command_no_return(cmd);

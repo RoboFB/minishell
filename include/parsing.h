@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:01:25 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/09 20:29:42 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_token
 	char			*content;
 	t_tokens		collection;
 	t_token_type	is_quoted;
+	unsigned int	id;
 }	t_token;
 
 typedef struct s_file t_file;

@@ -2,19 +2,18 @@
 
 ## Random
 - [ ] Makefile
-- [ ] Garbed collector?
+- [x] Garbed collector?
 - [ ] signals
 - [ ] history
 - [ ] one global variable for signal number
 
 
 ## Parts / main loop
-
 - [ ] init
 - [x] Prompt
 - [x] Lexing
 - [x] Parsing
-- [ ] expend symbols
+- [x] expand symbols
 - [ ] execution
 - [ ] free
 
@@ -34,21 +33,18 @@
 ## parsing
 - [x] collect heredocs before execution
 - [x] expand when hitting each command
+- [x] << should be given a delimiter, then read the input until a line containing the
+delimiter is seen. However, it doesn’t have to update the history!
 - [ ] set shell level
 - [ ] accept redirect ahead of command
 - [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
-
-
 
 ## execution
 - [x] single cmd.
 - [x] < redirect input.
 - [x] > redirect output.
-- [ ] << should be given a delimiter, then read the input until a line containing the
-delimiter is seen. However, it doesn’t have to update the history!
 - [x] >> should redirect output in append mode
 - [x] | pipes
-
 
 ## built-ins
 - [x] echo		with option -n
