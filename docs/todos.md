@@ -59,6 +59,13 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 
 ## Robin random
+- [] refactor run with no command.
+- [] shell level.
+- [] no interctiv mode for testers. + testing
+- [] * working dir an matching globla.
+
+
+
 - [x] check out: readline
 - [ ] main loop, test stuff out
 
