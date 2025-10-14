@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:16 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/10 14:49:37 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/14 15:58:05 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ void blt_cd(t_expression *cmd)
 		return ;
 	}
 	new_dir = gc_getcwd();
-	gc_mode(GC_PERSISTENT);
 	env_add_line_data("PWD", new_dir);
 	env_add_line_data("OLDPWD", old_dir);
-	gc_mode(GC_TEMPORARY);
 	set_exit_code(EXIT_OK);
 	return ;
 }

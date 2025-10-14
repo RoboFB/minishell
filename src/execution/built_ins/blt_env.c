@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 11:28:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/14 15:14:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ void blt_env(t_expression *cmd)
 	idx = 0;
 	environment = *env_get_ptr();
 	while (environment[idx] != NULL)
-		ft_printf("%s\n", environment[idx++]);
+	{
+		if (env_get_len_key(environment[idx]) != ft_strlen(environment[idx]))
+			ft_printf("%s\n", environment[idx]);
+		idx++;
+	}
 	set_exit_code(EXIT_OK);
 	return ;
 }
