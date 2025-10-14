@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 17:14:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:48:53 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,8 @@ void	resolve(t_expression *expression)
 	tok_debug_display(&expression->collection);
 	while(token)
 	{
-		if (token_is_redirect(token))
-			expression_add_file(expression, &token);
-		else
-			expression_add_arg(expression, token);
-		if (token)
-			token = token->next;
+		expression_add_arg(expression, token);
+		token = token->next;
 	}
 	if (expression->args)
 		expression->name = expression->args[0];

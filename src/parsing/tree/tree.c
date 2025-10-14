@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/10 15:56:48 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:25:54 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_expression	*token_to_expression(t_token *token)
 	expression->collection = token->collection;
 	expression->args = NULL;
 	expression->argc = 0;
-	expression->files = NULL;
+	expression->files = token->files;
 	expression->name = NULL;
 	return (expression);
 }
