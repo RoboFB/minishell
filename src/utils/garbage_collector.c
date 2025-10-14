@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 02:52:03 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:12:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,17 @@ char	*gc_readline(char const *prompt)
 	char	*line;
 
 	line = readline(prompt);
+	if (!line)
+		return (NULL);
+	else
+		return (gc_add(line)->content);
+}
+
+char	*gc_get_next_line(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
 	if (!line)
 		return (NULL);
 	else
