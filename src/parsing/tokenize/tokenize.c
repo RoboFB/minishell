@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/13 19:45:36 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:14:45 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	contract_file(t_token *atom, t_token **token)
 		return ;
 	file = file_make();
 	file->type = token_to_filetype(*token);
+	*token = (*token)->next;
 	*token = tok_skip_whitespace(*token);
-	while (*token && (!token_is_separator(*token) || !token_is_space(*token)))
+	while (*token && !token_is_separator(*token) && !token_is_space(*token))
 	{
 		tok_add(*token, &file->collection);
 		*token = (*token)->next;
@@ -53,7 +54,7 @@ t_token	*atomize(t_token **token)
 {
 	t_token *atom;
 
-	if (!token && !*token)
+	if (!token || !*token)
 		return (NULL);
 	atom = tok_new("", TOK_ATOM);
 	*token = tok_skip_whitespace(*token);
@@ -63,10 +64,11 @@ t_token	*atomize(t_token **token)
 			contract_file(atom, token);
 		else
 			tok_add(*token, &atom->collection);
-		if (*token)
+		if (*token && !token_is_redirect(*token))
 			*token = (*token)->next;
 	}
-	atom->collection.tail->next = NULL;
+	if (atom->collection.tail)
+		atom->collection.tail->next = NULL;
 	return (atom);
 }
 
