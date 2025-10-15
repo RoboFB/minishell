@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/13 19:25:54 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:12:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,17 +144,12 @@ t_expression *led(t_token **token, t_expression *first, t_token *operator)
 	if (!second || !binding)
 		return (NULL);
 	new = make_expression(op, first, second);
-	if (new && new->type == OPERATOR_PIPE)
-	{
-		// file add / add front, pipe (empty)
-	}
 	if (new->first)
 		first->parent = new;
 	if (new->second)
 		second->parent = new;
 	return (new);
 }
-
 
 t_expression *parse_expression(t_token **token, const int minimum_binding)
 {

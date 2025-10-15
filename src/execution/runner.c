@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/09 17:25:02 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:49:48 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ pid_t	run_tree(t_expression *cmd)
 
 	gc_mode(GC_EXECUTION);
 	inherit_files(cmd);
-	debug_tree_robin(cmd); //for debuging
+
+	// debug_tree_robin(cmd); //for debuging
 	if (cmd->type == OPERATOR_CMD)
 		pid = run_cmd_switch(cmd);
 	else if (cmd->type == OPERATOR_PIPE)
@@ -37,7 +38,10 @@ pid_t	run_tree(t_expression *cmd)
 
 pid_t run_cmd_switch(t_expression *cmd)
 {
-	resolve(cmd);
+	
+	// debug_leaf(cmd);
+	debug_tree_robin(cmd);
+
 	if (!cmd->name)
 	{
 		set_all_redirect(cmd->files);
@@ -60,11 +64,16 @@ pid_t run_pipe(t_expression *cmd)
 	pid_t pid_1;
 	pid_t pid_2;
 
+	resolve(cmd->first);
+	resolve(cmd->second);
 	file_add_front(&cmd->first->files);
 	cmd->first->files->type = FD_PIPE_WRITE;
 	file_add_front(&cmd->second->files);
 	cmd->second->files->type = FD_PIPE_READ;
 	save_pipe(&cmd->first->files->fd, &cmd->second->files->fd);
+
+	// debug_leaf(cmd);
+	debug_tree_robin(cmd);
 
 	pid_1 = save_fork();
 	if (pid_1 == 0)
@@ -91,12 +100,19 @@ pid_t run_and_or(t_expression *cmd)
 {
 	pid_t pid;
 
+	// debug_leaf(cmd);
+	debug_tree_robin(cmd);
+
+	resolve(cmd->first);
 	pid = run_tree(cmd->first);
 	close_all_files(cmd->first);
 	wait_and_set_exit_code(pid);
 	if ((data()->last_exit_code == 0 && cmd->type == OPERATOR_AND)
 	 || (data()->last_exit_code != 0 && cmd->type == OPERATOR_OR))
-		pid = run_tree(cmd->second);
+	 {
+		resolve(cmd->second);
+		 pid = run_tree(cmd->second);
+	 }
 	close_all_files(cmd);
 	wait_and_set_exit_code(pid);
 	if (is_piped_direct(cmd))
@@ -133,6 +149,7 @@ void inherit_files(t_expression *cmd)
 	head = file_pop_back(&cmd->files);
 	while (head)
 	{
+		debug_files_robin(cmd->files);
 		if (head->type == NOT_SET)
 		{
 			save_close(&head->fd);
