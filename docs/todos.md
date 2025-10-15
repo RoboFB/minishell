@@ -29,6 +29,7 @@
 - [x] $
 - [x] $?
 - [x] $$
+- [ ] *
 
 ## parsing
 - [x] collect heredocs before execution
@@ -36,8 +37,15 @@
 - [x] << should be given a delimiter, then read the input until a line containing the
 delimiter is seen. However, it doesn’t have to update the history!
 - [ ] set shell level
-- [ ] accept redirect ahead of command
+- [x] accept redirect ahead of command
 - [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
+- [ ] expansions on file redirects, check order and guard against multiple files. handle redirect expansions separately from arg expansions.
+- [ ] attach redirect-only atoms to relevant expression.
+
+## signals
+- [ ] handle ctrl+c, ctrl+d && ctrl+\
+- [ ] handle animation cues
+
 
 ## execution
 - [x] single cmd.
@@ -120,3 +128,9 @@ isatty, ttyname, ttyslot, ioctl,
 getenv,
 tcsetattr, tcgetattr,
 tgetent, tgetflag, tgetnum, ttgetstr, tgoto, tputs
+
+*foo*
+f*oo
+f*oo*oo
+
+src/**/*.c
