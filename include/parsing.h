@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 20:29:42 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:11:20 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,9 @@ typedef struct	s_token
 	char			*content;
 	t_tokens		collection;
 	t_token_type	is_quoted;
+	t_file			*files;	// last has priority (per io-channel)
 	unsigned int	id;
 }	t_token;
-
-typedef struct s_file t_file;
-
-typedef struct s_atom
-{
-	t_token_type	type;
-	t_token			*next;
-	t_token			*prev;
-	t_tokens		collection;
-	int				argc;
-	char			**args;
-	t_file			*files;	// last has priority (per io-channel)
-}	t_atom;
 
 typedef struct s_bind
 {

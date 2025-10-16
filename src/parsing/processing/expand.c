@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 17:41:06 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:04:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,19 @@ void	expand(t_tokens *tokens)
 	token = tokens->head;
 	while (token)
 	{
-		if (token->type == TOK_VARIABLE && token->is_quoted != TOK_QUOTE)
+		if (token->type == TOK_VARIABLE && token->next && token->is_quoted != TOK_QUOTE && token->next->is_quoted == token->is_quoted)
 		{
+			ft_printf("quoted %d\n", token->is_quoted);
 			if (token->next && token->next->type == TOK_WORD
 					&& token->next->is_quoted == token->is_quoted)
 			{
-				tok_expansion(token->next,
-						env_get_line_data(token->next->content), tokens);
+				if (token->is_quoted != TOK_DOUBLE_QUOTE)
+				{
+					tok_expansion(token->next,
+							env_get_line_data(token->next->content), tokens);
+				}
+				else
+					token->next->content = env_get_line_data(token->next->content);
 				tok_delete(&token, tokens);
 			}
 			else if (token->next && token->next->type == TOK_VARIABLE
@@ -79,6 +85,8 @@ void	expand(t_tokens *tokens)
 				tok_join(token, token->next, tokens);
 			}
 		}
+		else if (token->type == TOK_VARIABLE && token->next && token->is_quoted != TOK_QUOTE && token->next->is_quoted != token->is_quoted)
+			tok_delete(&token, tokens);
 		if (token)
 			token = token->next;
 	}

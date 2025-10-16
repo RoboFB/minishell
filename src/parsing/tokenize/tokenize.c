@@ -6,25 +6,69 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 22:01:57 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:14:45 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_filetype	token_to_filetype(t_token *token)
+{
+	if (!token)
+		return (NOT_SET);
+	else if (token->type == TOK_DOUBLE_LESS)
+		return (FD_HEREDOC_READ);
+	else if (token->type == TOK_DOUBLE_GREATER)
+		return (PATH_STDOUT_WRITE_APPEND);
+	else if (token->type == TOK_LESS)
+		return (PATH_STDIN_READ);
+	else if (token->type == TOK_GREATER)
+		return (PATH_STDOUT_WRITE);
+	else
+		return (NOT_SET);
+}
+
+void	contract_file(t_token *atom, t_token **token)
+{
+	t_file	*file;
+
+	if (!token_is_redirect(*token))
+		return ;
+	file = file_make();
+	file->type = token_to_filetype(*token);
+	*token = (*token)->next;
+	*token = tok_skip_whitespace(*token);
+	while (*token && !token_is_separator(*token) && !token_is_space(*token))
+	{
+		tok_add(*token, &file->collection);
+		*token = (*token)->next;
+	}
+	if (file->collection.tail)
+		file->collection.tail->next = NULL;
+	else
+		return ;
+	file_append_back(&atom->files, file);
+}
+
 t_token	*atomize(t_token **token)
 {
 	t_token *atom;
 
-	if (!token && !*token)
+	if (!token || !*token)
 		return (NULL);
 	atom = tok_new("", TOK_ATOM);
+	*token = tok_skip_whitespace(*token);
 	while (*token && !token_is_separator(*token))
 	{
-		tok_add(*token, &atom->collection);
-		*token = (*token)->next;
+		if (token_is_redirect(*token))
+			contract_file(atom, token);
+		else
+			tok_add(*token, &atom->collection);
+		if (*token && !token_is_redirect(*token))
+			*token = (*token)->next;
 	}
-	atom->collection.tail->next = NULL;
+	if (atom->collection.tail)
+		atom->collection.tail->next = NULL;
 	return (atom);
 }
 

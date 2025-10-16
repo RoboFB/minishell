@@ -3,29 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   token_is.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 22:27:04 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:02:41 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:13:09 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	token_is_space(t_token *token)
+{
+	if (!token)
+		return (0);
+	return (token->is_quoted == 0 && token->type == TOK_WHITESPACE);
+}
+
 int	token_is_redirect(t_token *token)
 {
 	if (!token)
 		return (0);
-	return (token->type == TOK_DOUBLE_LESS || token->type == TOK_DOUBLE_GREATER
-			|| token->type == TOK_GREATER || token->type == TOK_LESS);
+	return (token->is_quoted == 0 && (token->type == TOK_DOUBLE_LESS || token->type == TOK_DOUBLE_GREATER
+			|| token->type == TOK_GREATER || token->type == TOK_LESS));
 }
 
 int	token_is_operator(t_token *token)
 {
 	if (!token)
 		return (0);
-	return (token->type == TOK_PIPE || token->type == TOK_AND
-			|| token->type == TOK_OR || token->type == TOK_SEMICOLON);
+	return (token->is_quoted == 0 && (token->type == TOK_PIPE || token->type == TOK_AND
+			|| token->type == TOK_OR || token->type == TOK_SEMICOLON));
 }
 
 int	token_is_parenthesis(t_token *token)

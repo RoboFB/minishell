@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:41:22 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 21:49:46 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:51:25 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,14 @@ t_file	*heredoc_write(t_expression *atom, t_token **token)
 		file->path = tmpfile_name((*token)->next->id);
 		file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (file->fd == -1)
-			return (NULL);
+			perror_exit("open", EXIT_GENERAL_ERROR);
 		heredoc_expand(file->fd, (*token)->next->content,
 			(*token)->next->is_quoted);
 		close(file->fd);
 		file->fd = open(file->path, O_RDONLY, 0600);
-		if (file->fd == -1)
-		{
-			unlink(file->path);
-			return (NULL);
-		}
 		unlink(file->path);
+		if (file->fd == -1)
+			perror_exit("open", EXIT_GENERAL_ERROR);
 		file->type = FD_HEREDOC_READ;
 		*token = (*token)->next;
 		//ft_printf("\n%s %d\n", file->path, file->fd);
