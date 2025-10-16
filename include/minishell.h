@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/10 14:37:29 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/16 16:58:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include <limits.h>	// INT_MAX, PATH_MAX (is not a function)
 
 # include "libft.h"
+# include "libft_gnl.h"
 # include "libft_printf.h"
 # include "libft_styles.h"
 # include "execution.h"
@@ -64,19 +65,6 @@ void		save_close(int *fd);
 void		close_files(t_file *head);
 void		close_all_files(t_expression *root);
 char		*get_full_path_cmd(const char *cmd_name, char *search_path);
-void		set_all_redirect(t_file *head);
-void		set_fd(t_file *file, int change_fd);
-void		read_file(t_file *file, int change_fd);
-void		write_file(t_file *file, int change_fd);
-void		write_append_file(t_file *file, int change_fd);
-void		exit_shell(t_exit_code exit_code);
-void		perror_exit(char *msg, t_exit_code exit_code);
-void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
-void		msg_exit(char *function, char *error, t_exit_code exit_code);
-void		msg_error(char *function, char *error);
-void		set_exit_code(t_exit_code exit_code);
-void		handler(int sig);
-void		signal_init(void);
 void		debug_tree_robin(t_expression *root);
 void		exe_command_no_return(t_expression *cmd);
 pid_t		exe_command_return(t_expression *cmd);
@@ -84,14 +72,28 @@ bool		is_piped_direct(t_expression *cmd);
 bool		is_piped_somewhere(t_expression *cmd);
 void		run_builtin_in_main(t_expression *cmd);
 void		run_comand(t_expression *cmd);
+void		exit_shell(t_exit_code exit_code);
+void		perror_exit(char *msg, t_exit_code exit_code);
+void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
+void		msg_exit(char *function, char *error, t_exit_code exit_code);
+void		msg_error(char *function, char *error);
+void		set_exit_code(t_exit_code exit_code);
 pid_t		run_tree(t_expression *cmd);
 pid_t		run_cmd_switch(t_expression *cmd);
 pid_t		run_pipe(t_expression *cmd);
 pid_t		run_and_or(t_expression *cmd);
 void		wait_and_set_exit_code(pid_t pid);
 void		inherit_files(t_expression *cmd);
-int			env_get_len_key(char *line);
+void		set_all_redirect(t_file *head);
+void		set_fd(t_file *file, int change_fd);
+void		read_file(t_file *file, int change_fd);
+void		write_file(t_file *file, int change_fd);
+void		write_append_file(t_file *file, int change_fd);
+void		handler(int sig);
+void		signal_init(void);
+size_t		env_get_len_key(char *line);
 char		**env_get_line_ptr(char *line);
+char		*env_check_line(char *line, char **line_ptr);
 char		*env_get_line_data(char *line);
 char		***env_get_ptr(void);
 int			env_get_size(char **environment);
@@ -99,12 +101,6 @@ void		env_add_line(char *line);
 void		env_add_line_data(char *key, char *value);
 void		env_remove_line(char *line);
 void		env_init(char **input_envp);
-void		save_dup2(int old_fd, int new_fd);
-int			save_dup(int copy_fd);
-void		save_pipe(int *write_in_pipe, int *read_out_pipe);
-char		*save_getcwd(char *buf, size_t size);
-void		save_chdir(const char *new_dir);
-pid_t		save_fork(void);
 void		gc_init(void);
 t_list		*gc_add(void *memory);
 void		gc_mode(t_gc_index mode);
@@ -117,34 +113,44 @@ char		*gc_strjoin(char const *s1, char const *s2);
 void		*gc_calloc(size_t count, size_t size);
 char		*gc_getcwd(void);
 char		*gc_readline(char const *prompt);
+char		*gc_get_next_line(int fd);
 void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
 void		*gc_remove_one(void *remove_ptr);
 char		*gc_itoa(int number);
-int			token_is_redirect(t_token *token);
-int			token_is_operator(t_token *token);
-int			token_is_parenthesis(t_token *token);
-int			token_is_separator(t_token *token);
-int			is_meta_chararacter(char c);
-t_token		*atomize(t_token **token);
-void		contract(t_tokens *list);
-void		tokenize(char *line, t_tokens *list);
+void		save_dup2(int old_fd, int new_fd);
+int			save_dup(int copy_fd);
+void		save_pipe(int *write_in_pipe, int *read_out_pipe);
+char		*save_getcwd(char *buf, size_t size);
+void		save_chdir(const char *new_dir);
+pid_t		save_fork(void);
 t_token		*tok_new(char *content, t_token_type type);
 void		tok_add(t_token *new, t_tokens *list);
 void		tok_delete(t_token **token, t_tokens *list);
 void		tok_join(t_token *first, t_token *second, t_tokens *list);
 t_token		*tok_skip_whitespace(t_token *token);
 void		list_reset(t_tokens *tokens);
+int			token_is_space(t_token *token);
+int			token_is_redirect(t_token *token);
+int			token_is_operator(t_token *token);
+int			token_is_parenthesis(t_token *token);
+int			token_is_separator(t_token *token);
+int			is_meta_chararacter(char c);
+t_filetype		token_to_filetype(t_token *token);
+void		contract_file(t_token *atom, t_token **token);
+t_token		*atomize(t_token **token);
+void		contract(t_tokens *list);
+void		tokenize(char *line, t_tokens *list);
 void		strip_whitespace(t_tokens *tokens);
 int			tok_make_meta_token(char *position, t_tokens *list);
 int			tok_make_word_token(char *position, t_tokens *list);
 int			tok_make_space_token(char *position, t_tokens *list);
 void		line_split(char *line, t_tokens *list);
-void		strip_quotes(t_tokens *tokens);
-void		join_quotes(t_tokens *list);
-void		quote(t_tokens *list);
 void		set_delimiters(t_tokens *list);
 void		heredoc_in(t_token **token);
 t_token		*get_delimiter(t_token *token, t_tokens *list);
+t_file		*redirect_out(t_expression *atom, t_token **token);
+t_file		*redirect_in(t_expression *atom, t_token **token);
+t_filetype		get_redirect(t_expression *atom, t_token **token);
 void		tok_expansion(t_token *token, char *line, t_tokens *tokens);
 void		expand(t_tokens *tokens);
 void		receive_pid(int sig, siginfo_t *info, void *context);
@@ -154,9 +160,9 @@ ssize_t		write_until_variable(int fd, char *bytes);
 ssize_t		write_variable(int fd, char *bytes, t_token_type quoted);
 int			heredoc_expand(int fd, char *bytes, t_token_type quoted);
 t_file		*heredoc_write(t_expression *atom, t_token **token);
-t_file		*redirect_out(t_expression *atom, t_token **token);
-t_file		*redirect_in(t_expression *atom, t_token **token);
-t_filetype		get_redirect(t_expression *atom, t_token **token);
+void		strip_quotes(t_tokens *tokens);
+void		join_quotes(t_tokens *list);
+void		quote(t_tokens *list);
 t_expression		*make_expression(t_expression_operator operator, t_expression *first, t_expression *second);
 t_expression_operator		expression_type(t_token_type type);
 t_bind		*binding_power(t_token *token);
@@ -171,6 +177,7 @@ void		tok_debug_display(t_tokens *tokens);
 void		debug_tree(t_expression *root);
 void		expression_add_arg(t_expression *atom, t_token *token);
 void		expression_add_file(t_expression *atom, t_token **token);
+void		resolve_files(t_expression *expression);
 void		resolve(t_expression *expression);
 void		parse(char *line, t_tokens *list);
 t_file		*file_make(void);
@@ -184,5 +191,7 @@ t_file		*file_pop_front(t_file **start_ptr);
 t_file		*file_pop_back(t_file **start_ptr);
 t_data		*data(void);
 int			main(int argc, char **argv, char **envp);
+char		*get_shell_line(const char *prompt);
+void		set_shell_level(void);
 
 #endif
