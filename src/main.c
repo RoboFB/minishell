@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/16 18:14:29 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:41:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	// signal_init();
 	env_init(envp);
 	set_shell_level();
-	get_pid();
+	//get_pid(); // out for tester
 	while (true)
 	{
 		gc_clear_temporary();

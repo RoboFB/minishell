@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:41:22 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/10 15:51:25 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:27:12 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ ssize_t		write_variable(int fd, char *bytes, t_token_type quoted)
 	}
 	if (var)
 		write(fd, var, ft_strlen(var));
-	if (bytes[length] == '$' || bytes[length] == '?')
+	if (length == 1)
 		return (2);
 	return (length);
 }
@@ -81,27 +81,22 @@ int		heredoc_expand(int fd, char *bytes, t_token_type quoted)
 	return (1);
 }
 
-t_file	*heredoc_write(t_expression *atom, t_token **token)
+t_file	*heredoc_write(t_file *file)
 {
-	t_file	*file;
-
-	file = NULL;
-	if ((*token)->next && (*token)->next->type == TOK_WORD)
+	if (file->collection.head)
 	{
-		file = file_add_back(&atom->files);
-		file->path = tmpfile_name((*token)->next->id);
+		file->path = tmpfile_name(file->collection.head->id);
 		file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (file->fd == -1)
 			perror_exit("open", EXIT_GENERAL_ERROR);
-		heredoc_expand(file->fd, (*token)->next->content,
-			(*token)->next->is_quoted);
+		heredoc_expand(file->fd, file->collection.head->content,
+			file->collection.head->is_quoted);
 		close(file->fd);
 		file->fd = open(file->path, O_RDONLY, 0600);
 		unlink(file->path);
 		if (file->fd == -1)
 			perror_exit("open", EXIT_GENERAL_ERROR);
 		file->type = FD_HEREDOC_READ;
-		*token = (*token)->next;
 		//ft_printf("\n%s %d\n", file->path, file->fd);
 	}
 	return (file);
