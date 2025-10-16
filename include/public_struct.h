@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/09 20:25:37 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:12:00 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_file
 	t_filetype	type;		// type of redirect, pipe, here_doc, actual file
 	char		*path;		// path for files to be opened (since cd may be invoked by previous commands)
 	int			fd;			// pipes and here_doc // init -1/ not used
+	t_tokens	collection;
 	t_file		*next;
 }	t_file;
 

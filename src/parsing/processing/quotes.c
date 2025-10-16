@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:28:15 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:53:02 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ void	quote(t_tokens *list)
 			token = token->next;
 	}
 	if (quoted)
-		ft_fprintf(1, "minishell: syntax error (unclosed quote)\n");
+		ft_fprintf(2, "minishell: syntax error (unclosed quote)\n");
 	ft_debugf(1, "lexing: quotes marked\n");
 }

@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 16:47:09 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:12:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_expression	*token_to_expression(t_token *token)
 	expression->collection = token->collection;
 	expression->args = NULL;
 	expression->argc = 0;
-	expression->files = NULL;
+	expression->files = token->files;
 	expression->name = NULL;
 	return (expression);
 }
@@ -122,7 +122,7 @@ t_expression *nud(t_token **token)
 		peek = token_peek(token);
 		if (!peek || peek->type != TOK_RIGHT_PARENTHESIS)
 		{
-			ft_fprintf(2, "minishell: syntax error, expected ')'");
+			ft_fprintf(2, "minishell: syntax error, expected ')'\n");
 			return (NULL);
 		}
 		token_next(token);
@@ -144,17 +144,12 @@ t_expression *led(t_token **token, t_expression *first, t_token *operator)
 	if (!second || !binding)
 		return (NULL);
 	new = make_expression(op, first, second);
-	if (new && new->type == OPERATOR_PIPE)
-	{
-		// file add / add front, pipe (empty)
-	}
 	if (new->first)
 		first->parent = new;
 	if (new->second)
 		second->parent = new;
 	return (new);
 }
-
 
 t_expression *parse_expression(t_token **token, const int minimum_binding)
 {
@@ -184,7 +179,6 @@ t_expression *parse_expression(t_token **token, const int minimum_binding)
 	}
 	return (first);
 }
-
 
 // t_expression	*parse_expression(t_token *token, const int minimum_binding)
 // {

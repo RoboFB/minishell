@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:01:16 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:41:40 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static const char *operator_to_str(t_expression_operator op) {
 
 static const char *filetype_to_str(t_filetype type)
 {
-    static const char *typestring[8] = {
-        "< stdin", "> stdout", "2> stderr", ">> stdout",
-        "2>> stderr", "<< heredoc", "< pipe", "> pipe"
+    static const char *typestring[10] = {
+        "PATH_STDIN_READ", "PATH_STDOUT_WRITE", "PATH_STDERR_WRITE", "PATH_STDOUT_WRITE_APPEND",
+        "PATH_STDERR_WRITE_APPEND", "FD_HEREDOC_READ", "FD_PIPE_READ", "FD_PIPE_WRITE"
     };
-    if ((int)type >= 0 && (int)type < 8)
+    if ((int)type >= 0 && (int)type <9)
 		return (typestring[type]);
     return ("???");
 }
@@ -107,9 +107,9 @@ static void debug_files(t_file *file)
 	}
     while (file) {
         if (file->path)
-			ft_debugf(77, "%s \"%s\"", filetype_to_str(file->type), file->path);
+			ft_debugf(77, "type: %s path: \"%s\"", filetype_to_str(file->type), file->path);
         else
-			ft_debugf(77, "%s fd=%d", filetype_to_str(file->type), file->fd);
+			ft_debugf(77, "type: %s fd: %d", filetype_to_str(file->type), file->fd);
         if (file && file->next)
 			ft_debugf(77, " ");
 		file = file->next;

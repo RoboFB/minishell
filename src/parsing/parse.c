@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 17:14:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:58:10 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,28 @@ void	expression_add_file(t_expression *atom, t_token **token)
 	return ;
 }
 
+void	resolve_files(t_expression *expression)
+{
+	t_file	*current;
+
+	if (!expression->files)
+		return ;
+	current = expression->files;
+	while (current)
+	{
+		if (!current->collection.head)
+			return ;
+		expand(&current->collection);
+		join_quotes(&current->collection);
+		strip_whitespace(&current->collection);
+		if (current->collection.head->next)
+			ft_fprintf(STDERR_FILENO, "minishell: ambiguous redirect\n");
+		else
+			current->path = current->collection.head->content;
+		current = current->next;
+	}
+}
+
 void	resolve(t_expression *expression)
 {
 	t_token	*token;
@@ -42,16 +64,13 @@ void	resolve(t_expression *expression)
 	expand(&expression->collection);
 	join_quotes(&expression->collection);
 	strip_whitespace(&expression->collection);
+	resolve_files(expression);
 	token = expression->collection.head;
 	tok_debug_display(&expression->collection);
 	while(token)
 	{
-		if (token_is_redirect(token))
-			expression_add_file(expression, &token);
-		else
-			expression_add_arg(expression, token);
-		if (token)
-			token = token->next;
+		expression_add_arg(expression, token);
+		token = token->next;
 	}
 	if (expression->args)
 		expression->name = expression->args[0];
@@ -61,9 +80,9 @@ void	parse(char *line, t_tokens *list)
 {
 	tokenize(line, list);
 	quote(list);
+	// tok_debug_display(list);
 	strip_quotes(list);
 	set_delimiters(list);
 	contract(list);
-	tok_debug_display(list);
 	list_to_tree();
 }
