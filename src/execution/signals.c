@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/02 16:15:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/15 19:11:10 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ ctrl-D -> EOF
 void handler(int sig)
 {
 	if (sig == SIGINT)
-		write(1, "\n", 1); // Handle Ctrl+C
+	{
+		write(1, "\n", 13); // Handle Ctrl+C
+		rl_on_new_line();
+	}
 	else if (sig == SIGQUIT)
-		write(1, "Quit: 3\n", 8); // Handle Ctrl+\ .
+		exit_shell(data()->last_exit_code); // Handle Ctrl+\ .
 }
 
 void signal_init(void)
