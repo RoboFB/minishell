@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:32:37 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/09/23 17:07:53 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/15 18:03:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,27 @@ static char	*h_test_path(const char *cmd_name, const char *path)
 // uses gc R: combined_path or NULL
 char	*get_full_path_cmd(const char *cmd_name, char *search_path)
 {
-	if (cmd_name == NULL || *cmd_name == '\0')
+	if (cmd_name == NULL || *cmd_name == '\0'
+		|| (ft_strncmp(cmd_name, ".", 2) == 0)
+		|| (ft_strncmp(cmd_name, "..", 3) == 0))
+	{
 		return (NULL);
-	else if (ft_strchr(cmd_name, '/') != NULL && access(cmd_name, F_OK) == 0)
-		return (gc_strdup(cmd_name));
+	}
+	else if (ft_strchr(cmd_name, '/') != NULL)
+	{
+		// if (access(cmd_name, F_OK) == 0)
+			return (gc_strdup(cmd_name));
+		// else
+		// 	return (NULL);
+	}
 	else if (search_path == NULL || *search_path == '\0')
+	{
 		return (NULL);
+	}
 	else
+	{
 		return (h_test_path(cmd_name, search_path));
+	}
 }
-
 // static const char	*fallback_path
 // 	= "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";

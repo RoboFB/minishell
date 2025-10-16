@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/15 17:45:37 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:54:36 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	read_file(t_file *file, int change_fd)
 		return ;
 	file->fd = open(file->path, O_RDONLY);
 	if (file->fd < 0)
-		perror_exit("open: input", EXIT_FAILURE);
+		perror_exit(file->path, EXIT_GENERAL_ERROR);
 	set_fd(file, change_fd);
 	return ;
 }
@@ -63,7 +63,7 @@ void	write_file(t_file *file, int change_fd)
 		return ;
 	file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file->fd < 0)
-		perror_exit("open: output", EXIT_FAILURE);
+		perror_exit(file->path, EXIT_GENERAL_ERROR);
 	set_fd(file, change_fd);
 	return ;
 }
@@ -74,7 +74,7 @@ void	write_append_file(t_file *file, int change_fd)
 		return ;
 	file->fd = open(file->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file->fd < 0)
-		perror_exit("open: append", EXIT_FAILURE);
+		perror_exit(file->path, EXIT_GENERAL_ERROR);
 	set_fd(file, change_fd);
 	return ;
 }

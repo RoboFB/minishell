@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/08 17:17:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/14 17:55:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ void debug_tree_robin(t_expression *root)
 {
 	int			seen;
 	
-	flock(2, LOCK_EX); // debug is ilegal in production code
+	if (!DEBUG_MODE) return;
+	// flock(2, LOCK_EX); // debug is ilegal in production code
 
 	seen = 0;
     if (!root)

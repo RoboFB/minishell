@@ -65,14 +65,20 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 
 ## Robin random
+- [x] refactor run with no command.
+- [x] shell level.
+- [] no interctiv mode for testers. + testing
+- [] * working dir an matching globla.
+- [] somehow i redirect error to stdout and not stderror like: rhhhrhrhr > /dev/null
+
 - [x] check out: readline
 - [ ] main loop, test stuff out
 
-- [ ] env _=/usr/bin/env  /minshell apsolut
-- [ ] fix EXIT_FAILURE to correct exit number
+- [x] env _=/usr/bin/env  /minshell apsolut -> ignore it
+- [x] fix EXIT_FAILURE to correct exit number
 
-- [ ] add $?
-- [ ] Fix env varable like la li lu   of export la li lu (no =)
+- [x] add $?
+- [x] Fix env varable like la li lu   of export la li lu (no =)
 
 BIG F BIG BIG F
 
@@ -89,6 +95,9 @@ result:
 stdout: 2
 
 cat < Makefile > 1 | cat < Makefile > 1
+
+
+
 
 #### readline
 read on line gets mallocte new line

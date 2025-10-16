@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 02:52:03 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:47:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	gc_error(void * memory, char *message)
+static void	gc_error(char *message)
 {
-	if (memory)
-		free(memory);
-	rl_clear_history();
-	free(data()->line);
-	gc_clear_all();
-	ft_fprintf(2, message);
-	exit(EXIT_FAILURE);
+	perror_exit(message, EXIT_GENERAL_ERROR);
 }
 
 static t_list	**gc_list(t_gc_index index)
@@ -42,11 +36,11 @@ t_list	*gc_add(void *memory)
 	t_list	**list;
 	t_list	*new;
 
-	if (!memory)
-		gc_error(memory, "minishell: heap allocation failed (content)");
+	if (memory == NULL)
+		gc_error("minishell: heap allocation failed of (content)");
 	new = ft_lstnew(memory);
-	if (!new)
-		gc_error(memory, "minishell: heap allocation failed (bookkeeping)");
+	if (new == NULL)
+		gc_error("minishell: heap allocation failed of (bookkeeping)");
 	list = gc_list(data()->gc_mode);
 	if (list)
 		ft_lstadd_front(list, new);
@@ -157,6 +151,17 @@ char	*gc_readline(char const *prompt)
 		return (gc_add(line)->content);
 }
 
+char	*gc_get_next_line(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	if (!line)
+		return (NULL);
+	else
+		return (gc_add(line)->content);
+}
+
 // R: *new_ptr
 // sets to zero and copy ptr to new-ptr cuts if new is smaller
 void	gc_realloc(void **change_ptr, size_t old, size_t new, size_t size)
@@ -170,19 +175,16 @@ void	gc_realloc(void **change_ptr, size_t old, size_t new, size_t size)
 		ft_memcpy(new_ptr, *change_ptr, old * size);
 	else
 		ft_memcpy(new_ptr, *change_ptr, new * size);
+	*change_ptr = gc_remove_one(*change_ptr);
 	*change_ptr = new_ptr;
-	// gc_remove_one(ptr); //TODO:
-	// or just let gc_clear_all handle it
-	// can be get full if called many times
 	return ;
 }
 
 // removes one entry from gc use gc_mode
 void *gc_remove_one(void *remove_ptr)
 {
-	// TODO: Implement
-	(void)remove_ptr;
-
+	(void)(remove_ptr);
+	// free(remove_ptr); // SAVE? because its gc_handled -> no;
 	return (NULL);
 }
 

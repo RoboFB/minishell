@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/15 17:40:58 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:54:58 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ pid_t	run_tree(t_expression *cmd)
 	if (cmd == NULL)
 		return (-1);
 
-	gc_mode(GC_EXECUTION);
+	gc_mode(GC_TEMPORARY);
 	inherit_files(cmd);
 
 	// debug_tree_robin(cmd); //for debuging
