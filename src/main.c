@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/14 16:37:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/14 19:45:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	// signal_init();
 	env_init(envp);
 	set_shell_level();
-	get_pid();
+	// get_pid();
 	while (true)
 	{
 		gc_clear_temporary();
@@ -54,7 +54,7 @@ char *get_shell_line(const char *prompt)
 		return (gc_readline(prompt));
 	line = gc_get_next_line(STDIN_FILENO);
 	if (line == NULL)
-		exit_shell(EXIT_SUCCESS);
+		exit_shell(data()->last_exit_code);
 	return (line);
 }
 

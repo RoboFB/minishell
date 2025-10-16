@@ -59,21 +59,20 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 
 ## Robin random
-- [] refactor run with no command.
-- [] shell level.
+- [x] refactor run with no command.
+- [x] shell level.
 - [] no interctiv mode for testers. + testing
 - [] * working dir an matching globla.
-
-
+- [] somehow i redirect error to stdout and not stderror like: rhhhrhrhr > /dev/null
 
 - [x] check out: readline
 - [ ] main loop, test stuff out
 
-- [ ] env _=/usr/bin/env  /minshell apsolut
-- [ ] fix EXIT_FAILURE to correct exit number
+- [x] env _=/usr/bin/env  /minshell apsolut -> ignore it
+- [x] fix EXIT_FAILURE to correct exit number
 
-- [ ] add $?
-- [ ] Fix env varable like la li lu   of export la li lu (no =)
+- [x] add $?
+- [x] Fix env varable like la li lu   of export la li lu (no =)
 
 BIG F BIG BIG F
 
@@ -82,6 +81,9 @@ BIG F BIG BIG F
 
 for something like that:
 (echo im hear, meno && sleep 5 && echo hi) | (ping -c 2 1.1.1.1 && cat -e)
+
+
+
 
 
 #### readline
