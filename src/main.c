@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/16 18:04:20 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:14:29 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		gc_clear_temporary();
 		gc_mode(GC_TEMPORARY);
-		line = gc_readline(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
+		line = get_shell_line(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
 		if (line == NULL || *line == '\0')
 			continue;
 		add_history(line);

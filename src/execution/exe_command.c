@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/09 17:06:01 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:47:32 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void run_comand(t_expression *cmd)
 	if (path_command == NULL)
 		msg_exit(cmd->name, "command not found", EXIT_BLT_CMD_NOT_FOUND);
 	
-	// if (access(path_command, X_OK) != 0) // check if executable normaly execve does this also maype for better error codes needed?
-	// 	perror_msg_exit(path_command, "command not executable", EXIT_BLT_CMD_NOT_EXECUTABLE);
+	if (access(path_command, X_OK) != 0) // check if executable normaly execve does this also maype for better error codes needed?
+		perror_msg_exit(path_command, "not executable", EXIT_BLT_CMD_NOT_EXECUTABLE);
 	execve(path_command, cmd->args, (char *const *)*env_get_ptr());
 	perror_msg_exit(path_command, "execve failed", EXIT_BLT_CMD_NOT_EXECUTABLE);
 }

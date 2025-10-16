@@ -7,7 +7,6 @@
 - [ ] history
 - [ ] one global variable for signal number
 
-
 ## Parts / main loop
 - [ ] init
 - [x] Prompt
@@ -16,7 +15,6 @@
 - [x] expand symbols
 - [ ] execution
 - [ ] free
-
 
 ## parsing symbols
 - [x] ''
@@ -29,6 +27,7 @@
 - [x] $
 - [x] $?
 - [x] $$
+- [ ] *
 
 ## parsing
 - [x] collect heredocs before execution
@@ -36,8 +35,15 @@
 - [x] << should be given a delimiter, then read the input until a line containing the
 delimiter is seen. However, it doesn’t have to update the history!
 - [ ] set shell level
-- [ ] accept redirect ahead of command
+- [x] accept redirect ahead of command
 - [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
+- [ ] expansions on file redirects, check order and guard against multiple files. handle redirect expansions separately from arg expansions.
+- [ ] attach redirect-only atoms to relevant expression.
+- [ ] export var="echo hi" && "$var" should error "echo hi: command not found"
+
+## signals
+- [ ] handle ctrl+c, ctrl+d && ctrl+\
+- [ ] handle animation cues
 
 ## execution
 - [x] single cmd.
@@ -59,22 +65,38 @@ delimiter is seen. However, it doesn’t have to update the history!
 
 
 ## Robin random
+- [x] refactor run with no command.
+- [x] shell level.
+- [] no interctiv mode for testers. + testing
+- [] * working dir an matching globla.
+- [] somehow i redirect error to stdout and not stderror like: rhhhrhrhr > /dev/null
+
 - [x] check out: readline
 - [ ] main loop, test stuff out
 
-- [ ] env _=/usr/bin/env  /minshell apsolut
-- [ ] fix EXIT_FAILURE to correct exit number
+- [x] env _=/usr/bin/env  /minshell apsolut -> ignore it
+- [x] fix EXIT_FAILURE to correct exit number
 
-- [ ] add $?
-- [ ] Fix env varable like la li lu   of export la li lu (no =)
+- [x] add $?
+- [x] Fix env varable like la li lu   of export la li lu (no =)
 
 BIG F BIG BIG F
 
 (export V=v | (echo $V && export U=u && echo $U) | cat -e) && echo $V
-             (        --sub shell--           )
+              (        --sub shell--           )
 
 for something like that:
 (echo im hear, meno && sleep 5 && echo hi) | (ping -c 2 1.1.1.1 && cat -e)
+
+do we keep executing in this case:
+(export testing="Makefile .gitignore" && echo bob > WTF < $testing) 2> /dev/null  || echo 2 
+result:
+/dev/null: bash: $testing: ambiguous redirect
+stdout: 2
+
+cat < Makefile > 1 | cat < Makefile > 1
+
+
 
 
 #### readline
@@ -96,7 +118,6 @@ what it says
 
 
 ## Functions
-
 readline, rl_clear_history, rl_on_new_line,
 rl_replace_line, rl_redisplay, Add_history,
 
@@ -120,3 +141,9 @@ isatty, ttyname, ttyslot, ioctl,
 getenv,
 tcsetattr, tcgetattr,
 tgetent, tgetflag, tgetnum, ttgetstr, tgoto, tputs
+
+*foo*
+f*oo
+f*oo*oo
+
+src/**/*.c

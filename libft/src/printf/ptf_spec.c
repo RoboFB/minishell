@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:01:37 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/16 18:00:32 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:08:30 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ int	ptf_reset_spec(t_spec *spec)
 	spec->alt = 0;
 	spec->length = 0;
 	spec->written = 0;
-	if (!spec->fd)
-		spec->fd = 1;
 	return (1);
 }
 

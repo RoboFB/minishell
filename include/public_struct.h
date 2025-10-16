@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   public_struct.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/13 19:12:00 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:55:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef	enum	e_gc_index
 {
 	GC_WORKING,
 	GC_TEMPORARY,
-	GC_EXECUTION,
 	GC_PERSISTENT
 }	t_gc_index;
 
