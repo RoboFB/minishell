@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/15 17:47:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/17 12:00:25 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 // run in sub for pipes
 void	exe_command_no_return(t_expression *cmd)
 {
-	set_all_redirect(cmd->files);
+	if (set_all_redirect(cmd->files) != 0)
+		exit_shell(data()->last_exit_code);
 	close_all_files(data()->tree_root);
 	if (is_builtin(cmd))
 	{
@@ -75,8 +76,10 @@ void run_builtin_in_main(t_expression *cmd)
 
 	stdin_fd = save_dup(STDIN_FILENO);
 	stdout_fd = save_dup(STDOUT_FILENO);
-	set_all_redirect(cmd->files);// maby check if i leak fds here but should be fine
-	run_builtin(cmd);
+	if (set_all_redirect(cmd->files) == 0)
+	{
+		run_builtin(cmd);
+	}
 	save_dup2(stdin_fd, STDIN_FILENO);
 	save_dup2(stdout_fd, STDOUT_FILENO);
 	save_close(&stdin_fd);
