@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/14 20:14:45 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:13:33 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	contract_file(t_token *atom, t_token **token)
 	file->type = token_to_filetype(*token);
 	*token = (*token)->next;
 	*token = tok_skip_whitespace(*token);
+	if (token_is_redirect(*token))
+	{
+		ft_fprintf(2,"minishell: syntax error near unexpected token '%s'\n", (*token)->content);
+		data()->last_exit_code = EXIT_SYNTAX_ERROR;
+		return ;
+	}
 	while (*token && !token_is_separator(*token) && !token_is_space(*token))
 	{
 		tok_add(*token, &file->collection);

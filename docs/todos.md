@@ -41,6 +41,7 @@ delimiter is seen. However, it doesn’t have to update the history!
 - [ ] attach redirect-only atoms to relevant expression.
 - [x] export var="echo hi" && "$var" should error "echo hi: command not found"
 - [ ] (mostly) ignore tokens and just read until next non alnum/_ char for variables. if no variable relevant (alnum/_) chars follow, $ should be treated as literal
+- [ ] ls >>> results in a file named ">"
 
 
 ## signals
