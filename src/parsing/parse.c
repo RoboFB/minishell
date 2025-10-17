@@ -29,11 +29,11 @@ void	expression_add_arg(t_expression *atom, t_token *token)
 	atom->argc++;
 }
 
-void	expression_add_file(t_expression *atom, t_token **token)
-{
-	get_redirect(atom, token);
-	return ;
-}
+// void	expression_add_file(t_expression *atom, t_token **token)
+// {
+// 	get_redirect(atom, token);
+// 	return ;
+// }
 
 void	resolve_files(t_expression *expression)
 {
