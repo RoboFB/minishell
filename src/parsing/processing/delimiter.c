@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimiter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 20:30:00 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/17 14:38:30 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	heredoc_in(t_token **token)
 	(*token)->content =  gc_strdup("");
 	while (true)
 	{
-		line = gc_readline("> ");
+		line = get_shell_line("> ");
 		if (!line
 			|| (ft_strlen(line) == ft_strlen(delimiter)
 			&& !ft_strncmp(delimiter, line, ft_strlen(line))))

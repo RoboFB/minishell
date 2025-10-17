@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/15 19:58:10 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:17:48 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	expression_add_arg(t_expression *atom, t_token *token)
 	atom->argc++;
 }
 
-void	expression_add_file(t_expression *atom, t_token **token)
-{
-	get_redirect(atom, token);
-	return ;
-}
+// void	expression_add_file(t_expression *atom, t_token **token)
+// {
+// 	get_redirect(atom, token);
+// 	return ;
+// }
 
 void	resolve_files(t_expression *expression)
 {
@@ -46,6 +46,12 @@ void	resolve_files(t_expression *expression)
 	{
 		if (!current->collection.head)
 			return ;
+		if (current->type == FD_HEREDOC_READ)
+		{
+			heredoc_write(current);
+			current = current->next;
+			continue ;
+		}
 		expand(&current->collection);
 		join_quotes(&current->collection);
 		strip_whitespace(&current->collection);

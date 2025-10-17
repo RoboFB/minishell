@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/15 20:04:31 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 19:30:01 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	expand(t_tokens *tokens)
 	{
 		if (token->type == TOK_VARIABLE && token->next && token->is_quoted != TOK_QUOTE && token->next->is_quoted == token->is_quoted)
 		{
-			ft_printf("quoted %d\n", token->is_quoted);
 			if (token->next && token->next->type == TOK_WORD
 					&& token->next->is_quoted == token->is_quoted)
 			{

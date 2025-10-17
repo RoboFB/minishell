@@ -39,7 +39,10 @@ delimiter is seen. However, it doesn’t have to update the history!
 - [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
 - [ ] expansions on file redirects, check order and guard against multiple files. handle redirect expansions separately from arg expansions.
 - [ ] attach redirect-only atoms to relevant expression.
-- [ ] export var="echo hi" && "$var" should error "echo hi: command not found"
+- [x] export var="echo hi" && "$var" should error "echo hi: command not found"
+- [ ] (mostly) ignore tokens and just read until next non alnum/_ char for variables. if no variable relevant (alnum/_) chars follow, $ should be treated as literal
+- [ ] ls >>> results in a file named ">"
+
 
 ## signals
 - [ ] handle ctrl+c, ctrl+d && ctrl+\
@@ -89,7 +92,7 @@ for something like that:
 (echo im hear, meno && sleep 5 && echo hi) | (ping -c 2 1.1.1.1 && cat -e)
 
 do we keep executing in this case:
-(export testing="Makefile .gitignore" && echo bob > WTF < $testing) 2> /dev/null  || echo 2 
+(export testing="Makefile .gitignore" && echo bob > WTF < $testing) 2> /dev/null  || echo 2
 result:
 /dev/null: bash: $testing: ambiguous redirect
 stdout: 2

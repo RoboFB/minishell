@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ptf_spec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:01:37 by modiepge          #+#    #+#             */
-/*   Updated: 2025/07/11 15:58:36 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:08:30 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	ptf_reset_spec(t_spec *spec)
 	spec->alt = 0;
 	spec->length = 0;
 	spec->written = 0;
-	spec->fd = 1;
 	return (1);
 }
 
