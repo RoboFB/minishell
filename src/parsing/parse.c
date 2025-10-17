@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/16 19:17:48 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/17 19:04:40 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	resolve_files(t_expression *expression)
 		expand(&current->collection);
 		join_quotes(&current->collection);
 		strip_whitespace(&current->collection);
+		wildcards(&current->collection);
 		if (current->collection.head->next)
 			ft_fprintf(STDERR_FILENO, "minishell: ambiguous redirect\n");
 		else
@@ -70,6 +71,7 @@ void	resolve(t_expression *expression)
 	expand(&expression->collection);
 	join_quotes(&expression->collection);
 	strip_whitespace(&expression->collection);
+	wildcards(&expression->collection);
 	resolve_files(expression);
 	token = expression->collection.head;
 	tok_debug_display(&expression->collection);
