@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/16 19:30:01 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/17 19:19:58 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 	index = list->head;
 	while (index)
 	{
-		if (!token->is_quoted && index->type != TOK_WHITESPACE)
+		if (!token->is_quoted && (index->type != TOK_WHITESPACE && index->type != TOK_WILDCARD))
 			index->is_quoted = TOK_QUOTE;
 		if (token->is_quoted)
 			index->is_quoted = TOK_QUOTE;

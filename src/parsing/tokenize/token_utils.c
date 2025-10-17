@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:13:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 20:28:43 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/17 19:12:18 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ void	tok_join(t_token *first, t_token *second, t_tokens *list)
 	if (first->next != second && second->prev != first)
 		return ;
 	first->content = gc_strjoin(first->content, second->content);
-	first->type = TOK_WORD;
+	if ((first->type == TOK_WILDCARD && !first->is_quoted) || (second->type == TOK_WILDCARD && !second->is_quoted))
+	{
+		first->type = TOK_WILDCARD;
+		first->is_quoted = 0;
+	}
+	else
+		first->type = TOK_WORD;
 	tok_delete(&second, list);
 }
 
