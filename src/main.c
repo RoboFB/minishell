@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/14 19:45:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/16 19:41:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	// signal_init();
 	env_init(envp);
 	set_shell_level();
-	// get_pid();
+	//get_pid(); // out for tester
 	while (true)
 	{
 		gc_clear_temporary();
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 char *get_shell_line(const char *prompt)
 {
 	char *line;
-	
+
 	if (isatty(STDIN_FILENO))
 		return (gc_readline(prompt));
 	line = gc_get_next_line(STDIN_FILENO);
