@@ -6,13 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/16 16:58:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/17 11:08:40 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define _POSIX_C_SOURCE 202405L
 
 # include <stdlib.h>	// malloc, free, getenv, exit
 # include <unistd.h>	// read, write, close, access, fork, execve, pipe, dup, dup2, chdir, getcwd, isatty, unlink, ttyslot, ttyname
@@ -72,12 +73,6 @@ bool		is_piped_direct(t_expression *cmd);
 bool		is_piped_somewhere(t_expression *cmd);
 void		run_builtin_in_main(t_expression *cmd);
 void		run_comand(t_expression *cmd);
-void		exit_shell(t_exit_code exit_code);
-void		perror_exit(char *msg, t_exit_code exit_code);
-void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
-void		msg_exit(char *function, char *error, t_exit_code exit_code);
-void		msg_error(char *function, char *error);
-void		set_exit_code(t_exit_code exit_code);
 pid_t		run_tree(t_expression *cmd);
 pid_t		run_cmd_switch(t_expression *cmd);
 pid_t		run_pipe(t_expression *cmd);
@@ -91,6 +86,12 @@ void		write_file(t_file *file, int change_fd);
 void		write_append_file(t_file *file, int change_fd);
 void		handler(int sig);
 void		signal_init(void);
+void		exit_shell(t_exit_code exit_code);
+void		perror_exit(char *msg, t_exit_code exit_code);
+void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
+void		msg_exit(char *function, char *error, t_exit_code exit_code);
+void		msg_error(char *function, char *error);
+void		set_exit_code(t_exit_code exit_code);
 size_t		env_get_len_key(char *line);
 char		**env_get_line_ptr(char *line);
 char		*env_check_line(char *line, char **line_ptr);
