@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 12:00:25 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/23 14:07:12 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void run_comand(t_expression *cmd)
 		msg_exit(cmd->name, "command not found", EXIT_BLT_CMD_NOT_FOUND);
 	
 	if (access(path_command, X_OK) != 0) // check if executable normaly execve does this also maype for better error codes needed?
-		perror_msg_exit(path_command, "not executable", EXIT_BLT_CMD_NOT_EXECUTABLE);
+		perror_msg_exit(path_command, "", EXIT_BLT_CMD_NOT_FOUND);
 	execve(path_command, cmd->args, (char *const *)*env_get_ptr());
 	perror_msg_exit(path_command, "execve failed", EXIT_BLT_CMD_NOT_EXECUTABLE);
 }

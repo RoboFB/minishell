@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:16 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/14 15:58:05 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/23 13:44:24 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void blt_cd(t_expression *cmd)
 
 	if (blt_cd_error_check(cmd) == -1)
 	{
-		set_exit_code(EXIT_SYNTAX_ERROR);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return ;
 	}
 	gc_mode(GC_TEMPORARY);

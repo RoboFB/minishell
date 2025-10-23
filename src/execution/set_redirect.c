@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 12:07:00 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/23 14:13:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	write_file(t_file *file, int change_fd)
 	if (file->fd == -1)
 	{
 		perror(file->path);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return (-1);
 	}
 	set_fd(file, change_fd);
@@ -99,6 +100,7 @@ int	write_append_file(t_file *file, int change_fd)
 	if (file->fd  == -1)
 	{
 		perror(file->path);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return (-1);
 	}
 	set_fd(file, change_fd);

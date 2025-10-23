@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 11:08:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/17 19:11:02 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@
 
 
 // auto
-int			blt_one_arg(char const *input, int min, int max, int *out);
-int			blt_count_args(t_expression *cmd);
-bool		blt_has_flag(t_expression *cmd);
 void		run_builtin(t_expression *command);
 bool		is_builtin(t_expression *command);
-void		blt_cd(t_expression *cmd);
-int			blt_cd_error_check(t_expression *cmd);
-char		*blt_cd_get_new_dir(t_expression *cmd);
 void		blt_env(t_expression *cmd);
-void		blt_exit(t_expression *cmd);
-void		blt_export(t_expression *cmd);
 void		blt_pwd(t_expression *cmd);
 void		blt_unset(t_expression *cmd);
 void		blt_echo(t_expression *cmd);
+void		blt_cd(t_expression *cmd);
+int			blt_cd_error_check(t_expression *cmd);
+char		*blt_cd_get_new_dir(t_expression *cmd);
+void		blt_exit(t_expression *cmd);
+bool		h_is_num(const char *num_ptr);
+void		blt_export(t_expression *cmd);
 void		blt_noname(t_expression *command);
+int			blt_count_args(t_expression *cmd);
+bool		blt_has_flag(t_expression *cmd);
 void		save_close(int *fd);
 void		close_files(t_file *head);
 void		close_all_files(t_expression *root);
@@ -103,6 +103,12 @@ void		env_add_line(char *line);
 void		env_add_line_data(char *key, char *value);
 void		env_remove_line(char *line);
 void		env_init(char **input_envp);
+void		save_dup2(int old_fd, int new_fd);
+int			save_dup(int copy_fd);
+void		save_pipe(int *write_in_pipe, int *read_out_pipe);
+char		*save_getcwd(char *buf, size_t size);
+void		save_chdir(const char *new_dir);
+pid_t		save_fork(void);
 void		gc_init(void);
 t_list		*gc_add(void *memory);
 void		gc_mode(t_gc_index mode);
@@ -119,18 +125,6 @@ char		*gc_get_next_line(int fd);
 void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
 void		*gc_remove_one(void *remove_ptr);
 char		*gc_itoa(int number);
-void		save_dup2(int old_fd, int new_fd);
-int			save_dup(int copy_fd);
-void		save_pipe(int *write_in_pipe, int *read_out_pipe);
-char		*save_getcwd(char *buf, size_t size);
-void		save_chdir(const char *new_dir);
-pid_t		save_fork(void);
-t_token		*tok_new(char *content, t_token_type type);
-void		tok_add(t_token *new, t_tokens *list);
-void		tok_delete(t_token **token, t_tokens *list);
-void		tok_join(t_token *first, t_token *second, t_tokens *list);
-t_token		*tok_skip_whitespace(t_token *token);
-void		list_reset(t_tokens *tokens);
 int			token_is_space(t_token *token);
 int			token_is_redirect(t_token *token);
 int			token_is_operator(t_token *token);
@@ -142,29 +136,33 @@ void		contract_file(t_token *atom, t_token **token);
 t_token		*atomize(t_token **token);
 void		contract(t_tokens *list);
 void		tokenize(char *line, t_tokens *list);
+t_token		*tok_new(char *content, t_token_type type);
+void		tok_add(t_token *new, t_tokens *list);
+void		tok_delete(t_token **token, t_tokens *list);
+void		tok_join(t_token *first, t_token *second, t_tokens *list);
+t_token		*tok_skip_whitespace(t_token *token);
+void		list_reset(t_tokens *tokens);
 void		strip_whitespace(t_tokens *tokens);
 int			tok_make_meta_token(char *position, t_tokens *list);
 int			tok_make_word_token(char *position, t_tokens *list);
 int			tok_make_space_token(char *position, t_tokens *list);
 void		line_split(char *line, t_tokens *list);
+void		strip_quotes(t_tokens *tokens);
+void		join_quotes(t_tokens *list);
+void		quote(t_tokens *list);
 void		set_delimiters(t_tokens *list);
 void		heredoc_in(t_token **token);
 t_token		*get_delimiter(t_token *token, t_tokens *list);
-t_file		*redirect_out(t_expression *atom, t_token **token);
-t_file		*redirect_in(t_expression *atom, t_token **token);
-t_filetype		get_redirect(t_expression *atom, t_token **token);
-void		tok_expansion(t_token *token, char *line, t_tokens *tokens);
-void		expand(t_tokens *tokens);
-void		receive_pid(int sig, siginfo_t *info, void *context);
-pid_t		get_pid(void);
 char		*tmpfile_name(unsigned int id);
 ssize_t		write_until_variable(int fd, char *bytes);
 ssize_t		write_variable(int fd, char *bytes, t_token_type quoted);
 int			heredoc_expand(int fd, char *bytes, t_token_type quoted);
-t_file		*heredoc_write(t_expression *atom, t_token **token);
-void		strip_quotes(t_tokens *tokens);
-void		join_quotes(t_tokens *list);
-void		quote(t_tokens *list);
+t_file		*heredoc_write(t_file *file);
+void		tok_expansion(t_token *token, char *line, t_tokens *tokens);
+void		expand(t_tokens *tokens);
+void		receive_pid(int sig, siginfo_t *info, void *context);
+pid_t		get_pid(void);
+void		wildcards(t_tokens *tokens);
 t_expression		*make_expression(t_expression_operator operator, t_expression *first, t_expression *second);
 t_expression_operator		expression_type(t_token_type type);
 t_bind		*binding_power(t_token *token);
@@ -178,7 +176,6 @@ void		list_to_tree(void);
 void		tok_debug_display(t_tokens *tokens);
 void		debug_tree(t_expression *root);
 void		expression_add_arg(t_expression *atom, t_token *token);
-void		expression_add_file(t_expression *atom, t_token **token);
 void		resolve_files(t_expression *expression);
 void		resolve(t_expression *expression);
 void		parse(char *line, t_tokens *list);
