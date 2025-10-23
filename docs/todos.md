@@ -70,9 +70,11 @@ delimiter is seen. However, it doesn’t have to update the history!
 ## Robin random
 - [x] refactor run with no command.
 - [x] shell level.
-- [] no interctiv mode for testers. + testing
+- [x] no interctiv mode for testers. + testing
 - [] * working dir an matching globla.
-- [] somehow i redirect error to stdout and not stderror like: rhhhrhrhr > /dev/null
+- [x] somehow i redirect error to stdout and not stderror like: rhhhrhrhr > /dev/null
+
+- [] cd "$PWD/docs"
 
 - [x] check out: readline
 - [ ] main loop, test stuff out
