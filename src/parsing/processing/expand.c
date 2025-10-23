@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/17 19:19:58 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:15:09 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,20 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 	index = list->head;
 	while (index)
 	{
-		if (!token->is_quoted && (index->type != TOK_WHITESPACE && index->type != TOK_WILDCARD))
-			index->is_quoted = TOK_QUOTE;
-		if (token->is_quoted)
+		if (index->type != TOK_WHITESPACE && index->type != TOK_WILDCARD)
 			index->is_quoted = TOK_QUOTE;
 		index = index->next;
 	}
 	if (token->prev)
 		token->prev->next = list->head;
-	list->head->prev = token->prev;
+	else
+		tokens->head = list->head;
+	if (list->head)
+		list->head->prev = token->prev;
 	if (token->next)
-		token->next->prev = list->tail;
-	list->tail->next = token->next;
+		token->next->prev = list->tail; // ripping apart token stream
+	if (list->tail)
+		list->tail->next = token->next;
 	list->head = NULL;
 	list->tail = NULL;
 }
@@ -53,43 +55,29 @@ void	expand(t_tokens *tokens)
 	token = tokens->head;
 	while (token)
 	{
-		if (token->type == TOK_VARIABLE && token->next && token->is_quoted != TOK_QUOTE && token->next->is_quoted == token->is_quoted)
+		if (token->type == TOK_VARIABLE && token->is_quoted != TOK_QUOTE && token->content[1])
 		{
-			if (token->next && token->next->type == TOK_WORD
-					&& token->next->is_quoted == token->is_quoted)
+			if (token->content[1] == '$')
+				token->content = gc_itoa(data()->pid);
+			else if (token->content[1] == '?')
+				token->content = gc_itoa(data()->last_exit_code);
+			else if (token->is_quoted != TOK_DOUBLE_QUOTE)
 			{
-				if (token->is_quoted != TOK_DOUBLE_QUOTE)
-				{
-					tok_expansion(token->next,
-							env_get_line_data(token->next->content), tokens);
-				}
-				else
-					token->next->content = env_get_line_data(token->next->content);
-				tok_delete(&token, tokens);
+				tok_expansion(token,
+						env_get_line_data(&token->content[1]), tokens);
 			}
-			else if (token->next && token->next->type == TOK_VARIABLE
-				&& token->next->is_quoted == token->is_quoted)
+			else
+				token->content = env_get_line_data(&token->content[1]);
+			token->type = TOK_WORD;
+			if (!token->content || token->content[0] == '\0')
 			{
-				token->next->content = gc_itoa(data()->pid);
 				tok_delete(&token, tokens);
-			}
-			else if (token->next && token->next->type == TOK_QUESTION
-				&& token->next->is_quoted == token->is_quoted)
-			{
-				token->next->content = gc_itoa(data()->last_exit_code);
-				tok_delete(&token, tokens);
-			}
-			else if (token->next && token->next->type == TOK_WORD)
-			{
-				tok_join(token, token->next, tokens);
+				continue ;
 			}
 		}
-		else if (token->type == TOK_VARIABLE && token->next && token->is_quoted != TOK_QUOTE && token->next->is_quoted != token->is_quoted)
-			tok_delete(&token, tokens);
 		if (token)
 			token = token->next;
 	}
-	ft_debugf(1, "lexing: variables expanded\n");
 }
 
 void	receive_pid(int sig, siginfo_t *info, void *context)

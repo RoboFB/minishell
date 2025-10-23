@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/17 19:04:40 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:07:51 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	expression_add_arg(t_expression *atom, t_token *token)
 {
+	if (token->type == TOK_WHITESPACE && !token->is_quoted)
+		return ;
 	if (!atom->args)
 	{
 		atom->args = (char **)gc_calloc(2, sizeof(char *));
@@ -52,6 +54,7 @@ void	resolve_files(t_expression *expression)
 			current = current->next;
 			continue ;
 		}
+		strip_leftover_vars(&current->collection);
 		expand(&current->collection);
 		join_quotes(&current->collection);
 		strip_whitespace(&current->collection);
@@ -68,6 +71,7 @@ void	resolve(t_expression *expression)
 {
 	t_token	*token;
 
+	strip_leftover_vars(&expression->collection);
 	expand(&expression->collection);
 	join_quotes(&expression->collection);
 	strip_whitespace(&expression->collection);

@@ -3,16 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   line_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:05:16 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/09 03:03:22 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:28:28 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	tok_variable(char *position, t_tokens *list)
+{
+	int	length;
 
+	length = 1;
+	while (ft_isalnum(position[length]) || position[length] == '_')
+		length++;
+	if (length == 1)
+	{
+		if (position[length] == '$')
+		{
+			tok_add(tok_new(gc_substr(position, 0, length + 1), TOK_VARIABLE), list);
+			return (2);
+		}
+		else if (position[length] == '?')
+		{
+			tok_add(tok_new(gc_substr(position, 0, length + 1), TOK_VARIABLE), list);
+			return (2);
+		}
+		else
+			tok_add(tok_new(gc_substr(position, 0, 1), TOK_VARIABLE), list);
+	}
+	else
+		tok_add(tok_new(gc_substr(position, 0, length), TOK_VARIABLE), list);
+	return (length);
+}
 
 int	tok_make_meta_token(char *position, t_tokens *list)
 {
@@ -33,6 +58,8 @@ int	tok_make_meta_token(char *position, t_tokens *list)
 		index++;
 	if (index < 17)
 	{
+		if (symbols[index].type == TOK_VARIABLE)
+			return (tok_variable(position, list));
 		length = ft_strlen(symbols[index].key);
 		tok_add(tok_new(gc_substr(position, 0, length), symbols[index].type), list);
 		return (length);
