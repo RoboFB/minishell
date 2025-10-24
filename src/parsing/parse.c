@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/22 21:07:51 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:32:48 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	resolve(t_expression *expression)
 	wildcards(&expression->collection);
 	resolve_files(expression);
 	token = expression->collection.head;
-	tok_debug_display(&expression->collection);
 	while(token)
 	{
 		expression_add_arg(expression, token);
@@ -92,7 +91,6 @@ void	parse(char *line, t_tokens *list)
 {
 	tokenize(line, list);
 	quote(list);
-	// tok_debug_display(list);
 	strip_quotes(list);
 	set_delimiters(list);
 	contract(list);

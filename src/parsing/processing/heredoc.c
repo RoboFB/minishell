@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:41:22 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/16 19:27:12 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 15:34:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

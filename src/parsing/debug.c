@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/13 19:41:40 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:20:10 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	tok_debug_display(t_tokens *tokens)
 	while (token)
 	{
 		if (token && token->type != TOK_ATOM)
-			ft_debugf(2, "token:\t %5.5s is \t%s (quote: %d)\n", token->content, debug_type[token->type], token->is_quoted);
+			ft_debugf(2, "token:\t %5s is \t%s (quote: %d)\n", token->content, debug_type[token->type], token->is_quoted);
 		else if (token)
 		{
 			ft_debugf(2, "token is\t\t%s\n", debug_type[token->type]);
 			subtoken = token->collection.head;
 			while (subtoken)
 			{
-				ft_debugf(2, "--token: %5.5s is \t%s (quote: %d)\n", subtoken->content, debug_type[subtoken->type], subtoken->is_quoted);
+				ft_debugf(2, "--token: %5s is \t%s (quote: %d)\n", subtoken->content, debug_type[subtoken->type], subtoken->is_quoted);
 				subtoken = subtoken->next;
 			}
 		}

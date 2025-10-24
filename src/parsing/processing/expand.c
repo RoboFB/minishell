@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/22 21:15:09 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:32:08 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 	if (list->head)
 		list->head->prev = token->prev;
 	if (token->next)
-		token->next->prev = list->tail; // ripping apart token stream
+		token->next->prev = list->tail;
 	if (list->tail)
 		list->tail->next = token->next;
 	list->head = NULL;
@@ -51,6 +51,7 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 void	expand(t_tokens *tokens)
 {
 	t_token	*token;
+	char	*value;
 
 	token = tokens->head;
 	while (token)
@@ -61,19 +62,20 @@ void	expand(t_tokens *tokens)
 				token->content = gc_itoa(data()->pid);
 			else if (token->content[1] == '?')
 				token->content = gc_itoa(data()->last_exit_code);
-			else if (token->is_quoted != TOK_DOUBLE_QUOTE)
-			{
-				tok_expansion(token,
-						env_get_line_data(&token->content[1]), tokens);
-			}
 			else
-				token->content = env_get_line_data(&token->content[1]);
-			token->type = TOK_WORD;
-			if (!token->content || token->content[0] == '\0')
 			{
-				tok_delete(&token, tokens);
-				continue ;
+				value = env_get_line_data(&token->content[1]);
+				if (!value || !value[0])
+				{
+					tok_delete(&token, tokens);
+					continue ;
+				}
+				else if (token->is_quoted != TOK_DOUBLE_QUOTE)
+					tok_expansion(token, value, tokens);
+				else
+					token->content = value;
 			}
+			token->type = TOK_WORD;
 		}
 		if (token)
 			token = token->next;
