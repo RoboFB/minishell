@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 11:59:15 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/24 17:16:14 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ pid_t run_and_or(t_expression *cmd)
 	pid_t pid;
 
 	pid = run_tree(cmd->first);
-	close_all_files(cmd->first);
-	wait_and_set_exit_code(pid);
+	// close_all_files(cmd->first);
+	// wait_and_set_exit_code(pid);
 	if ((data()->last_exit_code == 0 && cmd->type == OPERATOR_AND)
 	 || (data()->last_exit_code != 0 && cmd->type == OPERATOR_OR))
 	 {
 		 pid = run_tree(cmd->second);
 	 }
-	close_all_files(cmd);
-	wait_and_set_exit_code(pid);
+	// close_all_files(cmd);
+	// wait_and_set_exit_code(pid);
 	if (is_piped_direct(cmd))
 	{
 		exit_shell(data()->last_exit_code);
 	}
-	return (pid);
+	return (-1);
 }
 
 void wait_and_set_exit_code(pid_t pid)
