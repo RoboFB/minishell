@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/24 16:32:48 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:48:41 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	resolve_files(t_expression *expression)
 		join_quotes(&current->collection);
 		strip_whitespace(&current->collection);
 		wildcards(&current->collection);
-		if (current->collection.head->next)
-			ft_fprintf(STDERR_FILENO, "minishell: ambiguous redirect\n");
+		if (!current->collection.head || current->collection.head->next)
+			syntax_error("ambiguous redirect\n", 0);
 		else
 			current->path = current->collection.head->content;
 		current = current->next;
@@ -94,5 +94,8 @@ void	parse(char *line, t_tokens *list)
 	strip_quotes(list);
 	set_delimiters(list);
 	contract(list);
-	list_to_tree();
+	if (!valid_prompt(list))
+		syntax_error("syntax error", NULL);
+	if (!*interrupted())
+		list_to_tree();
 }

@@ -34,14 +34,17 @@
 - [x] expand when hitting each command
 - [x] << should be given a delimiter, then read the input until a line containing the
 delimiter is seen. However, it doesn’t have to update the history!
-- [ ] set shell level
+- [x] set shell level
 - [x] accept redirect ahead of command
 - [x] in cases like a""b, the current quote joiner turns the whole thing into a b, instead of ab. This is likely because I don't mark quotes as contained in a quote so after stripping there's no indicator of it having been in quotes.
-- [ ] expansions on file redirects, check order and guard against multiple files. handle redirect expansions separately from arg expansions.
+- [x] expansions on file redirects, check order and guard against multiple files. handle redirect expansions separately from arg expansions.
 - [ ] attach redirect-only atoms to relevant expression.
 - [x] export var="echo hi" && "$var" should error "echo hi: command not found"
 - [ ] (mostly) ignore tokens and just read until next non alnum/_ char for variables. if no variable relevant (alnum/_) chars follow, $ should be treated as literal
-- [ ] ls >>> results in a file named ">"
+- [x] ls >>> results in a file named ">"
+- [ ] handle >| (alias for >)
+- [ ] >> $HOME returns bash: /home/modiepge: Is a directory, exit code 1;
+- [ ] expansion in files does not occur without ""
 
 
 ## signals

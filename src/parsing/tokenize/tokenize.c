@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/24 16:22:18 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:07:51 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ void	contract_file(t_token *atom, t_token **token)
 	*token = tok_skip_whitespace(*token);
 	if (token_is_redirect(*token) || token_is_separator(*token))
 	{
-		ft_fprintf(2,"minishell: syntax error near unexpected token '%s'\n", (*token)->content);
-		data()->last_exit_code = EXIT_SYNTAX_ERROR;
+		syntax_error("syntax error near unexpected token", (*token)->content);
 		return ;
 	}
 	else if (!*token)
-			ft_fprintf(2,"minishell: syntax error near EOL, empty redirect\n");
+			syntax_error("syntax error near EOL, empty redirect", NULL);
 	while (*token && !token_is_separator(*token) && !token_is_space(*token))
 	{
 		tok_add(*token, &file->collection);
@@ -79,6 +78,8 @@ t_token	*atomize(t_token **token)
 	}
 	if (atom->collection.tail)
 		atom->collection.tail->next = NULL;
+	if (!valid_collection(&atom->collection))
+		syntax_error("syntax error", NULL);
 	return (atom);
 }
 
