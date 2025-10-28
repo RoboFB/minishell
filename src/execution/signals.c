@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/15 19:11:10 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:33:56 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,16 @@ void signal_init(void)
 	return ;
 }
 
+void sig_reset(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+}
+
+void sig_init(void)
+{
+	// struct sigaction sa;
+	
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}

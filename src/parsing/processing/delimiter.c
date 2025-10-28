@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/17 14:38:30 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/27 18:17:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,39 @@ void	heredoc_in(t_token **token)
 	char				*line;
 	char				*delimiter;
 	static unsigned int	id;
+	int					pid;
+	int status;
 
 	gc_mode(GC_WORKING);
 	if (!token || !*token)
 		return ;
 	delimiter = gc_strdup((*token)->content);
 	(*token)->content =  gc_strdup("");
-	while (true)
+	pid = save_fork();
+	if (pid == 0)
 	{
-		line = get_shell_line("> ");
-		if (!line
-			|| (ft_strlen(line) == ft_strlen(delimiter)
-			&& !ft_strncmp(delimiter, line, ft_strlen(line))))
-			break ;
-		(*token)->content = gc_strjoin((*token)->content, line);
-		(*token)->content = gc_strjoin((*token)->content, "\n");
+		sig_reset();
+		while (true)
+		{
+			line = get_shell_line("> ");
+			if (!line
+				|| (ft_strlen(line) == ft_strlen(delimiter)
+				&& !ft_strncmp(delimiter, line, ft_strlen(line))))
+				break ;
+			(*token)->content = gc_strjoin((*token)->content, line);
+			(*token)->content = gc_strjoin((*token)->content, "\n");
+		}
+		exit_shell(EXIT_SUCCESS);
+	}
+	else if (pid > 0)
+	{
+		status = 0;
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			data()->last_exit_code = WTERMSIG(status) + EXIT_SIGNAL_BASE;
+			(*interrupted()) = true;
+		}
 	}
 	gc_mode(GC_TEMPORARY);
 	(*token)->id = ++id;

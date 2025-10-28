@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/23 14:07:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/27 18:04:26 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // run in sub for pipes
 void	exe_command_no_return(t_expression *cmd)
 {
+	sig_reset();
 	if (set_all_redirect(cmd->files) != 0)
 		exit_shell(data()->last_exit_code);
 	close_all_files(data()->tree_root);
