@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 12:09:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/09/05 15:07:45 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:18:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define LIBFT_H
 # include <limits.h>
 # include <stddef.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -44,6 +44,8 @@ void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin_3(char const *s1, char const *s2,
+						char const *s3);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
@@ -78,7 +80,7 @@ void				*ft_free(void *pointer);
 	combined unsigned value.
 
 	@param str	pointer to the starting character
-	@param base	2 for binary, 16 for hex, or anything in between 
+	@param base	2 for binary, 16 for hex, or anything in between
 */
 unsigned int		ft_atou_base(const char *str, int base);
 int					ft_isspace(int c);
