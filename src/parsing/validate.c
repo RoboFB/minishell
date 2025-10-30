@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:39 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/28 18:14:03 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:33:19 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,78 @@ bool	valid_collection(t_tokens *list)
 	return (false);
 }
 
+bool	valid_parenthesis(t_tokens *list)
+{
+	t_token *current;
+	unsigned int	left;
+	unsigned int	right;
+
+	current = list->head;
+	left = 0;
+	right = 0;
+	while (current)
+	{
+		if (current->type == TOK_LEFT_PARENTHESIS)
+			left++;
+		else if (current->type == TOK_RIGHT_PARENTHESIS)
+		{
+			if (right > left)
+				return (false);
+			right++;
+		}
+		current = current->next;
+	}
+	if (left == right)
+		return (true);
+	return (false);
+}
+
+bool	valid_order(t_tokens *list)
+{
+	t_token *current;
+	unsigned int	atoms;
+	unsigned int	operators;
+	bool			last_atom;
+
+	current = list->head;
+	atoms = 0;
+	operators = 0;
+	while (current)
+	{
+		if (current->type == TOK_ATOM)
+		{
+			if (last_atom)
+			 	return (false);
+			atoms++;
+			last_atom = true;
+		}
+		else if (token_is_operator(current) && last_atom)
+		{
+			if (operators > atoms)
+				return (false);
+			atoms++;
+			last_atom = false;
+		}
+		current = current->next;
+	}
+	if (atoms <= operators)
+		return (false);
+	return (true);
+}
+
 bool	valid_prompt(t_tokens *list)
 {
 	t_token *current;
 
 	current = list->head;
-	if (!current || !(token_is_parenthesis(current) || current->type == TOK_ATOM))
+	if (!current || !valid_parenthesis(list) 
+		|| token_is_operator(list->tail)
+		|| !valid_order(list)
+		|| (!token_is_parenthesis(current) && current->type != TOK_ATOM))
 		return (false);
 	while (current)
 	{
-		if (token_is_separator(current->prev) && token_is_separator(current) 
-			&& !(token_is_parenthesis(current->prev) || token_is_parenthesis(current)))
-			return (false);
-		if (token_is_parenthesis(current->prev) && token_is_parenthesis(current))
-			return (false);
-		if (!current->next && token_is_operator(current))
+		if (token_is_operator(current->prev) && token_is_operator(current))
 			return (false);
 		current = current->next;
 	}

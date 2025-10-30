@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/24 18:03:39 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:25:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,4 @@ void	list_to_tree(void)
 	ast = &data()->tree_root;
 	token = tokens->head;
 	*ast = parse_expression(&token, 0);
-	// if (*ast)
-	// 	debug_tree(*ast);
 }

@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/29 18:31:52 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:18:56 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,7 @@ void	contract(t_tokens *list)
 			&& current->type == TOK_WHITESPACE)
 			current = current->next;
 		else
-		{
 			tok_add(atomize(&current), &new);
-		}
 	}
 	list->head = new.head;
 	list->tail = new.tail;
