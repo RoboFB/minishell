@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:09:43 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/29 19:01:32 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,3 +220,82 @@
 // 	exit_shell(EXIT_OK);
 // 	return 0;
 // }
+
+
+// // testing is broken
+/* int main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	gc_init();
+	gc_mode(GC_PERSISTENT);
+	env_init(envp);
+
+
+// 	char *str[] = {"*", "a*b", "*a*b*", "*hallo", "bye*", "***xxx*****", "*****c", NULL};
+// 	// for (char *t_str = str[0]; t_str != NULL; t_str++)
+// 	for (int i =0; str[i]; i++)
+// 	{
+// 		printf("\n1: _%s_\n", str[i]);
+// 		bool b = 0;
+// 		while (1)
+// 		{
+// 			char *tmp = wild_get_next_pattern(&str[i], &b);
+// 			printf("_%s_   _%s_ ?:_%d_\n", str[i], tmp, b);
+// 			if (*tmp == '\0')
+// 				break;
+// 		}
+		
+// 	}
+	printf("0 valied yes: %s\n", wild_check_name("abc", "*") ? "yes" : "false");
+	printf("1 valied 1:%d\n", wild_check_name("abc", "*"));
+	printf("2 valied 1:%d\n", wild_check_name("abc", "a*"));
+	printf("3 valied 1:%d\n", wild_check_name("abc", "*bc"));
+	printf("3.5 valied 1:%d\n", wild_check_name("abc", "*abc"));
+	printf("4 valied 1:%d\n", wild_check_name("abc", "*b*"));
+	printf("5 valied 1:%d\n", wild_check_name("abc", "*a*b*****c*"));
+	printf("6 valied 1:%d\n", wild_check_name("abc", "****c"));
+	printf("7 valied 1:%d\n", wild_check_name("abc", "a****"));
+	printf("8 valied 1:%d\n", wild_check_name("abc", "****"));
+	printf("9 valied 1:%d\n", wild_check_name("", "*"));
+	printf("10 valied 1:%d\n", wild_check_name("wefwefwefwe", "*"));
+	printf("11 valied 1:%d\n\n", wild_check_name("abc", "abc"));
+	printf("11 valied 1:%d\n", wild_check_name("aaa", "*a*a"));
+	printf("12 valied 1:%d\n\n", wild_check_name("aa", "*a*a"));
+	
+	printf("20 valied 0:%d\n", wild_check_name("abc", ""));
+	printf("20 valied 0:%d\n", wild_check_name("abc", "b"));
+	printf("20 valied 0:%d\n", wild_check_name("abc", "a"));
+	printf("20 valied 0:%d\n", wild_check_name("abc", "c"));
+	printf("21 valied 0:%d\n", wild_check_name("wefwefwefwe", "*x*"));
+	printf("22 valied 0:%d\n", wild_check_name("abc", "*g"));
+	printf("23 valied 0:%d\n", wild_check_name("abc", "*b"));
+	printf("24 valied 0:%d\n", wild_check_name("abc", "b*"));
+	printf("25 valied 0:%d\n", wild_check_name("abc", "ac*"));
+
+	bool b = 0;
+	char *grr = "*a*a";
+	char *tmp = wild_get_next_pattern(&grr, &b);
+	printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+	tmp = wild_get_next_pattern(&grr, &b);
+	printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+	tmp = wild_get_next_pattern(&grr, &b);
+	printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+
+
+	// bool b =0;
+	// char *grr = "*c";
+	// char *tmp = wild_get_next_pattern(&grr, &b);
+	// printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+	// 	tmp = wild_get_next_pattern(&grr, &b);
+	// 	printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+	// 	tmp = wild_get_next_pattern(&grr, &b);
+	// 	printf("_*c_   _%s_   ?:_%d_\n", tmp, b);
+
+
+	exit_shell(EXIT_OK);
+	return 0;
+}
+
+ */

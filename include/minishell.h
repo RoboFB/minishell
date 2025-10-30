@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 19:11:02 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/29 19:02:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 #define _POSIX_C_SOURCE 202405L
+#define _DEFAULT_SOURCE
 
 # include <stdlib.h>	// malloc, free, getenv, exit
 # include <unistd.h>	// read, write, close, access, fork, execve, pipe, dup, dup2, chdir, getcwd, isatty, unlink, ttyslot, ttyname
@@ -107,8 +108,9 @@ void		save_dup2(int old_fd, int new_fd);
 int			save_dup(int copy_fd);
 void		save_pipe(int *write_in_pipe, int *read_out_pipe);
 char		*save_getcwd(char *buf, size_t size);
-void		save_chdir(const char *new_dir);
+void		save_chdir(char *new_dir);
 pid_t		save_fork(void);
+DIR		*save_opendir(char *path);
 void		gc_init(void);
 t_list		*gc_add(void *memory);
 void		gc_mode(t_gc_index mode);
@@ -118,6 +120,7 @@ void		gc_clear_all(void);
 char		*gc_substr(char const *string, unsigned int start, size_t length);
 char		*gc_strdup(char const *string);
 char		*gc_strjoin(char const *s1, char const *s2);
+char		*gc_strjoin_3(char const *s1, char const *s2, char const *s3);
 void		*gc_calloc(size_t count, size_t size);
 char		*gc_getcwd(void);
 char		*gc_readline(char const *prompt);
@@ -163,6 +166,10 @@ void		expand(t_tokens *tokens);
 void		receive_pid(int sig, siginfo_t *info, void *context);
 pid_t		get_pid(void);
 void		wildcards(t_tokens *tokens);
+void		wildcard_set(char *replace_str, t_tokens *list);
+void		wild_add_steps(char *curent_path, char **pattern_pp, t_tokens *list);
+char		*wild_get_next_pattern(char **pattern_pos, bool *has_wildcard_before_out);
+bool		wild_check_name(char *name, char *pattern_pos);
 t_expression		*make_expression(t_expression_operator operator, t_expression *first, t_expression *second);
 t_expression_operator		expression_type(t_token_type type);
 t_bind		*binding_power(t_token *token);
@@ -192,5 +199,6 @@ t_data		*data(void);
 int			main(int argc, char **argv, char **envp);
 char		*get_shell_line(const char *prompt);
 void		set_shell_level(void);
+char		**gc_split(const char *s, char c);
 
 #endif

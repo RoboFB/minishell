@@ -105,6 +105,10 @@ stdout: 2
 cat < Makefile > 1 | cat < Makefile > 1
 
 
+### WILDCARDS:
+
+-[ ] fix wildcards can be '*' echo Make*'*'  porbily i get Make** and not Make*'*'
+-[ ] redirect expand wildcards
 
 
 #### readline
