@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/13 19:41:40 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:22:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	tok_debug_display(t_tokens *tokens)
 	while (token)
 	{
 		if (token && token->type != TOK_ATOM)
-			ft_debugf(2, "token:\t %5.5s is \t%s (quote: %d)\n", token->content, debug_type[token->type], token->is_quoted);
+			ft_debugf(2, "token:\t %5s is \t%s (quote: %d)\n", token->content, debug_type[token->type], token->is_quoted);
 		else if (token)
 		{
 			ft_debugf(2, "token is\t\t%s\n", debug_type[token->type]);
 			subtoken = token->collection.head;
 			while (subtoken)
 			{
-				ft_debugf(2, "--token: %5.5s is \t%s (quote: %d)\n", subtoken->content, debug_type[subtoken->type], subtoken->is_quoted);
+				ft_debugf(2, "--token: %5s is \t%s (quote: %d)\n", subtoken->content, debug_type[subtoken->type], subtoken->is_quoted);
 				subtoken = subtoken->next;
 			}
 		}
@@ -121,6 +121,7 @@ static void debug_node(const t_expression *node)
 {
     if (!node)
 		return;
+	resolve((t_expression*)node);
     ft_debugf(77, "%s", operator_to_str(node->type));
     if (node->type == OPERATOR_CMD && node->name)
         ft_debugf(77, " name \"%s\"", node->name);
@@ -140,6 +141,7 @@ static void debug_tree_inner(const t_expression *node, const char *prefix, bool 
 	seen = 0;
     if (!node)
 		return;
+	resolve((t_expression*)node);
     ft_debugf(77, "%s%s", prefix, last ? "└─ " : "├─ ");
     debug_node(node);
     ft_debugf(77, "\n");
@@ -155,11 +157,15 @@ static void debug_tree_inner(const t_expression *node, const char *prefix, bool 
     if (node->second) debug_tree_inner(node->second, next_prefix, (++seen == total));
 }
 
+#include <sys/file.h> // debuging only
+
+
 void debug_tree(t_expression *root)
 {
 	int	total;
 	int	seen;
 
+	// flock(1, LOCK_EX); // debug is ilegal in production code
 	seen = 0;
     if (!root)
 	{
@@ -167,6 +173,7 @@ void debug_tree(t_expression *root)
 		return ;
 	}
 	total = child_count(root->first, root->second);
+	resolve((t_expression*)root);
     debug_node(root);
     ft_debugf(77, "\n");
     if (root->type == OPERATOR_CMD) {
@@ -180,4 +187,6 @@ void debug_tree(t_expression *root)
     }
     if (root && root->first)  debug_tree_inner(root->first,  "", (++seen == total));
     if (root && root->second) debug_tree_inner(root->second, "", (++seen == total));
+	// flock(1, LOCK_UN); // debug is ilegal in production code
+
 }

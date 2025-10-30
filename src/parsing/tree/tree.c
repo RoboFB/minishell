@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/15 17:12:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:25:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_expression *nud(t_token **token)
 		peek = token_peek(token);
 		if (!peek || peek->type != TOK_RIGHT_PARENTHESIS)
 		{
-			ft_fprintf(2, "minishell: syntax error, expected ')'\n");
+			syntax_error("syntax error, expected ')'\n", 0);
 			return (NULL);
 		}
 		token_next(token);
@@ -233,6 +233,4 @@ void	list_to_tree(void)
 	ast = &data()->tree_root;
 	token = tokens->head;
 	*ast = parse_expression(&token, 0);
-	if (*ast)
-		debug_tree(*ast);
 }

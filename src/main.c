@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 15:48:09 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:52:17 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,28 @@ int	main(int argc, char **argv, char **envp)
 	// signal_init();
 	env_init(envp);
 	set_shell_level();
-	if (isatty(STDIN_FILENO))
-		get_pid(); // out for tester
+	sig_init();
+	//if (isatty(STDIN_FILENO))
+		//get_pid(); // out for tester
 	while (true)
 	{
+		*interrupted() = false;
 		gc_clear_temporary();
 		gc_mode(GC_TEMPORARY);
 		line = get_shell_line(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
-		if (line == NULL || *line == '\0')
+		if (line == NULL)
+		{
+			if (isatty(STDIN_FILENO))
+				ft_fprintf(2, "exit\n");
+			exit_shell(data()->last_exit_code);
+		}
+		else if	(*line == '\0')
 			continue;
 		add_history(line);
 		parse(line, &data()->tokens);
-		run_tree(data()->tree_root);
+		if (!*interrupted())
+			run_tree(data()->tree_root);
+		debug_tree(data()->tree_root);
 	}
 	exit_shell(EXIT_GENERAL_ERROR);
 	return (EXIT_FAILURE);

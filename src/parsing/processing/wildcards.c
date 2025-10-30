@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/29 19:02:39 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:28:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wildcards(t_tokens *tokens)
+void	wildcards(t_tokens *list)
 {
 	t_token	*current;
 
-	current = tokens->head;
+	current = list->head;
 	while (current)
 	{
 		if (current->type == TOK_WILDCARD && !current->is_quoted)
@@ -26,11 +26,14 @@ void	wildcards(t_tokens *tokens)
 			{
 				if (current->prev)
 					current->prev->next = current->collection.head;
+				else
+					list->head = current->collection.head;
 				current->collection.head->prev = current->prev;
 				if (current->next)
 					current->next->prev = current->collection.tail;
+				else
+					list->tail = current->collection.tail;
 				current->collection.tail->next = current->next;
-				current = current->collection.head;
 			}
 			else
 				current->type = TOK_WORD;
@@ -120,7 +123,7 @@ bool	wild_check_name(char *name, char *pattern_pos)
 		pattern = wild_get_next_pattern(&pattern_pos, &wildcard);
 		if (pattern[0] == '\0')
 		{
-			if (wildcard || wild_is_last_ok(last_wildcard, name, last_pattern))
+			if (wildcard || wild_is_last_ok(&last_wildcard, name, last_pattern))
 				return (true);
 			break ;
 		}

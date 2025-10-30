@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/10 15:53:02 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:44:46 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	strip_quotes(t_tokens *tokens)
 		else if (token)
 			token = token->next;
 	}
-	ft_debugf(1, "lexing: quotes stripped\n");
 }
 
 void	join_quotes(t_tokens *list)
@@ -69,7 +68,6 @@ void	join_quotes(t_tokens *list)
 		if (token)
 			token = token->next;
 	}
-	ft_debugf(1, "lexing: quote contents joined\n");
 }
 
 void	quote(t_tokens *list)
@@ -97,6 +95,5 @@ void	quote(t_tokens *list)
 			token = token->next;
 	}
 	if (quoted)
-		ft_fprintf(2, "minishell: syntax error (unclosed quote)\n");
-	ft_debugf(1, "lexing: quotes marked\n");
+		syntax_error("syntax error (unclosed quote)", NULL);
 }

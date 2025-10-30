@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/17 16:13:33 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:18:56 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,24 @@ void	contract_file(t_token *atom, t_token **token)
 		return ;
 	file = file_make();
 	file->type = token_to_filetype(*token);
+	tok_add(*token, &atom->collection);
+	(*token)->type = TOK_WHITESPACE;
 	*token = (*token)->next;
 	*token = tok_skip_whitespace(*token);
-	if (token_is_redirect(*token))
+	if (token_is_redirect(*token) || token_is_separator(*token))
 	{
-		ft_fprintf(2,"minishell: syntax error near unexpected token '%s'\n", (*token)->content);
-		data()->last_exit_code = EXIT_SYNTAX_ERROR;
+		syntax_error("syntax error near unexpected token", (*token)->content);
 		return ;
 	}
+	else if (!*token)
+			syntax_error("syntax error near EOL, empty redirect", NULL);
 	while (*token && !token_is_separator(*token) && !token_is_space(*token))
 	{
 		tok_add(*token, &file->collection);
 		*token = (*token)->next;
 	}
+	if (file->collection.head)
+		file->collection.head->prev = NULL;
 	if (file->collection.tail)
 		file->collection.tail->next = NULL;
 	else
@@ -70,11 +75,19 @@ t_token	*atomize(t_token **token)
 			contract_file(atom, token);
 		else
 			tok_add(*token, &atom->collection);
-		if (*token && !token_is_redirect(*token))
+		if (*token && !token_is_redirect(*token) && !token_is_separator(*token))
 			*token = (*token)->next;
 	}
+	if (atom->collection.head)
+		atom->collection.head->prev = NULL;
 	if (atom->collection.tail)
 		atom->collection.tail->next = NULL;
+	if (!valid_collection(&atom->collection) && !atom->files)
+	{
+		if (*token)
+			(*token) = (*token)->next;
+		return (NULL);
+	}
 	return (atom);
 }
 
@@ -97,9 +110,7 @@ void	contract(t_tokens *list)
 			&& current->type == TOK_WHITESPACE)
 			current = current->next;
 		else
-		{
 			tok_add(atomize(&current), &new);
-		}
 	}
 	list->head = new.head;
 	list->tail = new.tail;

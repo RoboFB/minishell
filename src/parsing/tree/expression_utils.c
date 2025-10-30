@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 22:36:20 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/07 16:52:56 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:40:01 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_bind	*binding_power(t_token *token)
 		return ((t_bind *)&binding_power[1]);
 	if (token->type == TOK_OR)
 		return ((t_bind *)&binding_power[2]);
-	ft_fprintf(2, "minishell: syntax error at \"%s\"\n", token->content);
+	if (valid_collection(&token->collection))
+		syntax_error("syntax error at", token->content);
 	return (NULL);
 }
