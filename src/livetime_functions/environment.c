@@ -6,25 +6,20 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/14 16:12:43 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 15:43:42 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 /* 
-
 env 
-
 string/key is a string of: alpha _ try out    =    str can be almost anything
 = and value are optional
-
 AA=ls -la
 DD=bla bla bla
 BBB=
 CCC
-
 */
 
 size_t env_get_len_key(char *line)
@@ -76,7 +71,6 @@ char *env_check_line(char *line, char **line_ptr)
 	}
 	return (value_str);
 }
-
 
 // R: pointer to start of value   '\0': empty has =   NULL: not found or no =
 char *env_get_line_data(char *line)
@@ -135,8 +129,7 @@ void	env_add_line_data(char *key, char *value)
 	char		*line;
 
 	gc_mode(GC_TEMPORARY);
-	line = gc_strjoin(key, "=");
-	line = gc_strjoin(line, value);
+	line = gc_strjoin_3(key, "=", value);
 	env_add_line(line);
 	return ;
 }

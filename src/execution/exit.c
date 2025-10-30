@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/15 15:26:06 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:27:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code)
 
 void	msg_exit(char *function, char *error, t_exit_code exit_code)
 {
-	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);// todo!!! ft_fprintf does not print to fd
+	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);
 	exit_shell(exit_code);
 }
 
@@ -49,4 +49,11 @@ void set_exit_code(t_exit_code exit_code)
 {
 	data()->last_exit_code = exit_code;
 	return;
+}
+
+// prints to stderror, sets last_exit_code and returns
+void	msg_set_exit_code(char *function, char *error, t_exit_code exit_code)
+{
+	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);
+	set_exit_code(exit_code);
 }

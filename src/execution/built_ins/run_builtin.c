@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:43:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/17 16:36:52 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 16:40:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void *h_get_builtin(t_expression *command)
+static void	*h_get_builtin(t_expression *command)
 {
 	if (command->name == NULL)
 		return (&blt_noname);
@@ -38,7 +38,7 @@ static	void *h_get_builtin(t_expression *command)
 
 void	run_builtin(t_expression *command)
 {
-	void (*function_pointer)(t_expression *);
+	void	(*function_pointer)(t_expression *);
 
 	function_pointer = h_get_builtin(command);
 	if (function_pointer != NULL)
