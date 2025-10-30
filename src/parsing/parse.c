@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/28 18:48:41 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:08:04 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	resolve_files(t_expression *expression)
 	current = expression->files;
 	while (current)
 	{
+		if (current->type == FD_PIPE_READ || current->type == FD_PIPE_WRITE)
+		{
+			current = current->next;
+			continue ;
+		}
 		if (!current->collection.head)
 			return ;
 		if (current->type == FD_HEREDOC_READ)

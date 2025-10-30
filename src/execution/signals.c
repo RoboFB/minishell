@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/27 15:33:56 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 21:57:46 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,15 @@ void signal_init(void)
 	return ;
 }
 
+void ctrl_c(int sig)
+{
+	(void)sig;
+	write(1, "\n", 2);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 void sig_reset(void)
 {
 	signal(SIGQUIT, SIG_DFL);
@@ -68,8 +77,11 @@ void sig_reset(void)
 
 void sig_init(void)
 {
-	// struct sigaction sa;
+	struct sigaction sa;
 	
+	sa.sa_handler = ctrl_c;
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
 }

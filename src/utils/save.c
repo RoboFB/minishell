@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:47:03 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/10 15:51:20 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 21:51:39 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ pid_t save_fork(void)
 	pid_t	pid;
 
 	pid = fork();
+	if (pid > 0)
+		signal(SIGINT, SIG_IGN);
 	if (pid == -1)
 		perror_exit("fork failed", EXIT_GENERAL_ERROR);
 	return (pid);

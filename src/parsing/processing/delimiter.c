@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/27 18:17:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 21:56:17 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,19 @@ void	heredoc_in(t_token **token)
 	char				*delimiter;
 	static unsigned int	id;
 	int					pid;
-	int status;
+	int 				status;
+	int					fd;
+	char				*tmpfile;
 
 	gc_mode(GC_WORKING);
 	if (!token || !*token)
 		return ;
 	delimiter = gc_strdup((*token)->content);
 	(*token)->content =  gc_strdup("");
+	tmpfile = tmpfile_name(id++);
+	// guard me
 	pid = save_fork();
+	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (pid == 0)
 	{
 		sig_reset();
@@ -80,23 +85,39 @@ void	heredoc_in(t_token **token)
 				|| (ft_strlen(line) == ft_strlen(delimiter)
 				&& !ft_strncmp(delimiter, line, ft_strlen(line))))
 				break ;
-			(*token)->content = gc_strjoin((*token)->content, line);
-			(*token)->content = gc_strjoin((*token)->content, "\n");
+			ft_fprintf(fd, "%s\n", line);
 		}
+		close(fd);
 		exit_shell(EXIT_SUCCESS);
 	}
 	else if (pid > 0)
 	{
 		status = 0;
 		waitpid(pid, &status, 0);
+		fd = open(tmpfile, O_RDONLY, 0600);
+		unlink(tmpfile);
 		if (WIFSIGNALED(status))
 		{
 			data()->last_exit_code = WTERMSIG(status) + EXIT_SIGNAL_BASE;
 			(*interrupted()) = true;
 		}
+		if (fd == -1)
+		return ;
+		while (true)
+		{
+			line = get_next_line(fd);
+			if (line)
+			{
+				(*token)->content = gc_strjoin((*token)->content, line);
+				free(line);
+			}
+			else
+				break ;
+		}
+		close(fd);
 	}
+	sig_init();
 	gc_mode(GC_TEMPORARY);
-	(*token)->id = ++id;
 	(*token)->content = gc_strdup((*token)->content);
 }
 

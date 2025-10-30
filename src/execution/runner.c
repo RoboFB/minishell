@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/27 15:47:22 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 21:59:58 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void wait_and_set_exit_code(pid_t pid)
 			data()->last_exit_code = WTERMSIG(status) + EXIT_SIGNAL_BASE;
 		else if (WIFEXITED(status))
 			data()->last_exit_code = WEXITSTATUS(status);
+		sig_init();
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/28 18:07:51 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:31:52 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	contract_file(t_token *atom, t_token **token)
 		tok_add(*token, &file->collection);
 		*token = (*token)->next;
 	}
+	if (file->collection.head)
+		file->collection.head->prev = NULL;
 	if (file->collection.tail)
 		file->collection.tail->next = NULL;
 	else
@@ -76,10 +78,16 @@ t_token	*atomize(t_token **token)
 		if (*token && !token_is_redirect(*token) && !token_is_separator(*token))
 			*token = (*token)->next;
 	}
+	if (atom->collection.head)
+		atom->collection.head->prev = NULL;
 	if (atom->collection.tail)
 		atom->collection.tail->next = NULL;
-	if (!valid_collection(&atom->collection))
-		syntax_error("syntax error", NULL);
+	if (!valid_collection(&atom->collection) && !atom->files)
+	{
+		if (*token)
+			(*token) = (*token)->next;
+		return (NULL);
+	}
 	return (atom);
 }
 

@@ -6,11 +6,18 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/24 16:32:08 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/29 17:43:27 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+
+issue caused by list not being added correctly 
+if variable does not have a previous item
+
+*/
 
 void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 {
@@ -28,9 +35,10 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 	while (index)
 	{
 		if (index->type != TOK_WHITESPACE && index->type != TOK_WILDCARD)
-			index->is_quoted = TOK_QUOTE;
+		index->is_quoted = TOK_QUOTE;
 		index = index->next;
 	}
+
 	if (token->prev)
 		token->prev->next = list->head;
 	else
@@ -39,6 +47,8 @@ void	tok_expansion(t_token *token, char *line, t_tokens *tokens)
 		list->head->prev = token->prev;
 	if (token->next)
 		token->next->prev = list->tail;
+	else
+		tokens->tail = list->tail;
 	if (list->tail)
 		list->tail->next = token->next;
 	list->head = NULL;
@@ -70,10 +80,10 @@ void	expand(t_tokens *tokens)
 					tok_delete(&token, tokens);
 					continue ;
 				}
-				else if (token->is_quoted != TOK_DOUBLE_QUOTE)
-					tok_expansion(token, value, tokens);
-				else
+				else if (token->is_quoted == TOK_DOUBLE_QUOTE)
 					token->content = value;
+				else
+					tok_expansion(token, value, tokens);
 			}
 			token->type = TOK_WORD;
 		}

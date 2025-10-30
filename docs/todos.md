@@ -43,9 +43,9 @@ delimiter is seen. However, it doesn’t have to update the history!
 - [ ] (mostly) ignore tokens and just read until next non alnum/_ char for variables. if no variable relevant (alnum/_) chars follow, $ should be treated as literal
 - [x] ls >>> results in a file named ">"
 - [ ] handle >| (alias for >)
-- [ ] >> $HOME returns bash: /home/modiepge: Is a directory, exit code 1;
+- [ ] >> $HOME should return bash: /home/modiepge: Is a directory, exit code 1;
 - [ ] expansion in files does not occur without ""
-
+- [ ] overzealous/naive syntax error detection for groups
 
 ## signals
 - [ ] handle ctrl+c, ctrl+d && ctrl+\
