@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 15:46:42 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:48:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool	wild_check_name(char *name, char *pattern_pos)
 		pattern = wild_get_next_pattern(&pattern_pos, &wildcard);
 		if (pattern[0] == '\0')
 		{
-			if (wildcard || wild_is_last_ok(last_wildcard, name, last_pattern))
+			if (wildcard || wild_is_last_ok(&last_wildcard, name, last_pattern))
 				return (true);
 			break ;
 		}
