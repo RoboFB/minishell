@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 15:48:59 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:28:31 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ void	wildcards(t_tokens *list)
 			{
 				if (current->prev)
 					current->prev->next = current->collection.head;
+				else
+					list->head = current->collection.head;
 				current->collection.head->prev = current->prev;
 				if (current->next)
 					current->next->prev = current->collection.tail;
+				else
+					list->tail = current->collection.tail;
 				current->collection.tail->next = current->next;
-				current = current->collection.head;
 			}
 			else
 				current->type = TOK_WORD;
