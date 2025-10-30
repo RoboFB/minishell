@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:05:16 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/22 20:28:28 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:22:17 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static int	tok_variable(char *position, t_tokens *list)
 
 int	tok_make_meta_token(char *position, t_tokens *list)
 {
-	static const t_token_key	symbols[17] = {{">>", TOK_DOUBLE_GREATER},
-		{"<<", TOK_DOUBLE_LESS}, {"&&", TOK_AND}, {"||", TOK_OR},
+	static const t_token_key	symbols[18] = {{">>", TOK_DOUBLE_GREATER},
+		{"<<", TOK_DOUBLE_LESS}, {"&&", TOK_AND}, {"||", TOK_OR}, {">|", TOK_GREATER},
 		{"<", TOK_LESS}, {">", TOK_GREATER}, {"&", TOK_AMPERSAND},
 		{";", TOK_SEMICOLON}, {"(", TOK_LEFT_PARENTHESIS},
 		{")", TOK_RIGHT_PARENTHESIS}, {"*", TOK_WILDCARD},
@@ -53,10 +53,10 @@ int	tok_make_meta_token(char *position, t_tokens *list)
 
 	index = 0;
 	length = 0;
-	while (index < 17 && ft_strncmp(symbols[index].key, position,
+	while (index < 18 && ft_strncmp(symbols[index].key, position,
 			ft_strlen(symbols[index].key)))
 		index++;
-	if (index < 17)
+	if (index < 18)
 	{
 		if (symbols[index].type == TOK_VARIABLE)
 			return (tok_variable(position, list));
@@ -98,7 +98,7 @@ void	line_split(char *line, t_tokens *list)
 	index = 0;
 	while (line && line[index])
 	{
-		if (is_meta_chararacter(line[index]))
+		if (is_meta_chararacter(line[index]) || line[index] == '2')
 			index += tok_make_meta_token(&line[index], list);
 		else if (ft_isspace(line[index]))
 			index += tok_make_space_token(&line[index], list);
