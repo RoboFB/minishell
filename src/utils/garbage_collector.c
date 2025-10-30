@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/16 18:14:12 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:40:13 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,13 @@ char	*gc_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	return (gc_add(ft_strjoin(s1, s2))->content);
+}
+
+char	*gc_strjoin_3(char const *s1, char const *s2, char const *s3)
+{
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	return (gc_add(ft_strjoin_3(s1, s2, s3))->content);
 }
 
 void	*gc_calloc(size_t count, size_t size)
