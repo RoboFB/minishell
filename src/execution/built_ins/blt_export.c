@@ -6,65 +6,11 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/22 19:26:53 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 17:09:29 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool is_invalid_key(char *str);
-static char	**h_get_sorted(char **env);
-static void	h_print_save(char **save);
-
-void	blt_export(t_expression *cmd)
-{
-	int	idx;
-	int	exit_code;
-	
-	exit_code = EXIT_OK;
-	gc_mode(GC_TEMPORARY);
-	if (blt_has_flag(cmd))
-	{
-		ft_fprintf(STDERR_FILENO, "export: %s: not a valid identifier\n", cmd->args[1]);
-		exit_code = EXIT_SYNTAX_ERROR;
-	}
-	else if (blt_count_args(cmd) == 0)
-		h_print_save(h_get_sorted(*env_get_ptr()));
-	else
-	{
-		idx = 0;
-		while (cmd->args[++idx])
-		{
-			if (is_invalid_key(cmd->args[idx]))
-			{
-				ft_fprintf(STDERR_FILENO, "export: %s: not a valid identifier\n", cmd->args[idx]);
-				exit_code = EXIT_GENERAL_ERROR;
-			}
-			else
-				env_add_line(cmd->args[idx]);
-		}
-	}
-	set_exit_code(exit_code);
-	return ;
-}
-
-static bool is_invalid_key(char *str)
-{
-	int idx;
-	int size;
-
-	idx = 0;
-	size = env_get_len_key(str);
-	if (size == 0 || ft_isdigit(str[idx]))
-		return (true);
-	while (idx < size)
-	{
-		if (!((ft_isalnum(str[idx]) || ft_strchr("_", str[idx]))))
-			return (true);
-		idx++;
-	}
-	return (idx != size);
-}
 
 static int	h_env_cmp(char *s1, char *s2)
 {
@@ -117,4 +63,25 @@ static char	**h_get_sorted(char **env)
 		out_idx++;
 	}
 	return (sorted);
+}
+
+void	blt_export(t_expression *cmd)
+{
+	int	exit_code;
+
+	exit_code = EXIT_OK;
+	if (blt_has_flag(cmd))
+	{
+		ft_fprintf(STDERR_FILENO, "export: %s: not a valid identifier\n",
+			cmd->args[1]);
+		exit_code = EXIT_SYNTAX_ERROR;
+	}
+	else if (blt_count_args(cmd) == 0)
+		h_print_save(h_get_sorted(*env_get_ptr()));
+	else
+	{
+		blt_h_export_to_env(cmd, &exit_code);
+	}
+	set_exit_code(exit_code);
+	return ;
 }

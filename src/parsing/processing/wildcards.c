@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 16:28:31 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:12:46 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ bool	wild_is_last_ok(bool *last_wildcard, char *name, char *last_pattern)
 {
 	char	*start_of_last;
 
-	if (!last_wildcard)
+	if (!*last_wildcard)
 		return (false);
 	start_of_last = name + ft_strlen(name) - ft_strlen(last_pattern);
-	if (ft_strncmp(start_of_last, last_pattern, ft_strlen(last_pattern) == 0))
+	if (ft_strncmp(start_of_last, last_pattern, ft_strlen(last_pattern)) == 0)
 		return (true);
 	return (false);
 }

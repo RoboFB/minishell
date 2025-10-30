@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/14 15:14:27 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/30 15:50:11 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void blt_env(t_expression *cmd)
+void	blt_env(t_expression *cmd)
 {
 	int		idx;
 	char	**environment;
