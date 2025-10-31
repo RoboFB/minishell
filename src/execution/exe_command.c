@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/27 18:04:26 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:53:43 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exe_command_no_return(t_expression *cmd)
 pid_t	exe_command_return(t_expression *cmd)
 {
 	pid_t	pid;
-	
+
 	if ((is_builtin(cmd)))
 		run_builtin_in_main(cmd);
 	else
@@ -45,35 +45,10 @@ pid_t	exe_command_return(t_expression *cmd)
 	return (-1);
 }
 
-
-bool is_piped_direct(t_expression *cmd)
+void	run_builtin_in_main(t_expression *cmd)
 {
-	if (cmd->parent == NULL)
-		return (false);
-	if (cmd->parent->type == OPERATOR_PIPE)
-		return (true);
-	else
-		return (false);
-}
-
-// no pipe in tree above
-bool is_piped_somewhere(t_expression *cmd)
-{
-	if (cmd->parent == NULL)
-		return (false);
-	while (cmd)
-	{
-		if (cmd->parent->type == OPERATOR_PIPE)
-			return (true);
-		cmd = cmd->parent;
-	}
-	return (false);
-}
-
-void run_builtin_in_main(t_expression *cmd)
-{
-	int		stdin_fd;
-	int		stdout_fd;
+	int	stdin_fd;
+	int	stdout_fd;
 
 	stdin_fd = save_dup(STDIN_FILENO);
 	stdout_fd = save_dup(STDOUT_FILENO);
@@ -88,17 +63,15 @@ void run_builtin_in_main(t_expression *cmd)
 	return ;
 }
 
-void run_comand(t_expression *cmd)
+void	run_comand(t_expression *cmd)
 {
 	char	*path_command;
 
 	path_command = get_full_path_cmd(cmd->name, env_get_line_data("PATH"));
 	if (path_command == NULL)
 		msg_exit(cmd->name, "command not found", EXIT_BLT_CMD_NOT_FOUND);
-	
-	if (access(path_command, X_OK) != 0) // check if executable normaly execve does this also maype for better error codes needed?
+	if (access(path_command, X_OK) != 0)
 		perror_msg_exit(path_command, "", EXIT_BLT_CMD_NOT_FOUND);
 	execve(path_command, cmd->args, (char *const *)*env_get_ptr());
 	perror_msg_exit(path_command, "execve failed", EXIT_BLT_CMD_NOT_EXECUTABLE);
 }
-

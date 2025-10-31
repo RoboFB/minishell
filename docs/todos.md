@@ -107,6 +107,11 @@ stdout: 2
 cat < Makefile > 1 | cat < Makefile > 1
 
 
+// pwd | (cat && (echo hi bob | cat -e))
+// (echo 1 && echo 2) | (grep 1 && grep 2)
+// echo 2 > test2.txt && (echo 1 && echo 2) | (grep 1 && grep 2 < test2.txt) && rm test2.txt
+
+
 ### WILDCARDS:
 
 -[ ] fix wildcards can be '*' echo Make*'*'  porbily i get Make** and not Make*'*'

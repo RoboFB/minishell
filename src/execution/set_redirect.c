@@ -6,24 +6,24 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/23 14:13:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/31 17:41:09 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-
-// can be changed to run with a smaller if else block when fist setting path and then fd if path exists
+// can be changed to run with a smaller if else block when fist setting path 
+// and then fd if path exists
 
 // R: -1 = Error prints message allready and set error code
-int set_all_redirect(t_file *head)
+int	set_all_redirect(t_file *head)
 {
 	int	return_val;
 
 	return_val = 0;
 	while (head != NULL)
 	{
-		if(head->type == FD_PIPE_READ || head->type == FD_HEREDOC_READ)
+		if (head->type == FD_PIPE_READ || head->type == FD_HEREDOC_READ)
 			set_fd(head, STDIN_FILENO);
 		else if (head->type == FD_PIPE_WRITE)
 			set_fd(head, STDOUT_FILENO);
@@ -38,7 +38,7 @@ int set_all_redirect(t_file *head)
 		else if (head->type == PATH_STDERR_WRITE_APPEND)
 			return_val = write_append_file(head, STDERR_FILENO);
 		if (return_val != 0)
-			break;
+			break ;
 		head = head->next;
 	}
 	return (return_val);
@@ -60,9 +60,10 @@ int	read_file(t_file *file, int change_fd)
 		return (-1);
 	}
 	file->fd = open(file->path, O_RDONLY);
-	if (file->fd  == -1)
+	if (file->fd == -1)
 	{
 		perror(file->path);
+		set_exit_code(EXIT_GENERAL_ERROR);
 		return (-1);
 	}
 	set_fd(file, change_fd);
@@ -97,7 +98,7 @@ int	write_append_file(t_file *file, int change_fd)
 		return (-1);
 	}
 	file->fd = open(file->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (file->fd  == -1)
+	if (file->fd == -1)
 	{
 		perror(file->path);
 		set_exit_code(EXIT_GENERAL_ERROR);
