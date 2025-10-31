@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:19:56 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/08 17:17:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/31 17:05:11 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_file	*file_pop_back(t_file **start_ptr)
 {
 	t_file	*head;
 	t_file	*out;
+	t_file	*previous_ptr;
 
 	if (!start_ptr || !*start_ptr)
 		return (NULL);
@@ -129,13 +130,14 @@ t_file	*file_pop_back(t_file **start_ptr)
 	{
 		out = head;
 		*start_ptr = NULL;
+		return (out);
 	}
-	else
+	while (head->next)
 	{
-		while (head->next)
-			head = head->next;
-		out = head->next;
-		head->next = NULL;
+		previous_ptr = head;
+		head = head->next;
 	}
+	out = previous_ptr->next;
+	previous_ptr->next = NULL;
 	return (out);
 }
