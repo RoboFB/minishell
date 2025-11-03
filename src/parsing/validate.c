@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:39 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 17:33:19 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:23:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ bool	valid_order(t_tokens *list)
 	unsigned int	operators;
 	bool			last_atom;
 
+	last_atom = false;
 	current = list->head;
 	atoms = 0;
 	operators = 0;

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 19:12:46 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/10/31 18:22:37 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	wild_add_steps(char *curent_path, char **pattern_pp, t_tokens *list)
 	if (pattern_pp == NULL || *pattern_pp == NULL)
 		return ;
 	dir_stream = save_opendir(curent_path);
+	if (dir_stream == NULL)
+		return ;
 	while (true)
 	{
 		one_dir = readdir(dir_stream);
@@ -77,8 +79,9 @@ void	wild_add_steps(char *curent_path, char **pattern_pp, t_tokens *list)
 			tok_add(tok_new(gc_strjoin_3(curent_path, "/", one_dir->d_name) + 2,
 					TOK_WORD), list);
 		else if (one_dir->d_type == DT_DIR)
-			wild_add_steps(gc_strjoin_3(curent_path, "/", one_dir->d_name),
-				&pattern_pp[1], list);
+		{
+			wild_add_steps(gc_strjoin_3(curent_path, "/", one_dir->d_name), &pattern_pp[1], list);
+		}
 	}
 	closedir(dir_stream);
 	return ;
