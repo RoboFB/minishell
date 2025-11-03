@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/30 15:43:42 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/03 15:53:17 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char *env_check_line(char *line, char **line_ptr)
 	return (value_str);
 }
 
-// R: pointer to start of value   '\0': empty has =   NULL: not found or no =
+// R: pointer to start ofenvironment value   '\0': empty has =   NULL: not found or no =
 char *env_get_line_data(char *line)
 {
 	return (env_check_line(
@@ -116,7 +116,7 @@ void	env_add_line(char *line)
 	}
 	else
 	{
-		*line_ptr = gc_remove_one(*line_ptr);
+		*line_ptr = gc_clear_one(*line_ptr);
 		*line_ptr = gc_strdup(line);
 	}
 	gc_mode(GC_TEMPORARY);
@@ -139,21 +139,19 @@ void	env_remove_line(char *line)
 {
 	char		**environment;
 	char		**line_ptr;
-	int 		lines_count;
+	int			lines_count;
 
+	gc_mode(GC_PERSISTENT);
 	line_ptr = env_get_line_ptr(line);
-	if (line_ptr == NULL)
-		return ;
 	environment = *env_get_ptr();
 	lines_count = 0;
+	if (line_ptr == NULL || environment[0] == NULL)
+		return ;
 	while (environment[lines_count] != NULL && environment[lines_count] != *line_ptr)
 		lines_count++;
 	if (environment[lines_count] == *line_ptr)
 	{
-		gc_mode(GC_PERSISTENT);
-		gc_remove_one(*line_ptr); // part gets lost in gc_permanent
-		gc_mode(GC_TEMPORARY);
-		environment[lines_count] = NULL;
+		environment[lines_count] = gc_clear_one(environment[lines_count]);
 		lines_count++;
 	}
 	while (environment[lines_count] != NULL)
@@ -161,6 +159,8 @@ void	env_remove_line(char *line)
 		environment[lines_count - 1] = environment[lines_count];
 		lines_count++;
 	}
+	environment[lines_count - 1] = NULL;
+	gc_mode(GC_TEMPORARY);
 	return ;
 }
 
