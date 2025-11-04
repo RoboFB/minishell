@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inherit_files.c                                    :+:      :+:    :+:   */
+/*   inherit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/04 15:26:05 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 16:34:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,5 @@ void	inherit_files(t_expression *cmd)
 		}
 		head = file_pop_back(&cmd->files);
 	}
-	return ;
-}
-
-void	pipe_add_front(t_expression *cmd)
-{
-	file_add_front(&cmd->first->files);
-	cmd->first->files->type = FD_PIPE_WRITE;
-	file_add_front(&cmd->second->files);
-	cmd->second->files->type = FD_PIPE_READ;
-	save_pipe(&cmd->first->files->fd, &cmd->second->files->fd);
 	return ;
 }

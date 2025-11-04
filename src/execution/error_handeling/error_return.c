@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/31 17:54:07 by rgohrig          ###   ########.fr       */
+/*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
+/*   Updated: 2025/11/04 15:57:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_piped_direct(t_expression *cmd)
+// prints msg to stderr and returns
+void	msg_error(char *function, char *error)
 {
-	if (cmd->parent == NULL)
-		return (false);
-	if (cmd->parent->type == OPERATOR_PIPE)
-		return (true);
-	else
-		return (false);
+	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);
+	return ;
 }
 
-// no pipe in tree above
-bool	is_piped_somewhere(t_expression *cmd)
+// set last_exit_code and returns
+void	set_exit_code(t_exit_code exit_code)
 {
-	if (cmd->parent == NULL)
-		return (false);
-	while (cmd)
-	{
-		if (cmd->parent->type == OPERATOR_PIPE)
-			return (true);
-		cmd = cmd->parent;
-	}
-	return (false);
+	data()->last_exit_code = exit_code;
+	return ;
 }

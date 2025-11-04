@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/30 17:09:29 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:43:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	blt_export(t_expression *cmd)
 		h_print_save(h_get_sorted(*env_get_ptr()));
 	else
 	{
-		blt_h_export_to_env(cmd, &exit_code);
+		blt_export_to_env_helper(cmd, &exit_code);
 	}
 	set_exit_code(exit_code);
 	return ;

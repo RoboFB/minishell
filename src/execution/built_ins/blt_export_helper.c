@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:13:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/30 17:09:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:43:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool	is_invalid_key(char *str)
 	return (idx != size);
 }
 
-void	blt_h_export_to_env(t_expression *cmd, int *exit_code)
+void	blt_export_to_env_helper(t_expression *cmd, int *exit_code)
 {
 	int	idx;
 

@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.c                                        :+:      :+:    :+:   */
+/*   files_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/31 17:47:06 by rgohrig          ###   ########.fr       */
+/*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
+/*   Updated: 2025/11/04 15:59:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msg_error(char *function, char *error)
+void	pipe_add_front(t_expression *cmd)
 {
-	ft_fprintf(STDERR_FILENO, "%s: %s\n", function, error);
+	file_add_front(&cmd->first->files);
+	cmd->first->files->type = FD_PIPE_WRITE;
+	file_add_front(&cmd->second->files);
+	cmd->second->files->type = FD_PIPE_READ;
+	save_pipe(&cmd->first->files->fd, &cmd->second->files->fd);
+	return ;
 }
 
-// set last_exit_code and return
-void	set_exit_code(t_exit_code exit_code)
+bool	is_piped_direct(t_expression *cmd)
 {
-	data()->last_exit_code = exit_code;
-	return ;
+	if (cmd->parent == NULL)
+		return (false);
+	if (cmd->parent->type == OPERATOR_PIPE)
+		return (true);
+	else
+		return (false);
 }
