@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector string.c                         :+:      :+:    :+:   */
+/*   garbage_collector_string.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/31 18:35:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:14:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,3 @@ char	*gc_strjoin_3(char const *s1, char const *s2, char const *s3)
 		return (NULL);
 	return (gc_add(ft_strjoin_3(s1, s2, s3))->content);
 }
-

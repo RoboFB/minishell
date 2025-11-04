@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector copy 2.c                         :+:      :+:    :+:   */
+/*   garbage_collector_wraper.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/31 18:38:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:14:01 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 char	*gc_itoa(int number)
 {
 	return (gc_add(ft_itoa(number))->content);
 }
 
-char *gc_getcwd(void)
+char	*gc_getcwd(void)
 {
-	char *path;
+	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (path == NULL)
