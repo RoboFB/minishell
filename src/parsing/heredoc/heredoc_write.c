@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_write.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:41:22 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/24 15:34:16 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:19:17 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*tmpfile_name(unsigned int id)
 {
-	char 		*name;
+	char	*name;
 
 	gc_mode(GC_WORKING);
 	name = gc_strjoin("/tmp/minishell-", gc_itoa(data()->pid));
@@ -24,7 +24,7 @@ char	*tmpfile_name(unsigned int id)
 	return (name);
 }
 
-ssize_t		write_until_variable(int fd, char *bytes)
+ssize_t	write_until_variable(int fd, char *bytes)
 {
 	size_t	length;
 
@@ -36,9 +36,9 @@ ssize_t		write_until_variable(int fd, char *bytes)
 	return (length);
 }
 
-ssize_t		write_variable(int fd, char *bytes, t_token_type quoted)
+ssize_t	write_variable(int fd, char *bytes, t_token_type quoted)
 {
-	char 	*var;
+	char	*var;
 	size_t	length;
 
 	length = 1;
@@ -51,7 +51,7 @@ ssize_t		write_variable(int fd, char *bytes, t_token_type quoted)
 	else
 	{
 		while (bytes[length] && (ft_isalnum(bytes[length])
-			|| bytes[length] == '_'))
+				|| bytes[length] == '_'))
 			length++;
 		var = env_get_line_data(gc_substr(bytes, 1, length - 1));
 	}
@@ -62,7 +62,7 @@ ssize_t		write_variable(int fd, char *bytes, t_token_type quoted)
 	return (length);
 }
 
-int		heredoc_expand(int fd, char *bytes, t_token_type quoted)
+int	heredoc_expand(int fd, char *bytes, t_token_type quoted)
 {
 	ssize_t	read;
 	ssize_t	add;
@@ -86,18 +86,16 @@ t_file	*heredoc_write(t_file *file)
 	if (file->collection.head)
 	{
 		file->path = tmpfile_name(file->collection.head->id);
-		file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		if (file->fd == -1)
-			perror_exit("open", EXIT_GENERAL_ERROR);
-		heredoc_expand(file->fd, file->collection.head->content,
-			file->collection.head->is_quoted);
-		close(file->fd);
-		file->fd = open(file->path, O_RDONLY, 0600);
+		file->fd = heredoc_open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		if (file->fd != -1)
+		{
+			heredoc_expand(file->fd, file->collection.head->content,
+				file->collection.head->is_quoted);
+		}
+		save_close(&file->fd);
+		file->fd = heredoc_open(file->path, O_RDONLY, 0600);
 		unlink(file->path);
-		if (file->fd == -1)
-			perror_exit("open", EXIT_GENERAL_ERROR);
 		file->type = FD_HEREDOC_READ;
-		//ft_printf("\n%s %d\n", file->path, file->fd);
 	}
 	return (file);
 }

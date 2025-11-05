@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:17:24 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/31 15:25:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:15:49 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

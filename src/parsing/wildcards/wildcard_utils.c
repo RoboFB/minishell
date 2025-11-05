@@ -1,91 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/31 18:22:37 by rgohrig          ###   ########.fr       */
+/*   Created: 2025/11/04 19:19:08 by modiepge          #+#    #+#             */
+/*   Updated: 2025/11/04 19:40:21 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	wildcards(t_tokens *list)
-{
-	t_token	*current;
-
-	current = list->head;
-	while (current)
-	{
-		if (current->type == TOK_WILDCARD && !current->is_quoted)
-		{
-			wildcard_set(current->content, &current->collection);
-			if (current->collection.head)
-			{
-				if (current->prev)
-					current->prev->next = current->collection.head;
-				else
-					list->head = current->collection.head;
-				current->collection.head->prev = current->prev;
-				if (current->next)
-					current->next->prev = current->collection.tail;
-				else
-					list->tail = current->collection.tail;
-				current->collection.tail->next = current->next;
-			}
-			else
-				current->type = TOK_WORD;
-		}
-		current = current->next;
-	}
-}
-
-void	wildcard_set(char *replace_str, t_tokens *list)
-{
-	char	**input_pp;
-	char	**out_pp;
-
-	out_pp = NULL;
-	if (replace_str == NULL || *replace_str == '\0')
-		return ;
-	input_pp = gc_split(replace_str, '/');
-	wild_add_steps(".", input_pp, list);
-	return ;
-}
-
-// use "." as start for curent_path
-void	wild_add_steps(char *curent_path, char **pattern_pp, t_tokens *list)
-{
-	DIR				*dir_stream;
-	struct dirent	*one_dir;
-
-	if (pattern_pp == NULL || *pattern_pp == NULL)
-		return ;
-	dir_stream = save_opendir(curent_path);
-	if (dir_stream == NULL)
-		return ;
-	while (true)
-	{
-		one_dir = readdir(dir_stream);
-		if (one_dir == NULL)
-			break ;
-		else if ((!ft_strncmp(one_dir->d_name, ".", 1)
-				&& pattern_pp[0][0] != '.') || !wild_check_name(one_dir->d_name,
-				pattern_pp[0]))
-			continue ;
-		else if (pattern_pp[1] == NULL)
-			tok_add(tok_new(gc_strjoin_3(curent_path, "/", one_dir->d_name) + 2,
-					TOK_WORD), list);
-		else if (one_dir->d_type == DT_DIR)
-		{
-			wild_add_steps(gc_strjoin_3(curent_path, "/", one_dir->d_name), &pattern_pp[1], list);
-		}
-	}
-	closedir(dir_stream);
-	return ;
-}
 
 char	*wild_get_next_pattern(char **pattern_pos,
 		bool *has_wildcard_before_out)
@@ -95,12 +20,12 @@ char	*wild_get_next_pattern(char **pattern_pos,
 
 	*has_wildcard_before_out = false;
 	pattern_len = 0;
-	while (**pattern_pos == '*')
+	while (**pattern_pos == '\1')
 	{
 		*has_wildcard_before_out = true;
 		++(*pattern_pos);
 	}
-	while ((*pattern_pos)[pattern_len] != '*'
+	while ((*pattern_pos)[pattern_len] != '\1'
 		&& (*pattern_pos)[pattern_len] != '\0')
 		pattern_len++;
 	pattern = gc_substr(*pattern_pos, 0, pattern_len);

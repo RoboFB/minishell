@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:55:59 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 17:18:56 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:17:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,32 @@ void	contract_file(t_token *atom, t_token **token)
 	tok_add(*token, &atom->collection);
 	(*token)->type = TOK_WHITESPACE;
 	*token = (*token)->next;
-	*token = tok_skip_whitespace(*token);
+	*token = list_skip_whitespace(*token);
 	if (token_is_redirect(*token) || token_is_separator(*token))
 	{
 		syntax_error("syntax error near unexpected token", (*token)->content);
 		return ;
 	}
 	else if (!*token)
-			syntax_error("syntax error near EOL, empty redirect", NULL);
-	while (*token && !token_is_separator(*token) && !token_is_space(*token))
+		syntax_error("syntax error near EOL, empty redirect", NULL);
+	while (*token && !token_is_separator(*token)
+		&& !token_is_redirect(*token) && !token_is_space(*token))
 	{
 		tok_add(*token, &file->collection);
 		*token = (*token)->next;
 	}
-	if (file->collection.head)
-		file->collection.head->prev = NULL;
-	if (file->collection.tail)
-		file->collection.tail->next = NULL;
-	else
-		return ;
-	file_append_back(&atom->files, file);
+	if (list_trim(&file->collection))
+		file_append_back(&atom->files, file);
 }
 
 t_token	*atomize(t_token **token)
 {
-	t_token *atom;
+	t_token	*atom;
 
 	if (!token || !*token)
 		return (NULL);
 	atom = tok_new("", TOK_ATOM);
-	*token = tok_skip_whitespace(*token);
+	*token = list_skip_whitespace(*token);
 	while (*token && !token_is_separator(*token))
 	{
 		if (token_is_redirect(*token))
@@ -78,10 +74,7 @@ t_token	*atomize(t_token **token)
 		if (*token && !token_is_redirect(*token) && !token_is_separator(*token))
 			*token = (*token)->next;
 	}
-	if (atom->collection.head)
-		atom->collection.head->prev = NULL;
-	if (atom->collection.tail)
-		atom->collection.tail->next = NULL;
+	list_trim(&atom->collection);
 	if (!valid_collection(&atom->collection) && !atom->files)
 	{
 		if (*token)

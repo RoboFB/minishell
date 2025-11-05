@@ -6,66 +6,48 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:15:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/28 17:44:46 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:18:53 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	strip_quotes(t_tokens *tokens)
+static bool	join_quotes_logic(t_token *token, t_tokens *list)
 {
-	t_token	*token;
+	t_token_type	quote;
 
-	token = tokens->head;
-	while (token)
+	if (token->is_quoted && token->next && (token->next->is_quoted
+			|| token->next->type == TOK_WORD))
 	{
-		if (!token->is_quoted
-			&& (token->type == TOK_DOUBLE_QUOTE
-			|| token->type == TOK_QUOTE))
-		{
-			if (token->next && !token->next->is_quoted
-				&& (token->next->type == token->type))
-			{
-				token->content = gc_strdup("");
-				token->type = TOK_WORD;
-				token->is_quoted = TOK_QUOTE;
-			}
-			else
-				tok_delete(&token, tokens);
-		}
-		else if (token)
-			token = token->next;
+		tok_join(token, token->next, list);
+		return (false);
 	}
+	else if (token->type == TOK_WORD && token->next
+		&& token->next->is_quoted)
+	{
+		quote = token->next->is_quoted;
+		tok_join(token, token->next, list);
+		token->is_quoted = quote;
+		return (false);
+	}
+	else if (token && token->next
+		&& !token_is_space(token) && !token_is_space(token->next)
+		&& !token_is_redirect(token) && !token_is_redirect(token->next))
+	{
+		tok_join(token, token->next, list);
+		return (false);
+	}
+	return (true);
 }
 
 void	join_quotes(t_tokens *list)
 {
 	t_token			*token;
-	t_token_type	quote;
 
 	token = list->head;
 	while (token)
 	{
-		if (token->is_quoted && token->next
-				&& (token->next->is_quoted || token->next->type == TOK_WORD))
-		{
-			tok_join(token, token->next, list);
-			continue ;
-		}
-		else if (token->type == TOK_WORD && token->next && token->next->is_quoted)
-		{
-			quote = token->next->is_quoted;
-			tok_join(token, token->next, list);
-			token->is_quoted = quote;
-			continue ;
-		}
-		else if ((token->type != TOK_WHITESPACE && !token_is_redirect(token)) && token->next
-			&& (token->next->type != TOK_WHITESPACE && !token_is_redirect(token->next)))
-		{
-			tok_join(token, token->next, list);
-			continue ;
-		}
-		if (token)
+		if (join_quotes_logic(token, list) && token)
 			token = token->next;
 	}
 }

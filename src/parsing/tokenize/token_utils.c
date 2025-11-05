@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:13:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/17 19:12:18 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:17:43 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	tok_join(t_token *first, t_token *second, t_tokens *list)
 	if (first->next != second && second->prev != first)
 		return ;
 	first->content = gc_strjoin(first->content, second->content);
-	if ((first->type == TOK_WILDCARD && !first->is_quoted) || (second->type == TOK_WILDCARD && !second->is_quoted))
+	if ((first->type == TOK_WILDCARD && !first->is_quoted)
+		|| (second->type == TOK_WILDCARD && !second->is_quoted))
 	{
 		first->type = TOK_WILDCARD;
 		first->is_quoted = 0;
@@ -84,21 +85,4 @@ void	tok_join(t_token *first, t_token *second, t_tokens *list)
 	else
 		first->type = TOK_WORD;
 	tok_delete(&second, list);
-}
-
-t_token	*tok_skip_whitespace(t_token *token)
-{
-	if (!token)
-		return (NULL);
-	while (token && token->is_quoted == 0
-		&& token->type == TOK_WHITESPACE)
-		token = token->next;
-	return (token);
-}
-
-void	list_reset(t_tokens *tokens)
-{
-	tokens->head = NULL;
-	tokens->tail = NULL;
-	tokens->size = 0;
 }

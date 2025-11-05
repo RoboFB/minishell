@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:10:12 by modiepge         ###   ########.fr       */
+/*   Created: 2025/11/04 16:29:15 by modiepge          #+#    #+#             */
+/*   Updated: 2025/11/04 16:29:27 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse(char *line, t_tokens *list)
+bool	*interrupted(void)
 {
-	tokenize(line, list);
-	quote(list);
-	strip_quotes(list);
-	set_delimiters(list);
-	contract(list);
-	if (!valid_prompt(list))
-		syntax_error("syntax error", NULL);
-	if (!*interrupted())
-		list_to_tree();
+	static bool	interrupted;
+
+	return (&interrupted);
+}
+
+int	syntax_error(char *message, char *near)
+{
 	if (*interrupted())
-		data()->tree_root = NULL;
+		return (-1);
+	ft_fprintf(2, "minishell: %s", message);
+	if (near)
+		ft_fprintf(2, " '%s'", near);
+	ft_fprintf(2, "\n");
+	*interrupted() = true;
+	set_exit_code(EXIT_SYNTAX_ERROR);
+	return (-1);
 }

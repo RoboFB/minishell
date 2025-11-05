@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   advance.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:10:12 by modiepge         ###   ########.fr       */
+/*   Created: 2025/11/05 11:44:14 by modiepge          #+#    #+#             */
+/*   Updated: 2025/11/05 12:10:30 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse(char *line, t_tokens *list)
+t_token	*token_next(t_token **token)
 {
-	tokenize(line, list);
-	quote(list);
-	strip_quotes(list);
-	set_delimiters(list);
-	contract(list);
-	if (!valid_prompt(list))
-		syntax_error("syntax error", NULL);
-	if (!*interrupted())
-		list_to_tree();
-	if (*interrupted())
-		data()->tree_root = NULL;
+	t_token	*current;
+
+	if (!token || !*token)
+		return (NULL);
+	current = *token;
+	*token = (*token)->next;
+	return (current);
+}
+
+t_token	*token_peek(t_token **token)
+{
+	if (!token)
+		return (NULL);
+	return (*token);
 }
