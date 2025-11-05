@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   variable_expand.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 14:42:48 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:04:04 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:07:16 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ bool	expand_logic(t_token *token, t_tokens *tokens)
 {
 	char	*value;
 
-	if (token->content[1] == '$')
+	if (token->content[0] == '~')
+		token->content = get_home(token);
+	else if (token->content[1] == '$')
 		token->content = gc_itoa(data()->pid);
 	else if (token->content[1] == '?')
 		token->content = gc_itoa(data()->last_exit_code);
@@ -70,7 +72,7 @@ void	expand(t_tokens *tokens)
 	while (token)
 	{
 		if (token->type == TOK_VARIABLE && token->is_quoted != TOK_QUOTE
-			&& token->content[1])
+			&& (token->content[1] || token->content[0] == '~'))
 		{
 			if (expand_logic(token, tokens))
 				token->type = TOK_WORD;

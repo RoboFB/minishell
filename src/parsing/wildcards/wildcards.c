@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:50:38 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:25:45 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	wildcard_set(char *replace_str, t_tokens *list)
 	if (replace_str == NULL || *replace_str == '\0')
 		return ;
 	input_pp = gc_split(replace_str, '/');
-	wild_add_steps(".", input_pp, list);
+	if (replace_str && replace_str[0] == '/')
+		wild_add_steps("/", input_pp, list);
+	else
+		wild_add_steps(".", input_pp, list);
 	return ;
 }
 

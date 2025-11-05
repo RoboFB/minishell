@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 22:30:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/05 12:18:59 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:31:28 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	strip_leftover_vars(t_tokens *tokens)
 	token = tokens->head;
 	while (token)
 	{
-		if (!token->is_quoted && token->type == TOK_VARIABLE
-			&& ft_strlen(token->content) == 1 && token->next
+		if (!token->is_quoted
+			&& token->type == TOK_VARIABLE
+			&& ft_strlen(token->content) == 1
+			&& token->content[0] != '~'
+			&& token->next
 			&& token->next->type != TOK_WHITESPACE
 			&& token->next->content[0] != '/')
 			tok_delete(&token, tokens);

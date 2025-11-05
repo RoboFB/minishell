@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 16:59:37 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 17:35:02 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:32:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	is_meta_chararacter(char c)
 {
-	const char	meta[14] = {'|', '&', ';', '(', ')', '<', '>', '\"', '\'',
-		'\\', '*', '$', '?', '\0'};
+	const char	meta[15] = {'|', '&', ';', '(', ')', '<', '>', '\"', '\'',
+		'\\', '*', '$', '?', '~', '\0'};
 	int			index;
 
 	index = 0;
 	while (meta[index] && meta[index] != c)
 		index++;
-	if (index < 13)
+	if (index < 14)
 		return (1);
 	return (0);
 }
