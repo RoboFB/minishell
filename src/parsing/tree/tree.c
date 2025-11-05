@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/10/30 17:25:59 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:15:24 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@
 	| |
 	a b
 
-	cat test.txt | grep $USER && (printf "contains" || printf "does not contain")
+	cat test.txt | grep $USER && (printf "contains"
+		|| printf "does not contain")
 	\_atom_____/   \_atom___/     \_atom__________/    \_atom__________________/
 	 \_pipe_expression_____/       \_or_expression____________________________/
 	  \_and_expression_______________________________________________________/
@@ -60,78 +61,43 @@
 	expression results are treated as atoms for their parent expressions,
 	either for piping or if/else short-circuiting
 
-	the blueprint for atoms has to change, since I need useable tokens during 
-	execution to expand, strip and or join. This probably includes file 
-	redirects. So, I am going to gather the tokens ahead, after and between 
-	logic operators as previously, add them as is to the expression and then 
+	the blueprint for atoms has to change, since I need useable tokens during
+	execution to expand, strip and or join. This probably includes file
+	redirects. So, I am going to gather the tokens ahead, after and between
+	logic operators as previously, add them as is to the expression and then
 	punch them into their slots during execution, appropriately expanded etc.
 */
-t_expression	*token_to_expression(t_token *token)
-{
-	t_expression	*expression;
 
-	if (!token || (token && token->type != TOK_ATOM))
-		return (NULL);
-	expression = (t_expression *)gc_calloc(1, sizeof(t_expression));
-	expression->type = OPERATOR_CMD;
-	expression->collection = token->collection;
-	expression->args = NULL;
-	expression->argc = 0;
-	expression->files = token->files;
-	expression->name = NULL;
-	return (expression);
-}
-
-t_token	*token_next(t_token **token)
-{
-	t_token	*current;
-
-	if (!token || !*token)
-		return (NULL);
-	current = *token;
-	*token = (*token)->next;
-	return (current);
-}
-
-t_token	*token_peek(t_token **token)
-{
-	if (!token)
-		return (NULL);
-	return (*token);
-}
-
-t_expression *nud(t_token **token)
+t_expression	*nud(t_token **token)
 {
 	t_token			*next;
 	t_expression	*inner;
-	t_token			*peek;
 
 	next = token_peek(token);
 	inner = NULL;
 	if (!next)
 		return (NULL);
 	if (next->type == TOK_ATOM)
-	{
-		token_next(token);
-		return (token_to_expression(next));
-	}
+		return (token_to_expression(token_next(token)));
+	// if no args, remember atom to add args to inner result to be inherited
 	if (next->type == TOK_LEFT_PARENTHESIS)
 	{
 		token_next(token);
 		inner = parse_expression(token, 0);
-		peek = token_peek(token);
-		if (!peek || peek->type != TOK_RIGHT_PARENTHESIS)
+		next = token_peek(token);
+		if (!next || next->type != TOK_RIGHT_PARENTHESIS)
 		{
 			syntax_error("syntax error, expected ')'\n", 0);
 			return (NULL);
 		}
 		token_next(token);
+		// add pure redirects to inner expressions here.
 		return (inner);
 	}
 	return (NULL);
 }
 
-t_expression *led(t_token **token, t_expression *first, t_token *operator)
+t_expression	*led(t_token **token, t_expression *first, t_token *operator)
 {
 	t_expression_operator	op;
 	t_bind					*binding;
@@ -151,7 +117,7 @@ t_expression *led(t_token **token, t_expression *first, t_token *operator)
 	return (new);
 }
 
-t_expression *parse_expression(t_token **token, const int minimum_binding)
+t_expression	*parse_expression(t_token **token, const int minimum_binding)
 {
 	t_expression	*first;
 	t_expression	*new;
@@ -169,7 +135,7 @@ t_expression *parse_expression(t_token **token, const int minimum_binding)
 		if (!next || next->type == TOK_RIGHT_PARENTHESIS)
 			break ;
 		binding = binding_power(next);
-		if (!binding || binding->left < 0 || binding->left < minimum_binding)
+		if (!binding || binding->left < minimum_binding)
 			break ;
 		token_next(token);
 		new = led(token, first, next);
@@ -179,49 +145,6 @@ t_expression *parse_expression(t_token **token, const int minimum_binding)
 	}
 	return (first);
 }
-
-// t_expression	*parse_expression(t_token *token, const int minimum_binding)
-// {
-// 	t_expression			*first;
-// 	t_expression			*second;
-// 	t_expression_operator	operator;
-// 	t_bind					*binding;
-
-// 	if (!token)
-// 		return (NULL);
-// 	if (token->type == TOK_ATOM)
-// 		first = atom_to_expression((t_atom *)token);
-// 	else if (token->type == TOK_LEFT_PARENTHESIS)
-// 	{
-// 		first = parse_expression(token->next, 0);
-// 	}
-// 	else
-// 		return (NULL);
-// 	operator = 0;
-// 	while (token)
-// 	{
-// 		token = token->next;
-// 		if (!token)
-// 			break ;
-// 		else if (token->type == TOK_RIGHT_PARENTHESIS)
-// 			break ;
-// 		else if (is_operator(token))
-// 		{
-// 			operator = expression_type(token->type);
-// 			binding = binding_power(token);
-// 		}
-// 		if (!token || (binding && binding->left < minimum_binding))
-// 			break ;
-// 		token = token->next;
-// 		second = parse_expression(token, binding->right);
-// 		first = make_expression(operator, first, second);
-// 		if (first->first)
-// 			first->first->parent = first;
-// 		if (first->second)
-// 			first->second->parent = first;
-// 	}
-// 	return (first);
-// }
 
 void	list_to_tree(void)
 {

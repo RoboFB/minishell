@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   heredoc_open.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 16:40:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:10:12 by modiepge         ###   ########.fr       */
+/*   Created: 2025/11/04 18:33:18 by modiepge          #+#    #+#             */
+/*   Updated: 2025/11/04 18:43:58 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse(char *line, t_tokens *list)
+int	heredoc_open(const char *path, int flags, int permissions)
 {
-	tokenize(line, list);
-	quote(list);
-	strip_quotes(list);
-	set_delimiters(list);
-	contract(list);
-	if (!valid_prompt(list))
-		syntax_error("syntax error", NULL);
-	if (!*interrupted())
-		list_to_tree();
-	if (*interrupted())
-		data()->tree_root = NULL;
+	int	fd;
+
+	fd = -1;
+	fd = open(path, flags, permissions);
+	if (fd == -1)
+	{
+		ft_fprintf(2, "minishell: %s: %s\n", strerror(errno), path);
+		set_exit_code(EXIT_GENERAL_ERROR);
+	}
+	return (fd);
 }
