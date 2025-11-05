@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:32:37 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/31 17:42:59 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 16:24:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*h_test_path(const char *cmd_name, const char *path)
 
 // in child process
 // uses gc R: combined_path or NULL
-char	*get_full_path_cmd(const char *cmd_name, char *search_path)
+char	*get_cmd_path(const char *cmd_name, char *search_path)
 {
 	if (cmd_name == NULL || *cmd_name == '\0'
 		|| (ft_strncmp(cmd_name, ".", 2) == 0)

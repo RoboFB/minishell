@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirect.c                                     :+:      :+:    :+:   */
+/*   set_redirects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:47:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/31 17:41:09 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 18:46:06 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// can be changed to run with a smaller if else block when fist setting path 
-// and then fd if path exists
 
 // R: -1 = Error prints message allready and set error code
 int	set_all_redirect(t_file *head)

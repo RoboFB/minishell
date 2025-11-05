@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/31 17:39:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 15:54:39 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// cannot exit here because called maybe in exit
+// cannot exit here on failure because called maybe in exit
 void	save_close(int *fd)
 {
 	if (fd == NULL || *fd == -1)

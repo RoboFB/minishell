@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/28 17:52:17 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:18:33 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,35 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main_loop(void)
 {
 	char *line;
+	char *prompt_default;
+	char *prompt;
 
-	(void)argc;
-	(void)argv;
-
-	gc_init();
-	// signal_init();
-	env_init(envp);
-	set_shell_level();
-	sig_init();
-	//if (isatty(STDIN_FILENO))
-		//get_pid(); // out for tester
+	prompt_default = "\r\033[5C" STYLE BG_WHITE AND BOLD START " minishell " END " % ";
+	prompt = prompt_default;
 	while (true)
 	{
 		*interrupted() = false;
 		gc_clear_temporary();
 		gc_mode(GC_TEMPORARY);
-		line = get_shell_line(STYLE BG_WHITE AND BOLD START " minishell " END " % ");
+		
+		// if (isatty(STDIN_FILENO))
+		// {
+		// 	prompt = gc_strjoin_3( gc_itoa(data()->last_exit_code)
+		// 	, "\r" STYLE BG_WHITE AND BOLD START " minishell " END STYLE BG_RED START " ",
+		// 	" " END " % ");
+
+		// }
+		// else
+			prompt = prompt_default;
+		animation_init();
+		line = get_shell_line(prompt);
+		animation_kill();
+	// ft_printf("_num1:_%d\n", data()->animation);
+
+		ft_printf("\033[s\033[1A" " %3d  minishell  %% \033[u", data()->last_exit_code );
 		if (line == NULL)
 		{
 			if (isatty(STDIN_FILENO))
@@ -49,12 +58,27 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		add_history(line);
 		parse(line, &data()->tokens);
-		if (!*interrupted())
-			run_tree(data()->tree_root);
-		debug_tree(data()->tree_root);
+		run_tree(data()->tree_root);
 	}
 	exit_shell(EXIT_GENERAL_ERROR);
 	return (EXIT_FAILURE);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	gc_init();
+	env_init(envp);
+	set_shell_level();
+	if (isatty(STDIN_FILENO))
+	{
+		get_pid();
+	}
+	sig_init();
+	main_loop();
+	exit_shell(EXIT_GENERAL_ERROR);
+	return (EXIT_GENERAL_ERROR);
 }
 
 char *get_shell_line(const char *prompt)

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/16 16:55:03 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/04 20:21:26 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct	s_data
 	t_expression	*tree_root;
 	int				last_exit_code;
 	pid_t			pid;
-	// pid_t			last_pid;
+	pid_t			animation;
 }	t_data;
 
 typedef enum e_filetype
