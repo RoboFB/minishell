@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:45:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 15:21:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:10:58 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,37 @@
 
 void	animation(void)
 {
-	const char	*frames[20] = {
-		STYLE BG_CUSTOM "196" AND BOLD START " minishel🚂" END, 
-		STYLE BG_CUSTOM "197" AND BOLD START " minishe🚂 " END, 
-		STYLE BG_CUSTOM "198" AND BOLD START " minish🚂l " END, 
-		STYLE BG_CUSTOM "199" AND BOLD START " minis🚂ll " END, 
-		STYLE BG_CUSTOM "200" AND BOLD START " mini🚂ell " END, 
-		STYLE BG_CUSTOM "201" AND BOLD START " min🚂hell " END, 
-		STYLE BG_CUSTOM "207" AND BOLD START " mi🚂shell " END, 
-		STYLE BG_CUSTOM "213" AND BOLD START " m🚂ishell " END, 
-		STYLE BG_CUSTOM "219" AND BOLD START " 🚂nishell " END, 
-		STYLE BG_CUSTOM "225" AND BOLD START "🚂inishell " END,
-		STYLE BG_CUSTOM "231" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "230" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "229" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "228" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "227" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "226" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "220" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "214" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "208" AND BOLD START " minishell " END, 
-		STYLE BG_CUSTOM "202" AND BOLD START " minishell " END
-	};
-	const t_expression sleep = {OPERATOR_CMD, NULL, NULL, NULL, "/bin/sleep", (char *[]){"/bin/sleep", ".09", NULL}, 0, NULL, (t_tokens){NULL, NULL, 0}};
 	static int	t;
-	int			pid;
-
+	
 	while (1)
 	{
 		if (t >= 20)
-		{
 			t = 0;
-			// exit_shell(0);
-		}
-		// usleep(50000);
-		pid = run_cmd_switch((t_expression *)&sleep);
-		waitpid(pid, NULL, 0);
-		// wait_and_set_exit_code(pid);
 		if (data()->last_exit_code)
-			ft_printf("\033[s\r" STYLE BG_RED START " %3d " END "%s %% \033[u", data()->last_exit_code, frames[t]);
+			ft_printf("\033[s\r" STYLE BG_RED START " %3d " END "%s %% \033[u", data()->last_exit_code, frame_fish(t));
 		else
-			ft_printf("\033[s\r" STYLE BOLD AND BG_GREEN START "  🗸  " END "%s %% \033[u", frames[t]);
+			ft_printf("\033[s\r" STYLE BOLD AND BG_GREEN START "  🗸  " END "%s %% \033[u", frame_fish(t));
+		busy_wait(30000000, 3);
 		t++;
 	}
+}
+
+void	busy_wait(int iterations, int divider)
+{
+	int			counter;
+	unsigned	work;
+
+	counter = 0;
+	work = 50;
+	if (divider == 0)
+		divider = 3;
+	while (counter < iterations)
+	{
+		work *= work;
+		work /= divider;
+		counter++;
+	}
+	return ;
 }
 
 // void	animation_triggers(int sig)
@@ -75,8 +63,16 @@ void	animation(void)
 // 	sigaction(SIGUSR2, &sa, NULL);
 // }
 
+void	animation_end(int sig)
+{
+	(void)sig;
+	exit_shell(0);
+}
+
 void	animation_init(void)
 {
+	struct sigaction	sa;
+	
 	if (isatty(STDIN_FILENO))
 	{
 		data()->animation = fork();
@@ -86,11 +82,13 @@ void	animation_init(void)
 		// animation_signal();
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+		sa.sa_handler = animation_end;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
+		sigaction(SIGUSR2, &sa, NULL);
 		animation();
 		
 	}
-
-
 }
 
 void	animation_kill(void)
@@ -102,7 +100,7 @@ void	animation_kill(void)
 		// else
 		// 	ft_printf("\033[s\r" STYLE START "  🗸  " END " minishell  %% \033[u");
 
-		kill(data()->animation, SIGKILL);
+		kill(data()->animation, SIGUSR2);
 		waitpid(data()->animation, NULL, 0);
 	}
 }

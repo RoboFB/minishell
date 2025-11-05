@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 15:22:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 17:57:43 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	ctrl_c(int sig)
 {
 	(void)sig;
 	animation_kill();
-	ft_printf("\033[s\r" " %3d  minishell  %% \033[u\n", data()->last_exit_code );
-
-	// ft_printf("%s\n", "\r\033[5C" " minishell " " % ");
+	if (isatty(STDIN_FILENO))
+		ft_printf("\033[s\r" " %3d  minishell  %% \033[u\n",
+			data()->last_exit_code);
+	else
+		write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	set_exit_code(sig + EXIT_SIGNAL_BASE);
@@ -50,5 +52,4 @@ void	sig_init(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	// kill(data()->animation, SIGUSR2);
 }
