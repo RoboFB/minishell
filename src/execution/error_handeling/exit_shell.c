@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:50:55 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/04 21:15:48 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 17:56:57 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	exit_shell(t_exit_code exit_code)
 	close_all_files(data()->tree_root);
 	rl_clear_history();
 	gc_clear_all();
-	// if (data()->animation)
-	// 	kill(data()->animation, SIGUSR1);
 	exit(exit_code);
 }
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:43:33 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/10/30 16:40:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 17:33:29 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	*h_get_builtin(t_expression *command)
+void	*h_get_builtin(t_expression *command)
 {
 	if (command->name == NULL)
 		return (&blt_noname);

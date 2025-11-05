@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 15:18:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 15:39:50 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	main_loop(void)
 		line = get_shell_line(prompt);
 		animation_kill();
 	// ft_printf("_num1:_%d\n", data()->animation);
-
-		ft_printf("\033[s\033[1A" " %3d  minishell  %% \033[u", data()->last_exit_code );
+		if (isatty(STDIN_FILENO))
+			ft_printf("\033[s\033[1A" " %3d  minishell  %% \033[u", data()->last_exit_code );
 		if (line == NULL)
 		{
 			if (isatty(STDIN_FILENO))

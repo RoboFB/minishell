@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:25:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/04 16:32:26 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/05 17:32:40 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	run_builtin_in_main(t_expression *cmd)
 	int	stdin_fd;
 	int	stdout_fd;
 
+	if (h_get_builtin(cmd) == &blt_exit)
+		run_builtin(cmd);
 	stdin_fd = save_dup(STDIN_FILENO);
 	stdout_fd = save_dup(STDOUT_FILENO);
 	if (set_all_redirect(cmd->files) == 0)
