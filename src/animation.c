@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:45:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 18:10:58 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:46:19 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,23 @@
 void	animation(void)
 {
 	static int	t;
+	bool		emote;
 	
+	emote = false;
 	while (1)
 	{
 		if (t >= 20)
 			t = 0;
-		if (data()->last_exit_code)
+		if (data()->last_exit_code && !emote && t < 20)
+		{
+			ft_printf("\033[s\r" STYLE BG_RED START " %s " END "%s %% \033[u", frame_emote(t), frame_fish(0));
+			if (t == 19)
+				emote = true;
+		}
+		else if (data()->last_exit_code)
+		{
 			ft_printf("\033[s\r" STYLE BG_RED START " %3d " END "%s %% \033[u", data()->last_exit_code, frame_fish(t));
+		}
 		else
 			ft_printf("\033[s\r" STYLE BOLD AND BG_GREEN START "  🗸  " END "%s %% \033[u", frame_fish(t));
 		busy_wait(30000000, 3);
@@ -46,22 +56,6 @@ void	busy_wait(int iterations, int divider)
 	}
 	return ;
 }
-
-// void	animation_triggers(int sig)
-// {
-// 	if (sig == SIGUSR2)
-// 		exit_shell(0);
-// }
-
-// void	animation_signal(void)
-// {
-// 	struct sigaction	sa;
-
-// 	sa.sa_handler = animation_triggers;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = 0;
-// 	sigaction(SIGUSR2, &sa, NULL);
-// }
 
 void	animation_end(int sig)
 {

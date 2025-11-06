@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:49:47 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/05 12:15:24 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:29:02 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ t_expression	*nud(t_token **token)
 		return (NULL);
 	if (next->type == TOK_ATOM)
 		return (token_to_expression(token_next(token)));
-	// if no args, remember atom to add args to inner result to be inherited
 	if (next->type == TOK_LEFT_PARENTHESIS)
 	{
 		token_next(token);
@@ -91,7 +90,6 @@ t_expression	*nud(t_token **token)
 			return (NULL);
 		}
 		token_next(token);
-		// add pure redirects to inner expressions here.
 		return (inner);
 	}
 	return (NULL);
