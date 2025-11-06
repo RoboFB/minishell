@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/10/17 11:07:16 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/11/06 13:13:47 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ OBJ :=			$(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 
 # ----------------------------- NORMAL -----------------------------------------
 
-all: lazy_robin $(LIBFT) $(NAME)# temporary lazy
+all: $(LIBFT) $(NAME)# temporary lazy
 
 $(LIBFT):
 	@make core printf gnl lists -C $(LIBFT_DIR) --no-print-directory > /dev/null

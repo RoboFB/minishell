@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 15:39:50 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/05 20:13:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "animation.h"
 
 t_data	*data(void)
 {
@@ -22,32 +23,18 @@ t_data	*data(void)
 int	main_loop(void)
 {
 	char *line;
-	char *prompt_default;
-	char *prompt;
 
-	prompt_default = "\r\033[5C" STYLE BG_WHITE AND BOLD START " minishell " END " % ";
-	prompt = prompt_default;
 	while (true)
 	{
 		*interrupted() = false;
 		gc_clear_temporary();
 		gc_mode(GC_TEMPORARY);
 		
-		// if (isatty(STDIN_FILENO))
-		// {
-		// 	prompt = gc_strjoin_3( gc_itoa(data()->last_exit_code)
-		// 	, "\r" STYLE BG_WHITE AND BOLD START " minishell " END STYLE BG_RED START " ",
-		// 	" " END " % ");
-
-		// }
-		// else
-			prompt = prompt_default;
 		animation_init();
-		line = get_shell_line(prompt);
+		line = get_shell_line(ANIM_DEFAULT_PROMPT);
 		animation_kill();
-	// ft_printf("_num1:_%d\n", data()->animation);
 		if (isatty(STDIN_FILENO))
-			ft_printf("\033[s\033[1A" " %3d  minishell  %% \033[u", data()->last_exit_code );
+			ft_printf(ANIM_OVERWRITE_NORMAL, data()->last_exit_code);
 		if (line == NULL)
 		{
 			if (isatty(STDIN_FILENO))
