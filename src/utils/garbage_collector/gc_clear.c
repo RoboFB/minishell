@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector_clear.c                          :+:      :+:    :+:   */
+/*   gc_clear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:32:15 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/03 12:43:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:40:39 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	gc_clear_temporary(void)
 		gc_clear(index++);
 	list_reset(&data()->tokens);
 	data()->tree_root = NULL;
-	ft_debugf(1, "minishell: debug -- temporary data cleared\n");
 }
 
 void	gc_clear_all(void)
@@ -76,5 +75,4 @@ void	gc_clear_all(void)
 	index = 0;
 	while (index <= GC_PERSISTENT)
 		gc_clear(index++);
-	ft_debugf(1, "minishell: debug -- garbage collector cleared\n");
 }

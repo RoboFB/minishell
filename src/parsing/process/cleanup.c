@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 22:30:57 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/05 12:31:28 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:40:48 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	strip_leftover_vars(t_tokens *tokens)
 		if (token)
 			token = token->next;
 	}
-	ft_debugf(1, "lexing: variables stripped\n");
 }
 
 void	strip_whitespace(t_tokens *tokens)
@@ -70,5 +69,4 @@ void	strip_whitespace(t_tokens *tokens)
 		if (token)
 			token = token->next;
 	}
-	ft_debugf(1, "lexing: whitespace stripped\n");
 }
