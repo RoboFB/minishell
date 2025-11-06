@@ -6,18 +6,19 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:59:40 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/04 16:32:26 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:18:34 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define _POSIX_C_SOURCE 202405L
-#define _DEFAULT_SOURCE
+// #define _POSIX_C_SOURCE 202405L
+// #define _DEFAULT_SOURCE
 
 # include <stdlib.h>	// malloc, free, getenv, exit
-# include <unistd.h>	// read, write, close, access, fork, execve, pipe, dup, dup2, chdir, getcwd, isatty, unlink, ttyslot, ttyname
+# include <unistd.h>	// read, write, close, access, fork, execve, 
+//				pipe, dup, dup2, chdir, getcwd, isatty, unlink, ttyslot, ttyname
 # include <fcntl.h>		// open, (O_* flags)
 # include <dirent.h>	// opendir, readdir, closedir
 
@@ -28,183 +29,30 @@
 # include <errno.h>		// (errno)
 # include <string.h>	// strerror
 // # include <sys/stat.h>	// stat, lstat, fstat
-
 // # include <termios.h>	// tcsetattr, tcgetattr
 // # include <term.h>		// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <stdio.h>		// printf, perror
-# include <readline/readline.h>	// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay
+# include <readline/readline.h>	// readline, rl_clear_history,
+// 								rl_on_new_line, rl_replace_line, rl_redisplay
 # include <readline/history.h>	// add_history
 # include <signal.h>	// signal, sigaction, sigemptyset, sigaddset, kill
 // # include <sys/ioctl.h>	// ioctl
 # include <stdbool.h>	// bool type (is not a function)
 # include <limits.h>	// INT_MAX, PATH_MAX (is not a function)
 
+// libft
 # include "libft.h"
 # include "libft_gnl.h"
 # include "libft_printf.h"
 # include "libft_styles.h"
-# include "execution.h"
+
+// structs
 # include "public_struct.h"
+
+// other stuff
+# include "execution.h"
 # include "parsing.h"
-
-
-// auto
-void		blt_unset(t_expression *cmd);
-void		blt_echo(t_expression *cmd);
-void		blt_noname(t_expression *command);
-void		blt_cd(t_expression *cmd);
-void		blt_exit(t_expression *cmd);
-void		blt_export(t_expression *cmd);
-int			blt_count_args(t_expression *cmd);
-bool		blt_has_flag(t_expression *cmd);
-void		blt_pwd(t_expression *cmd);
-void		run_builtin(t_expression *command);
-bool		is_builtin(t_expression *command);
-void		blt_env(t_expression *cmd);
-void		blt_export_to_env_helper(t_expression *cmd, int *exit_code);
-void		ctrl_c(int sig);
-void		sig_reset(void);
-void		sig_init(void);
-void		exit_shell(t_exit_code exit_code);
-void		perror_exit(char *msg, t_exit_code exit_code);
-void		perror_msg_exit(char *msg_start, char *msg_end, t_exit_code exit_code);
-void		msg_exit(char *function, char *error, t_exit_code exit_code);
-void		msg_set_exit_code(char *function, char *error, t_exit_code exit_code);
-void		msg_error(char *function, char *error);
-void		set_exit_code(t_exit_code exit_code);
-char		***env_get_ptr(void);
-void		env_init(char **input_envp);
-void		env_add_line(char *line);
-void		env_add_line_data(char *key, char *value);
-void		env_remove_line(char *line);
-size_t		env_get_len_key(char *line);
-int			env_get_size(char **environment);
-char		**env_get_line_ptr(char *line);
-char		*env_get_line_data(char *line);
-pid_t		run_cmd_switch(t_expression *cmd);
-pid_t		run_tree(t_expression *cmd);
-pid_t		run_pipe(t_expression *cmd);
-pid_t		run_and_or(t_expression *cmd);
-void		wait_and_set_exit_code(pid_t pid);
-char		*get_cmd_path(const char *cmd_name, char *search_path);
-void		pipe_add_front(t_expression *cmd);
-bool		is_piped_direct(t_expression *cmd);
-void		inherit_files(t_expression *cmd);
-int			set_all_redirect(t_file *head);
-int			set_fd(t_file *file, int change_fd);
-int			read_file(t_file *file, int change_fd);
-int			write_file(t_file *file, int change_fd);
-int			write_append_file(t_file *file, int change_fd);
-char		**gc_split(const char *s, char c);
-void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
-void		*gc_calloc(size_t count, size_t size);
-char		*gc_substr(char const *string, unsigned int start, size_t length);
-char		*gc_strdup(char const *string);
-char		*gc_strjoin(char const *s1, char const *s2);
-char		*gc_strjoin_3(char const *s1, char const *s2, char const *s3);
-t_list		**gc_list(t_gc_index index);
-void		gc_init(void);
-t_list		*gc_add(void *memory);
-void		gc_mode(t_gc_index mode);
-void		gc_clear(t_gc_index index);
-void		*gc_clear_one(void *content_ptr);
-void		gc_clear_temporary(void);
-void		gc_clear_all(void);
-char		*gc_itoa(int number);
-char		*gc_getcwd(void);
-char		*gc_readline(char const *prompt);
-char		*gc_get_next_line(int fd);
-char		*save_getcwd(char *buf, size_t size);
-DIR		*save_opendir(char *path);
-void		save_dup2(int old_fd, int new_fd);
-int			save_dup(int copy_fd);
-void		save_pipe(int *write_in_pipe, int *read_out_pipe);
-pid_t		save_fork(void);
-void		save_close(int *fd);
-void		close_files(t_file *head);
-void		close_all_files(t_expression *root);
-t_file		*file_make(void);
-t_file		*file_dup_values(t_file *input);
-void		file_append_front(t_file **start_ptr, t_file *add_file);
-void		file_append_back(t_file **start_ptr, t_file *add_file);
-t_file		*file_add_front(t_file **start_ptr);
-t_file		*file_add_back(t_file **start_ptr);
-t_file		*file_pop_front(t_file **start_ptr);
-t_file		*file_pop_back(t_file **start_ptr);
-int			token_is_space(t_token *token);
-int			token_is_redirect(t_token *token);
-int			token_is_operator(t_token *token);
-int			token_is_parenthesis(t_token *token);
-int			token_is_separator(t_token *token);
-int			is_meta_chararacter(char c);
-t_token		*tok_new(char *content, t_token_type type);
-void		tok_add(t_token *new, t_tokens *list);
-void		tok_delete(t_token **token, t_tokens *list);
-void		tok_join(t_token *first, t_token *second, t_tokens *list);
-t_token		*tok_skip_whitespace(t_token *token);
-void		list_reset(t_tokens *tokens);
-t_filetype		token_to_filetype(t_token *token);
-void		contract_file(t_token *atom, t_token **token);
-t_token		*atomize(t_token **token);
-void		contract(t_tokens *list);
-void		tokenize(char *line, t_tokens *list);
-void		set_delimiters(t_tokens *list);
-void		heredoc_in(t_token **token);
-t_token		*get_delimiter(t_token *token, t_tokens *list);
-void		tok_expansion(t_token *token, char *line, t_tokens *tokens);
-void		expand(t_tokens *tokens);
-void		receive_pid(int sig, siginfo_t *info, void *context);
-pid_t		get_pid(void);
-char		*tmpfile_name(unsigned int id);
-ssize_t		write_until_variable(int fd, char *bytes);
-ssize_t		write_variable(int fd, char *bytes, t_token_type quoted);
-int			heredoc_expand(int fd, char *bytes, t_token_type quoted);
-t_file		*heredoc_write(t_file *file);
-int			tok_make_meta_token(char *position, t_tokens *list);
-int			tok_make_word_token(char *position, t_tokens *list);
-int			tok_make_space_token(char *position, t_tokens *list);
-void		line_split(char *line, t_tokens *list);
-void		strip_quotes(t_tokens *tokens);
-void		join_quotes(t_tokens *list);
-void		quote(t_tokens *list);
-void		strip_leftover_vars(t_tokens *tokens);
-void		strip_whitespace(t_tokens *tokens);
-void		wildcards(t_tokens *list);
-void		wildcard_set(char *replace_str, t_tokens *list);
-void		wild_add_steps(char *curent_path, char **pattern_pp, t_tokens *list);
-bool		wild_check_name(char *name, char *pattern_pos);
-bool		wild_is_last_ok(bool *last_wildcard, char *name, char *last_pattern);
-bool		wild_found_next_match(bool wildcard, char **name, char *pattern);
-t_expression		*make_expression(t_expression_operator operator, t_expression *first, t_expression *second);
-t_expression_operator		expression_type(t_token_type type);
-t_bind		*binding_power(t_token *token);
-t_expression		*token_to_expression(t_token *token);
-t_token		*token_next(t_token **token);
-t_token		*token_peek(t_token **token);
-t_expression		*nud(t_token **token);
-t_expression		*led(t_token **token, t_expression *first, t_token *operator);
-t_expression		*parse_expression(t_token **token, const int minimum_binding);
-void		list_to_tree(void);
-void		tok_debug_display(t_tokens *tokens);
-void		debug_files(t_file *file);
-void		debug_tree(t_expression *root);
-void		expression_add_arg(t_expression *atom, t_token *token);
-void		resolve_files(t_expression *expression);
-void		resolve(t_expression *expression);
-void		parse(char *line, t_tokens *list);
-bool		*interrupted(void);
-int			syntax_error(char *message, char *near);
-bool		valid_collection(t_tokens *list);
-bool		valid_parenthesis(t_tokens *list);
-bool		valid_order(t_tokens *list);
-bool		valid_prompt(t_tokens *list);
-t_data		*data(void);
-int			main_loop(void);
-int			main(int argc, char **argv, char **envp);
-char		*get_shell_line(const char *prompt);
-void		set_shell_level(void);
-void		animation(void);
-void		animation_init(void);
-void		animation_kill(void);
+# include "utils.h"
+# include "animation.h"
 
 #endif

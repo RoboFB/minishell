@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:56:27 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/05 14:25:45 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:23:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ void	wildcards(t_tokens *list)
 void	wildcard_set(char *replace_str, t_tokens *list)
 {
 	char	**input_pp;
-	char	**out_pp;
 
-	out_pp = NULL;
 	if (replace_str == NULL || *replace_str == '\0')
 		return ;
 	input_pp = gc_split(replace_str, '/');

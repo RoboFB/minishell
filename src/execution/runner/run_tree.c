@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/04 16:31:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:22:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,11 @@ pid_t	run_pipe(t_expression *cmd)
 
 pid_t	run_and_or(t_expression *cmd)
 {
-	pid_t	pid;
-
-	pid = run_tree(cmd->first);
+	(void)run_tree(cmd->first);
 	if ((data()->last_exit_code == 0 && cmd->type == OPERATOR_AND)
 		|| (data()->last_exit_code != 0 && cmd->type == OPERATOR_OR))
 	{
-		pid = run_tree(cmd->second);
+		(void)run_tree(cmd->second);
 	}
 	if (is_piped_direct(cmd))
 	{

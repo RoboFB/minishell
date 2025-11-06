@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:19:08 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/04 19:40:21 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:22:37 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	wild_check_name(char *name, char *pattern_pos)
 	bool	wildcard;
 	bool	last_wildcard;
 
-	if (name == NULL | pattern_pos == NULL)
+	if (name == NULL || pattern_pos == NULL)
 		return (false);
 	wildcard = 0;
 	pattern = pattern_pos;

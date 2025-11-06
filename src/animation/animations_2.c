@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   animations.c                                       :+:      :+:    :+:   */
+/*   animations_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 18:01:33 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/05 21:46:30 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:55:41 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,6 @@ const char	*frame_train(unsigned int frame)
 		STYLE BG_CUSTOM "214" AND BOLD START " minishell " END,
 		STYLE BG_CUSTOM "208" AND BOLD START " minishell " END,
 		STYLE BG_CUSTOM "202" AND BOLD START " minishell " END
-	};
-
-	return (frames[frame]);
-}
-
-const char	*frame_fish(unsigned int frame)
-{
-	const char	*frames[20] = {
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishel🐠" END,
-		STYLE BG_BLUE AND BOLD START " minishe🐠 " END,
-		STYLE BG_BLUE AND BOLD START " minish🐠l " END,
-		STYLE BG_BLUE AND BOLD START " minis🐠ll " END,
-		STYLE BG_BLUE AND BOLD START " min🐠hell " END,
-		STYLE BG_BLUE AND BOLD START " mi🐠shell " END,
-		STYLE BG_BLUE AND BOLD START " m🐠ishell " END,
-		STYLE BG_BLUE AND BOLD START " 🐠nishell " END,
-		STYLE BG_BLUE AND BOLD START "🐠inishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
-		STYLE BG_BLUE AND BOLD START " minishell " END,
 	};
 
 	return (frames[frame]);

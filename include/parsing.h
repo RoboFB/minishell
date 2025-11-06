@@ -3,70 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/06 13:28:31 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:16:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 # include "public_struct.h"
-
-/*	1.	types
-*/
-typedef struct s_file	t_file;
-
-typedef enum e_token_type
-{
-	TOK_WORD,
-	TOK_WHITESPACE,
-	TOK_PIPE,
-	TOK_LEFT_PARENTHESIS,
-	TOK_RIGHT_PARENTHESIS,
-	TOK_LESS,
-	TOK_DOUBLE_LESS,
-	TOK_GREATER,
-	TOK_DOUBLE_GREATER,
-	TOK_QUOTE,
-	TOK_DOUBLE_QUOTE,
-	TOK_AND,
-	TOK_OR,
-	TOK_VARIABLE,
-	TOK_WILDCARD,
-	TOK_AMPERSAND,
-	TOK_SEMICOLON,
-	TOK_BACKSLASH,
-	TOK_QUESTION,
-	TOK_ATOM
-}	t_token_type;
-
-typedef struct s_token_key
-{
-	char			*key;
-	t_token_type	type;
-}	t_token_key;
-
-typedef struct s_token	t_token;
-
-typedef struct s_token
-{
-	t_token_type	type;
-	t_token			*next;
-	t_token			*prev;
-	char			*content;
-	t_tokens		collection;
-	t_token_type	is_quoted;
-	t_file			*files;
-	unsigned int	id;
-}	t_token;
-
-typedef struct s_bind
-{
-	int	left;
-	int	right;
-}	t_bind;
 
 /*	2.	functions
 		2.1	heredoc
