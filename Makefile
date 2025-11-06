@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/11/06 15:21:04 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/11/06 15:52:44 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME :=			minishell
 
 CC :=			cc #cc #clang can be used for sanitizers
-DEBUG_FLAGS := -g -fsanitize=address,undefined -DDEBUG_MODE=0# -g3 -O0 # debug flags
+DEBUG_FLAGS :=#	-g -fsanitize=address,undefined -DDEBUG_MODE=0 # debug flags
 CFLAGS :=		-Wall -Werror -Wextra $(DEBUG_FLAGS)# standard flags
 export CFLAGS # set also for the libft
 
@@ -33,14 +33,78 @@ HEADERS := -I ./include -I ./libft/include -I /opt/homebrew/opt/readline/include
 # ----------------------------- NORMAL -----------------------------------------
 
 DIR_SRC :=		src
-SRC :=			$(shell find $(DIR_SRC) -type f -name '*.c')
+SRC :=			main.c \
+				execution/built_ins/blt_unset.c \
+				execution/built_ins/blt_echo.c \
+				execution/built_ins/blt_noname.c \
+				execution/built_ins/blt_cd.c \
+				execution/built_ins/blt_exit.c \
+				execution/built_ins/blt_export.c \
+				execution/built_ins/blt_parsing.c \
+				execution/built_ins/blt_pwd.c \
+				execution/built_ins/blt_env.c \
+				execution/built_ins/blt_export_helper.c \
+				execution/built_ins/run_builtin.c \
+				execution/error_handeling/error_return.c \
+				execution/error_handeling/exit_shell.c \
+				execution/envirment/init.c \
+				execution/envirment/change_lines.c \
+				execution/envirment/get_data.c \
+				execution/runner/run_tree.c \
+				execution/runner/get_cmd_path.c \
+				execution/runner/pipe_helper.c \
+				execution/runner/inherit_files.c \
+				execution/runner/set_redirects.c \
+				execution/runner/run_command.c \
+				execution/signals.c \
+				utils/garbage_collector/gc_split.c \
+				utils/garbage_collector/gc_allocs.c \
+				utils/garbage_collector/gc_string.c \
+				utils/garbage_collector/gc_init.c \
+				utils/garbage_collector/gc_clear.c \
+				utils/garbage_collector/gc_remaning.c \
+				utils/wraper/save_dir.c \
+				utils/wraper/save_files.c \
+				utils/wraper/save_syscals.c \
+				utils/files_list/close_fds.c \
+				utils/files_list/new.c \
+				utils/files_list/insert.c \
+				utils/files_list/extract.c \
+				parsing/tokenize/list_utils.c \
+				parsing/tokenize/split/split.c \
+				parsing/tokenize/split/split_utils.c \
+				parsing/tokenize/split/split_variables.c \
+				parsing/tokenize/token_is.c \
+				parsing/tokenize/token_utils.c \
+				parsing/tokenize/tokenize.c \
+				parsing/tree/token_advance.c \
+				parsing/tree/tree_utils.c \
+				parsing/tree/tree.c \
+				parsing/heredoc/heredoc_in.c \
+				parsing/heredoc/heredoc_open.c \
+				parsing/heredoc/heredoc_write.c \
+				parsing/parse.c \
+				parsing/process/cleanup.c \
+				parsing/process/quotes.c \
+				parsing/resolve.c \
+				parsing/validate/syntax.c \
+				parsing/validate/syntax_error.c \
+				parsing/variables/variable_expand.c \
+				parsing/variables/variable_pid.c \
+				parsing/wildcards/wildcard_templating.c \
+				parsing/wildcards/wildcard_utils.c \
+				parsing/wildcards/wildcards.c \
+				animation/animation.c \
+				animation/animation_utils.c \
+				animation/animations_2.c \
+				animation/animations.c
 
 DIR_OBJ :=		obj
-OBJ :=			$(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
+OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
 
 # ----------------------------- NORMAL -----------------------------------------
 
-all: $(LIBFT) $(NAME)# temporary lazy
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	@make core printf gnl lists -C $(LIBFT_DIR) --no-print-directory > /dev/null
@@ -58,31 +122,10 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 	@echo "\n   🐚🐚🐚 $@   ($(CFLAGS))\n"
 
-# ----------------------------- lazy ------------------------------------------
-
-# temporary Rule to update the header file
-lazy_robin:
-	@awk '/ auto/ { exit } { print }' include/$(NAME).h > tmp-auto-header.h
-	@echo '// auto' >> tmp-auto-header.h
-	@awk '/^[a-zA-Z_][a-zA-Z0-9_ \*\t]*\([^\)]*\)[ \t]*$$/ { \
-		last=$$0; \
-		getline; \
-		if ($$0 ~ /^\s*\{/) { \
-			split(last, a, /[ \t]+/); \
-			if (a[1] == "int") sub(/[ \t]+/, "\t\t\t", last); \
-			else sub(/[ \t]+/, "\t\t", last); \
-			print last ";"; \
-		} \
-	}' $(shell find $(DIR_SRC) -type f -name '*.c') | grep -v static >> tmp-auto-header.h
-	@echo "\n#endif" >> tmp-auto-header.h
-	@cmp -s tmp-auto-header.h include/$(NAME).h || mv tmp-auto-header.h include/$(NAME).h
-	@rm -f tmp-auto-header.h
-
-
 # ----------------------------- Clean ------------------------------------------
 
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(DIR_OBJ)
 	@make -C $(LIBFT_DIR) clean --no-print-directory > /dev/null
 	@echo 🧹 cleaned all objects
 
