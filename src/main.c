@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:58:57 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/05 20:13:53 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 14:58:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@ t_data	*data(void)
 	return (&data);
 }
 
-int	main_loop(void)
+static int	main_loop(void)
 {
-	char *line;
+	char	*line;
 
 	while (true)
 	{
 		*interrupted() = false;
 		gc_clear_temporary();
 		gc_mode(GC_TEMPORARY);
-		
 		animation_init();
 		line = get_shell_line(ANIM_DEFAULT_PROMPT);
 		animation_kill();
@@ -41,14 +40,13 @@ int	main_loop(void)
 				ft_fprintf(2, "exit\n");
 			exit_shell(data()->last_exit_code);
 		}
-		else if	(*line == '\0')
-			continue;
+		else if (*line == '\0')
+			continue ;
 		add_history(line);
 		parse(line, &data()->tokens);
 		run_tree(data()->tree_root);
 	}
-	exit_shell(EXIT_GENERAL_ERROR);
-	return (EXIT_FAILURE);
+	return (exit_shell(EXIT_GENERAL_ERROR), EXIT_GENERAL_ERROR);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -59,18 +57,15 @@ int	main(int argc, char **argv, char **envp)
 	env_init(envp);
 	set_shell_level();
 	if (isatty(STDIN_FILENO))
-	{
 		get_pid();
-	}
 	sig_init();
 	main_loop();
-	exit_shell(EXIT_GENERAL_ERROR);
-	return (EXIT_GENERAL_ERROR);
+	return (exit_shell(EXIT_GENERAL_ERROR), EXIT_GENERAL_ERROR);
 }
 
-char *get_shell_line(const char *prompt)
+char	*get_shell_line(const char *prompt)
 {
-	char *line;
+	char	*line;
 
 	if (isatty(STDIN_FILENO))
 		return (gc_readline(prompt));
@@ -80,7 +75,7 @@ char *get_shell_line(const char *prompt)
 	return (line);
 }
 
-void set_shell_level(void)
+void	set_shell_level(void)
 {
 	char	*level_str;
 

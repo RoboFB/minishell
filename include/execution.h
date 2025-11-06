@@ -6,12 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:47:34 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 13:58:42 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 14:25:24 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
+
+# include "minishell.h"
 
 /* EXECUTION: STEPS
 
@@ -66,17 +68,6 @@ builtin errors:
  !0: Failures
 
 */
-
-typedef enum e_exit_code
-{
-	EXIT_OK = EXIT_SUCCESS,
-	EXIT_GENERAL_ERROR = EXIT_FAILURE,
-	EXIT_SYNTAX_ERROR = 2,
-	EXIT_BLT_CMD_NOT_EXECUTABLE = 126,
-	EXIT_BLT_CMD_NOT_FOUND = 127,
-	EXIT_SIGNAL_BASE = 128,
-	EXIT_MAX = 255,
-}	t_exit_code;
 
 // builtins
 

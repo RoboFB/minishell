@@ -6,12 +6,20 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:10:37 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 13:12:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:16:24 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
+
+# include "minishell.h"
+
+// main
+
+t_data		*data(void);
+char		*get_shell_line(const char *prompt);
+void		set_shell_level(void);
 
 char		**gc_split(const char *s, char c);
 void		gc_realloc(void **change_ptr, size_t old, size_t new, size_t size);
@@ -33,7 +41,7 @@ char		*gc_getcwd(void);
 char		*gc_readline(char const *prompt);
 char		*gc_get_next_line(int fd);
 char		*save_getcwd(char *buf, size_t size);
-DIR		*save_opendir(char *path);
+DIR			*save_opendir(char *path);
 void		save_dup2(int old_fd, int new_fd);
 int			save_dup(int copy_fd);
 void		save_pipe(int *write_in_pipe, int *read_out_pipe);
@@ -50,4 +58,4 @@ t_file		*file_add_back(t_file **start_ptr);
 t_file		*file_pop_front(t_file **start_ptr);
 t_file		*file_pop_back(t_file **start_ptr);
 
-# endif
+#endif

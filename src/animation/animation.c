@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:45:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 13:52:17 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:28:15 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	animation(void)
 	bool		emote;
 
 	emote = false;
+	busy_wait(3000000, 3);
 	while (1)
 	{
 		if (t >= 20)
@@ -79,7 +80,7 @@ void	animation_kill(void)
 		kill(data()->animation, SIGUSR2);
 		waitpid(data()->animation, NULL, 0);
 		data()->animation_variant++;
-		if (data()->animation_variant > 3)
+		if (data()->animation_variant > 7)
 			data()->animation_variant = 0;
 	}
 }
