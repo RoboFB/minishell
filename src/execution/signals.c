@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 15:55:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/07 15:34:50 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ctrl_c(int sig)
 {
 	(void)sig;
 	animation_kill();
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && data()->animation_enabled)
 		ft_printf(ANIM_OVERWRITE_SIGNAL, data()->last_exit_code);
 	else
 		write(1, "\n", 1);

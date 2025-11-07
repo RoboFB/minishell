@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
+#    By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2025/11/06 15:52:44 by rgohrig          ###   ########.fr        #
+#    Updated: 2025/11/07 15:58:04 by modiepge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC :=			main.c \
 				utils/files_list/new.c \
 				utils/files_list/insert.c \
 				utils/files_list/extract.c \
+				utils/main_utils.c \
 				parsing/tokenize/list_utils.c \
 				parsing/tokenize/split/split.c \
 				parsing/tokenize/split/split_utils.c \
