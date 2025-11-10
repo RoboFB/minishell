@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:29:32 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/07 15:34:50 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:12:50 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,23 @@ void	ctrl_c(int sig)
 	set_exit_code(sig + EXIT_SIGNAL_BASE);
 	rl_redisplay();
 	animation_init();
+}
+
+void	ctrl_heredoc(int sig)
+{
+	save_close(&data()->heredoc);
+	exit_shell(EXIT_SIGNAL_BASE + sig);
+}
+
+void	sig_heredoc(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = ctrl_heredoc;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	sig_reset(void)

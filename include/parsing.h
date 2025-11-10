@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:59:30 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/06 15:16:31 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/07 20:56:01 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ ssize_t					write_variable(int fd, char *bytes,
 int						heredoc_expand(int fd, char *bytes,
 							t_token_type quoted);
 t_file					*heredoc_write(t_file *file);
+void					sig_heredoc(void);
 
 /*		2.2	parsing and processing
 */

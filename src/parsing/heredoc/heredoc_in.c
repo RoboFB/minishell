@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 21:33:34 by modiepge          #+#    #+#             */
-/*   Updated: 2025/11/06 14:37:10 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:09:28 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,20 @@ void	heredoc_collect(t_token *token, char *tmpfile)
 {
 	char				*line;
 	char				*delimiter;
-	int					fd;
 
-	sig_reset();
+	sig_heredoc();
 	signal(SIGTSTP, SIG_IGN);
 	delimiter = gc_strdup(token->content);
-	fd = heredoc_open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	while (fd != -1)
+	data()->heredoc = heredoc_open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	while (data()->heredoc != -1)
 	{
 		line = get_shell_line("> ");
 		if (!line || (ft_strlen(line) == ft_strlen(delimiter)
 				&& !ft_strncmp(delimiter, line, ft_strlen(line))))
 			break ;
-		ft_fprintf(fd, "%s\n", line);
+		ft_fprintf(data()->heredoc, "%s\n", line);
 	}
-	save_close(&fd);
+	save_close(&data()->heredoc);
 	exit_shell(EXIT_SUCCESS);
 }
 

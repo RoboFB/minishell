@@ -6,7 +6,7 @@
 /*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:50:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/07 15:31:46 by modiepge         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:07:43 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ typedef struct s_data
 	pid_t			animation;
 	int				animation_variant;
 	int				animation_enabled;
+	int				heredoc;
 }	t_data;
 
 #endif
