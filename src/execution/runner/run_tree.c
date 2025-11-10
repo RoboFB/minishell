@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:36:02 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 15:22:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/07 20:49:59 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	wait_and_set_exit_code(pid_t pid)
 	status = 0;
 	if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &status, WUNTRACED);
 		if (WIFSIGNALED(status))
 			data()->last_exit_code = WTERMSIG(status) + EXIT_SIGNAL_BASE;
 		else if (WIFEXITED(status))

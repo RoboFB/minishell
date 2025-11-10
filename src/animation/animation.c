@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: modiepge <modiepge@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:45:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/11/06 15:28:15 by rgohrig          ###   ########.fr       */
+/*   Updated: 2025/11/07 15:34:27 by modiepge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	animation_init(void)
 {
 	struct sigaction	sa;
 
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && data()->animation_enabled)
 	{
 		data()->animation = fork();
 		if (data()->animation)
@@ -75,7 +75,7 @@ void	animation_init(void)
 
 void	animation_kill(void)
 {
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && data()->animation_enabled)
 	{
 		kill(data()->animation, SIGUSR2);
 		waitpid(data()->animation, NULL, 0);
