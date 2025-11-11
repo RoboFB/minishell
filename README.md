@@ -30,7 +30,12 @@
 ## How to Install
 
 
-
+``` bash
+git clone https://github.com/RoboFB/minishell.git
+cd minishell
+make
+./minishell
+```
 
 
 
