@@ -4,7 +4,7 @@
 [![Bash](https://img.shields.io/badge/Bash-4EAA25?logo=gnubash&logoColor=fff)](#)
 [![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)
 ![GitHub last commit](https://img.shields.io/github/last-commit/RoboFB/minishell/main)
-<!-- ![GitHub Repo stars](https://img.shields.io/github/stars/RoboFB/minishell) -->
+![GitHub Repo stars](https://img.shields.io/github/stars/RoboFB/minishell)
 <!-- ![GitHub license](https://img.shields.io/github/license/robofb/minishell) -->
 
 </div>
@@ -26,26 +26,24 @@
 &nbsp;
 
 ## Key features
-------------
 - Command parsing and tokenization
 - Execution via fork/execve
 - Builtins: cd, echo, pwd, export, unset, env, exit
 - Pipes, redirections and heredoc (`|`, `>`, `>>`, `<`, `<<`)
 - Logic operators (`||`, `&&`)
 - Basic signal handling for interactive mode
-- Optional small prompt animation
+- Optional small prompt animation (`-a`)
 
 
-Requirements
-------------
+## Requirements
+
 - Linux (POSIX-compatible)
 - gcc or clang
 - make
 
-Quick start — build & run
--------------------------
+## Quick start — build & run
 
-Clone and Bulit
+Clone and Built
 ```bash
 git clone https://github.com/RoboFB/minishell.git
 cd minishell
@@ -54,32 +52,31 @@ make
 
 Run
 ```bash
-./minishell        # add --animation oe -a to enable it
+./minishell        # add --animation or -a to enable it
 ```
 
 
 
-Project layout (short)
-----------------------
+## Project layout (short)
+
 ```
 minishell/
-├── include/		#headers
-├── libft/      # own liebery
-├── obj/        # binnery files
-└── src 				# implementation
+├── include/     # headers
+├── libft/       # own library
+├── obj/         # binary files (builded)
+└── src          # implementation
 │   ├── animation/
 │   ├── execution/
 │   ├── parsing/
 │   ├── utils/
 │   └── main.c
 ├── Makefile
-├── minishell		# executable after build
+├── minishell    # executable (builded)
 └── README.md  
-
 ```
 
-Allowed functions (summary)
----------------------------
+## Allowed functions (summary)
+
 The project was completed under a constrained set of allowed functions. Commonly used calls include:
 
 - malloc, free
@@ -91,9 +88,9 @@ The project was completed under a constrained set of allowed functions. Commonly
 - signal/sigaction
 
 
-Acknowledgments
----------------
-- GNU Bash manual
-- POSIX Shell and Utilities specification
-- 42 School project guidelines
-  
+## Acknowledgments
+
+- [42 Heilbronn](https://www.42heilbronn.de/de/)
+- [GNU Bash manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [ Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
+- [Pret Paring core dump video](https://youtu.be/0c8b7YfsBKs?si=AitdZJebN1rQwKYC)
