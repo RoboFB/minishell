@@ -21,6 +21,7 @@
   a small, expandable and animated shell to learn
 </h3>
 
+![example](docs/example.gif)
 
 ### example line
 
