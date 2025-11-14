@@ -77,13 +77,15 @@ some feedback we received in the evaluation of the project:
 
 
 ## Quick start — build & run
-Clone and Built
+### Clone and Built
 ```bash
 git clone https://github.com/RoboFB/minishell.git
 cd minishell
 make
 ```
-Run
+If the compiling fails check `CC` and `CFLAGS` in both `Makefile`. Try to use `CC=gcc` or `CC=clang`.
+
+### Run
 ```bash
 ./minishell        # add --animation or -a to enable animations
 ```
