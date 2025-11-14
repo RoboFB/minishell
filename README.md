@@ -1,190 +1,129 @@
-
-
-
+<div align="center">
 
 [![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white)](#)
 [![Bash](https://img.shields.io/badge/Bash-4EAA25?logo=gnubash&logoColor=fff)](#)
 [![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)
-![GitHub Repo stars](https://img.shields.io/github/stars/RoboFB/minishell)
-![GitHub contributors](https://img.shields.io/github/contributors/robofb/minishell)
-![GitHub labels](https://img.shields.io/github/labels/robofb/minishell)
-![GitHub status](https://img.shields.io/github/checks-status/robofb/minishell/main)
-![GitHub last-commit](https://img.shields.io/github/last-commit/robofb/minishell)
-![GitHub repo size](https://img.shields.io/github/repo-size/robofb/minishell)
-![GitHub license](https://img.shields.io/github/license/robofb/minishell)
+![GitHub last commit](https://img.shields.io/github/last-commit/RoboFB/minishell/main)
+<!-- ![GitHub Repo stars](https://img.shields.io/github/stars/RoboFB/minishell) -->
+<!-- ![GitHub license](https://img.shields.io/github/license/robofb/minishell) -->
 
+</div>
 
-## minishell - Bash copy in C
-
----
-## Picture
----
+&nbsp;
 
 
 
+<h1 align="center"> 
+  🐚 minishell
+</h1>
+
+<h3 align="center">
+  a small, expandable and animated shell to learn
+</h3>
+
+
+### example line
+
+export var=Hallo && echo $var && ls | grep invalid-name || cat -e << EOF
 
 
 
 
+A minimal educational Unix shell written in C. Implemented as a school project (42 Heilbronn) to demonstrate command parsing, process control, redirections, pipes, builtins, and basic signal handling.
 
-## How to Install
+Why this project
+-----------------
+This repository implements a small, functional shell to learn how shells work: reading input, parsing commands, forking processes, handling IO redirection and pipelines, and implementing builtin commands.
 
+Key features
+------------
+- Command parsing and tokenization
+- Execution via fork/execve
+- Builtins: cd, echo, pwd, export, unset, env, exit
+- Pipes and redirections (>, >>, <, heredoc `<<`)
+- Basic signal handling for interactive mode
+- Optional small prompt animation
 
-``` bash
+Requirements
+------------
+- Linux (POSIX-compatible)
+- gcc or clang
+- make
+
+Quick start — build & run
+-------------------------
+Clone, build and run the project.
+
+```bash
 git clone https://github.com/RoboFB/minishell.git
 cd minishell
 make
-./minishell
+./minishell        # add --animation oe -a to enable it
 ```
 
+Testing
+-------
+This repo includes `minishell_tester/` that contains many test cases. See that folder for instructions — many tests expect bash-like behavior.
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-## Files structure
+Project layout (short)
+----------------------
 ```
-minishell
-├── include
-├── libft
-│   ├── include
-│   ├── obj
-│   └── src
+minishell/
+├── include/		#headers
+├── libft/
+├── obj/
+└── src				# implementation
+│   ├── animation/
+│   ├── execution/
+│   ├── parsing/
+│   ├── utils/
+│   └── main.c
 ├── Makefile
-├── minishell
-├── obj
-├── README.md
-└── src
-	├── main.c
-	├── animation
-	├── execution
-	├── parsing
-	└── utils
-		└── garbage_collector
+├── minishell		# executable after build
+└── README.md
+
+
+minishell/
+├── include/         # public headers
+├── libft/           # bundled libft implementation
+├── obj/             # object files
+├── src/             # implementation
+│   ├── animation/
+│   ├── execution/
+│   ├── parsing/
+│   └── utils/
+├── minishell        # built executable (after make)
+├── Makefile
+└── README.md
 ```
 
+Allowed functions (summary)
+---------------------------
+The project was completed under a constrained set of allowed functions. Commonly used calls include:
 
+- malloc, free
+- write, open, read, close
+- dup, dup2, pipe
+- fork, execve, wait, waitpid
+- opendir/readdir/closedir
+- readline and helpers
+- signal/sigaction, tcgetattr/tcsetattr
 
+See `include/` headers or project instructions for the definitive list.
 
+Contributing
+------------
+This is mainly a student project, but small improvements are welcome. Please:
 
+- Open an issue describing bugs or enhancements.
+- Send focused pull requests and include tests when possible.
 
-## About The Project
+License
+-------
+Distributed under the Unlicense. See `LICENSE.txt` for details.
 
-
-### Built With
-
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-
-### Installation/Run
-
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
-   ```
-
-
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="## minishell - Bash copy in C">back to top</a>)</p>
-
-
-
-## Allowed Functions
-
-* malloc, free,
-* write, open, read, close,
-* dup, dup2, Pipe,
-* opendir, readdir, closedir,
-* fork, execve, wait, waitpid, wait3, wait4,
-* exit, strerror, perror, printf,
-* getenv, getcwd, chdir, access,
-* readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, Add_history,
-* signal, sigaction, sigemptyset, sigaddset, kill,
-* stat, lstat, fstat, unlink,
-* isatty, ttyname, ttyslot, ioctl,
-* tcsetattr, tcgetattr,
-* tgetent, tgetflag, tgetnum, ttgetstr, tgoto, tputs
-
-### Top contributors:
-
-<a href="https://github.com/robofb/minishell/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=robofb/minishell" alt="contrib.rocks image" />
-</a>
-
-
-
-
-## License
-
-Distributed under the Unlicense License. See `LICENSE.txt` for more information.
-
-
-
-
-## Acknowledgments
-
-* [GNU Bash manual](https://www.gnu.org/software/bash/manual/bash.html)
-* [ Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
-* [Pret Paring core dump video](https://youtu.be/0c8b7YfsBKs?si=AitdZJebN1rQwKYC)
-* [42 Heilbronn](https://www.42heilbronn.de/de/)
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-
+Acknowledgments
+---------------
+- GNU Bash manual
+- POSIX Shell and Utilities specification
+- 42 School project guidelines
