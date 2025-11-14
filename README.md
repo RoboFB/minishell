@@ -23,16 +23,18 @@
 <img align="center" src="docs/example.gif" alt="Example">
 </div>
 
+&nbsp;
 
 ## Key features
 ------------
 - Command parsing and tokenization
 - Execution via fork/execve
 - Builtins: cd, echo, pwd, export, unset, env, exit
-- Pipes and redirections (>, >>, <, heredoc `<<`)
+- Pipes, redirections and heredoc (`|`, `>`, `>>`, `<`, `<<`)
+- Logic operators (`||`, `&&`)
 - Basic signal handling for interactive mode
 - Optional small prompt animation
-- 
+
 
 Requirements
 ------------
@@ -81,12 +83,12 @@ Allowed functions (summary)
 The project was completed under a constrained set of allowed functions. Commonly used calls include:
 
 - malloc, free
-- write, open, read, close
+- write, open, read, close, perror
 - dup, dup2, pipe
 - fork, execve, wait, waitpid
 - opendir/readdir/closedir
-- readline and helpers
-- signal/sigaction, tcgetattr/tcsetattr
+- readline
+- signal/sigaction
 
 
 Acknowledgments
