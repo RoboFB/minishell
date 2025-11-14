@@ -11,32 +11,20 @@
 
 &nbsp;
 
-
-
 <h1 align="center"> 
   🐚 minishell
 </h1>
 
-<h3 align="center">
+<h3 align="center"> 
   a small, expandable and animated shell to learn
 </h3>
 
-![example](docs/example.gif)
-
-### example line
-
-export var=Hallo && echo $var && ls | grep invalid-name || cat -e << EOF
+<div align="center">
+<img align="center" src="docs/example.gif" alt="Example">
+</div>
 
 
-
-
-A minimal educational Unix shell written in C. Implemented as a school project (42 Heilbronn) to demonstrate command parsing, process control, redirections, pipes, builtins, and basic signal handling.
-
-Why this project
------------------
-This repository implements a small, functional shell to learn how shells work: reading input, parsing commands, forking processes, handling IO redirection and pipelines, and implementing builtin commands.
-
-Key features
+## Key features
 ------------
 - Command parsing and tokenization
 - Execution via fork/execve
@@ -44,6 +32,7 @@ Key features
 - Pipes and redirections (>, >>, <, heredoc `<<`)
 - Basic signal handling for interactive mode
 - Optional small prompt animation
+- 
 
 Requirements
 ------------
@@ -53,27 +42,29 @@ Requirements
 
 Quick start — build & run
 -------------------------
-Clone, build and run the project.
 
+Clone and Bulit
 ```bash
 git clone https://github.com/RoboFB/minishell.git
 cd minishell
 make
+```
+
+Run
+```bash
 ./minishell        # add --animation oe -a to enable it
 ```
 
-Testing
--------
-This repo includes `minishell_tester/` that contains many test cases. See that folder for instructions — many tests expect bash-like behavior.
+
 
 Project layout (short)
 ----------------------
 ```
 minishell/
 ├── include/		#headers
-├── libft/
-├── obj/
-└── src				# implementation
+├── libft/      # own liebery
+├── obj/        # binnery files
+└── src 				# implementation
 │   ├── animation/
 │   ├── execution/
 │   ├── parsing/
@@ -81,21 +72,8 @@ minishell/
 │   └── main.c
 ├── Makefile
 ├── minishell		# executable after build
-└── README.md
+└── README.md  
 
-
-minishell/
-├── include/         # public headers
-├── libft/           # bundled libft implementation
-├── obj/             # object files
-├── src/             # implementation
-│   ├── animation/
-│   ├── execution/
-│   ├── parsing/
-│   └── utils/
-├── minishell        # built executable (after make)
-├── Makefile
-└── README.md
 ```
 
 Allowed functions (summary)
@@ -110,21 +88,10 @@ The project was completed under a constrained set of allowed functions. Commonly
 - readline and helpers
 - signal/sigaction, tcgetattr/tcsetattr
 
-See `include/` headers or project instructions for the definitive list.
-
-Contributing
-------------
-This is mainly a student project, but small improvements are welcome. Please:
-
-- Open an issue describing bugs or enhancements.
-- Send focused pull requests and include tests when possible.
-
-License
--------
-Distributed under the Unlicense. See `LICENSE.txt` for details.
 
 Acknowledgments
 ---------------
 - GNU Bash manual
 - POSIX Shell and Utilities specification
 - 42 School project guidelines
+  
