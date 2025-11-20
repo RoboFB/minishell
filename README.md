@@ -28,10 +28,10 @@
 
 
 ## Wall of Text
-It’s the first group project of the [42 Heilbronn](https://www.42heilbronn.de/de/) core curriculum.
-The main goal is to recreate a small shell similar to Bash. While relying only on a handful of C functions and system calls. 
-With two big parts parsing(Moritz) and execution(Robin). The difficult part was to structuring the code, and complying with the 42 Norm — for example 25 line limit for functions.
-During the deep dive, we discovered many edge cases and custom Bash behaviors, such as ambiguous redirects.
+Minishell is the first group project of the [42 Heilbronn](https://www.42heilbronn.de/de/) core curriculum.
+The main goal of this project was to recreate a small shell matching some of the core behaviors of Bash, while relying only on a handful of C functions and system calls.
+Typically the project will be split into two big parts: parsing (Moritz) and execution (Robin). One challenge was in structuring the code to enable us to easily make fixes and extend funtionality while complying with the 42 Norm — for example: the 25 line limit for functions.
+During our deep dive, we discovered many edge cases and odd Bash-behaviors, such as ambiguous redirects. We used these to infer how to structure the program in general, so as to create situations where those behaviors would not have to be hard-coded against what we were doing.
 Overall, it was a great learning experience. Big thanks to my partner, Moritz Diepgen.
 
 
@@ -48,7 +48,7 @@ Overall, it was a great learning experience. Big thanks to my partner, Moritz Di
 
 
 ## Allowed functions (summary)
-The project was completed under a constrained set of allowed functions. Commonly used calls include:
+The project was completed under a constrained set of allowed outside functions. Commonly used calls include:
 
 - malloc, free
 - write, open, read, close, perror
@@ -57,15 +57,6 @@ The project was completed under a constrained set of allowed functions. Commonly
 - opendir/readdir/closedir
 - readline
 - signal/sigaction
-
-
-
-## Feedback
-some feedback we received in the evaluation of the project:
-- 100 minutes of pure agony and tears. this was quite eval. those guys absolutely rock. 
-- I can definitely say that they KNOW what they did.
-- Hands down the most impressive minishell I've seen so far.
-- They explained clearly the logic and the implementation of each part.
 
 
 
@@ -83,7 +74,7 @@ git clone https://github.com/RoboFB/minishell.git
 cd minishell
 make
 ```
-If the compiling fails check `CC` and `CFLAGS` in both `Makefile`. Try to use `CC=gcc` or `CC=clang`.
+If the compiling fails, check `CC` and `CFLAGS` in both `Makefile`. Try to use `CC=gcc` or `CC=clang`.
 
 ### Run
 ```bash
@@ -106,7 +97,7 @@ minishell/
 │   └── main.c
 ├── Makefile
 ├── minishell    # executable (builded)
-└── README.md  
+└── README.md
 ```
 
 
@@ -114,5 +105,5 @@ minishell/
 ## Acknowledgments
 - [42 Heilbronn](https://www.42heilbronn.de/de/)
 - [GNU Bash manual](https://www.gnu.org/software/bash/manual/bash.html)
-- [ Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
-- [Pret Paring core dump video](https://youtu.be/0c8b7YfsBKs?si=AitdZJebN1rQwKYC)
+- [Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
+- [Pratt Parsing core dump video](https://youtu.be/0c8b7YfsBKs?si=AitdZJebN1rQwKYC)
