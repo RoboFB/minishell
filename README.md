@@ -88,7 +88,7 @@ If the compiling fails, check `CC` and `CFLAGS` in both `Makefile`. Try to use `
 minishell/
 ├── include/     # headers
 ├── libft/       # own library
-├── obj/         # binary files (builded)
+├── obj/         # binary files
 └── src          # implementation
 │   ├── animation/
 │   ├── execution/
@@ -96,7 +96,7 @@ minishell/
 │   ├── utils/
 │   └── main.c
 ├── Makefile
-├── minishell    # executable (builded)
+├── minishell    # executable
 └── README.md
 ```
 
